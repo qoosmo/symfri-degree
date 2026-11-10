@@ -1,0 +1,13 @@
+[package]
+name = "symfri-degree"
+version = "0.1.0"
+edition = "2021"
+description = "Prototype: symbolic-FRI multivariate degree test (total / weighted / individual degree) on Kronecker encodings"
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+
+[workspace]
+
