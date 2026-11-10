@@ -1,0 +1,74 @@
+\section{Variants}\label{sec:variants}
+
+This section records what the same protocol certifies for other degree notions, what one run
+costs when several constraints are imposed at once, and what separate runs give instead.
+
+\subsection{Individual and weighted degrees}\label{sec:individual}
+
+The weighted degree covered by Theorem~\ref{thm:main} includes the two degrees usually asked for,
+since $w=(1,\dots,1)$ gives the total degree and $w=e_l$ the degree in $x_l$. For the second
+choice the protocol certifies an individual degree bound of its own.
+
+\begin{remark}[Individual degrees]
+Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies
+$\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=d<k$ certifies $\deg_{x_l}f\le d$.
+\end{remark}
+
+The bound $d$ is free below $k$: the same commitment and the same protocol certify
+$\deg_{x_l}f\le d$ for every $d<k$, and not only for $d=k-1$. The caps of
+Construction~\ref{def:protocol} read $d_i=0$ for $i<l$ and $d_i=d$ for $i\ge l$ in this case, so the
+words before level $l$ are scalar and the constraint costs no $T$-degrees. A bound $d\ge k$
+certifies nothing, because the commitment already restricts $f$ to the box $\deg_{x_l}<k$
+for all $l$; the individual-degree range is a property of the encoding, not of the test.
+
+\subsection{Several constraints in one run}\label{sec:multi}
+
+Let $p\ge1$, let $w^{(1)},\dots,w^{(p)}\in\N^m$ be weights and $D_1,\dots,D_p$ bounds, and
+write $\mathbf w,\mathbf D$. The target code is
+$C_{\mathbf w,\mathbf D}:=\bigcap_sC_{w^{(s)},D_s}$. One run of the protocol with $p$ formal
+variables proves all $p$ constraints at once.
+
+{\sloppy
+\begin{proposition}[One run with $p$ formal variables]\label{prop:multi}
+Replace $\F[T]$ by $\F[T_1,\dots,T_p]$, the challenge $r_iT^{w_i}$ by
+$r_i\prod_sT_s^{\,w^{(s)}_i}$, the graded degree by the vector of degrees
+$\big(a_s+\sum_{l>i}w^{(s)}_l\alpha_l\big)_s$ of a monomial
+$\prod_sT_s^{a_s}x^\alpha$, the condition $\gdeg\le D$ by ``$\le D_s$ in every
+coordinate'', the formats $\F[T]_{\le d_i}$ by $\prod_s\F[T_s]_{\le d^{(s)}_i}$, and the final
+check $\deg g\le D$ by $\deg_{T_s}g\le D_s$ for all $s$. Then \cref{lem:inj},
+\cref{lem:fold-sub}, \cref{lem:stab}, \cref{lem:unfold}, \cref{lem:round}, Theorem~\ref{thm:main},
+Corollary~\ref{cor:ud} and Proposition~\ref{prop:complete}(a)(b) hold verbatim for
+$C_{\mathbf w,\mathbf D}$, with $t:=\prod_s\big(1+\max(D_s,\,d^{(s)}_{i-1}+w^{(s)}_i(k-1))\big)$
+in Step~1 of \cref{lem:round}.
+\end{proposition}\par}
+% = P2
+
+\begin{proof}
+The proofs use only three facts about $\F[T]$: it is an integral domain (cancellation in
+\cref{lem:unfold} and \cref{lem:round}); divisibility by a monomial is read off
+coefficientwise (\cref{lem:unfold}, Step~1, and \cref{lem:round}, Step~3, where ``$T^a$-coefficient
+with $a<w_ij$'' becomes ``coefficient of a monomial not divisible by
+$\prod_sT_s^{w_i^{(s)}j}$''); and the value spaces are finite-dimensional over $\F$, which is
+all \cref{lem:ext} needs. All three hold for $\F[T_1,\dots,T_p]$ with bounded degrees.
+\end{proof}
+
+The price is paid in the size of the messages: a value of $u_i$ is now an element of
+$\prod_s\F[T_s]_{\le d^{(s)}_i}$, that is, a vector of $\prod_s(d^{(s)}_i+1)$ field elements,
+and the analysis of \cref{lem:round} runs with the bound $t$ above in place of
+$1+\max(D,d_{i-1}+w_i(k-1))$. For $k=4$, $m=4$ and $p=2$, with $w^{(1)}=(1,1,1,1)$,
+$D_1=6$ and $w^{(2)}=e_1$, $D_2=2$, one run proves the two constraints, and a value of
+$u_i$ carries $12$ field elements at level $1$ and $21$ at levels $2$ to $4$, where the two
+separate runs would carry $7$ and $10$.
+
+\subsection{Separate runs}\label{sec:separate}
+
+\begin{remark}[Separate runs on one commitment]\label{rem:separate}
+Running $\Pi_{w^{(s)},D_s}$ separately on the same $u_0$ costs the sum of the $p$ runs
+instead of the product $t$. Below the unique-decoding radius it certifies the same
+statement: if $\agree(u_0,C_{w^{(s)},D_s})>\frac{1+\rho}2$ for all $s$, the codewords
+achieving these agreements are all the unique closest codeword of
+$\RS[\F,L_0,k^m]$, which therefore lies in $C_{\mathbf w,\mathbf D}$. Above that radius,
+separate runs only certify closeness to each $C_{w^{(s)},D_s}$, possibly through different
+codewords of the list; Proposition~\ref{prop:multi} is then the right tool.
+\end{remark}
+% = rem:separate

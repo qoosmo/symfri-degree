@@ -1,0 +1,141 @@
+\section{Preliminaries}\label{sec:prelim}
+
+This section fixes the notation, the codes, and the two maps from which the test is built.
+
+\subsection{Notation}\label{sec:notation}
+
+We write $[n]:=\{1,\dots,n\}$ and $\N:=\{1,2,\dots\}$, and $\F$ is a finite field; $\E$ is an
+extension field of $\F$ when one occurs. Relative to a level $i$, a tuple of exponents is
+written $\alpha=(\alpha_{i+1},\dots,\alpha_m)$ and $x^\alpha:=\prod_{l>i}x_l^{\alpha_l}$; for
+a weight $w\in\N^m$ we write $\langle w,\alpha\rangle=\sum_lw_l\alpha_l$. Polynomials are
+indexed by their coefficients $f_\alpha$, so that $f=\sum_\alpha f_\alpha x^\alpha$. The
+algebra $R$ below is either $\F$ or the ring $\F[T]$ in the formal variable $T$ that the
+folds introduce.
+
+\begin{definition}[Polynomials]\label{def:poly}
+$R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$).
+$R[x_i,\dots,x_m]_{<k}$ is the set of polynomials with $\deg_{x_l}<k$ for all $l$.
+\end{definition}
+
+\subsection{Smooth domains}\label{sec:domains}
+
+The test runs on a chain of multiplicative cosets whose lengths decrease by the fold arity
+$k$; smoothness makes each member of the chain a coset of a cyclic group, so that a point of
+$L_i$ has exactly $k$ preimages in $L_{i-1}$.
+
+\begin{definition}[Field and domains]\label{def:domains}
+$\F$ is a finite field; $k\ge 2$, $m\ge 1$ and $N$ are integers with $k^m\mid N$ and
+$N\mid |\F|-1$. $L_0\subset\F^*$ is a coset of the subgroup of order $N$, and
+$L_i:=\{x^k: x\in L_{i-1}\}$ for $1\le i\le m$, so $|L_i|=N/k^i$. The \emph{fibre} of
+$y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\mu_k$ for any
+$x_0\in\fib(y)$, where $\mu_k$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
+\end{definition}
+
+Every fibre is a coset of $\mu_k$, because $x^k=y$ and $x_0^k=y$ give $(x/x_0)^k=1$; this is
+what turns the component formula of Definition~\ref{def:fold} into a $k$-point average, and it is the
+only place where $k\mid N\mid|\F|-1$ is used.
+
+\subsection{Codes and agreement}\label{sec:codes}
+
+Both codes we need are evaluation codes on a set $L\subseteq\F$: the Reed--Solomon code of
+degree below $d$, and its interleaving, whose symbols are $t$-tuples. Values of oracle words
+are sometimes polynomials in $T$ of degree below $t$; we read such a value as a vector of
+$t$ coefficients.
+
+\begin{definition}[Codes]\label{def:codes}
+$\RS[\F,L,d]:=\{P|_L:\deg P<d\}$. The $t$-interleaved code $\RS[\F,L,d]^t$ is the set
+of words $L\to\F^t$ whose $t$ coordinates lie in $\RS[\F,L,d]$; we identify
+$\F[T]_{<t}$ with $\F^t$ through coefficients.
+\end{definition}
+
+Distance is relative Hamming distance: for words $u,v$ on a finite set $L$,
+$\Delta(u,v):=\frac1{|L|}|\{x\in L:u(x)\ne v(x)\}|$, and for a set $C$ of words on $L$,
+$\Delta(u,C):=\min_{v\in C}\Delta(u,v)$. The analysis measures closeness with weights, and
+the same definition covers the unweighted case.
+
+{\sloppy
+\begin{definition}[Weighted agreement]\label{def:agree}
+For words $u,v$ on $L$ and $\mu:L\to[0,1]$,
+$\agree_\mu(u,v):=\frac1{|L|}\sum_{x:\,u(x)=v(x)}\mu(x)$ (as in BCIKS20, \S7). For a set
+$C$ of words, $\agree_\mu(u,C):=\max_{v\in C}\agree_\mu(u,v)$. Without a subscript,
+$\mu\equiv1$: $\agree(u,v)=1-\Delta(u,v)$.
+\end{definition}\par}
+
+\subsection{The Kronecker map and the fold}\label{sec:kron-prelim}
+
+A polynomial with bounded individual degrees is committed through one univariate polynomial,
+and a fold of that polynomial is the image of a polynomial with one fewer variable. The
+first map is a bijection because the exponents of a monomial are the base-$k$ digits of its
+image's exponent.
+
+\begin{definition}[Kronecker map]\label{def:kron}
+For $0\le i\le m$ and $g\in R[x_{i+1},\dots,x_m]_{<k}$,
+\[
+U^{(i)}_g(Y):=g\big(Y,Y^{k},\dots,Y^{k^{m-i-1}}\big)\in R[Y],\qquad U_f:=U^{(0)}_f .
+\]
+For $i=m$, $g$ is a constant and $U^{(m)}_g=g$.
+\end{definition}
+
+The fold acts on a word on $L_{i-1}$ by averaging its values on a fibre against the powers
+of one challenge. The challenge is an element of $R$, so it may be a polynomial in $T$.
+
+\begin{definition}[Fold]\label{def:fold}
+For $u:L_{i-1}\to R$ and $y\in L_i$, the \emph{components} of $u$ are
+\[
+u_j(y):=\frac1k\sum_{x\in\fib(y)}x^{-j}\,u(x)\qquad(0\le j<k),
+\]
+and for $c\in R$ the \emph{fold} is $\Fold_c(u):L_i\to R$,
+$\Fold_c(u)(y):=\sum_{j<k}c^j\,u_j(y)$.
+\end{definition}
+
+For $k=2$ the two roots in $\fib(y)$ are $x$ and $-x$, so Definition~\ref{def:fold} reads
+\[
+\Fold_c(u)(y)=\frac{u(x)+u(-x)}{2}+c\,\frac{u(x)-u(-x)}{2x},
+\]
+the value being independent of which of the two points is called $x$; this is the fold of
+FRI \cite{BBHR18}.
+
+\subsection{Weighted degree and the degree code}\label{sec:wdeg}
+
+Weighting the exponents of a monomial by $w$ interpolates between the total degree and the
+individual degrees, and the code of the test consists of the Kronecker images whose weighted
+degree is at most $D$. Both degree notions are needed: the weighted one bounds the test, and
+the graded one bounds what an intermediate round may send.
+
+\begin{definition}[Weighted and graded degree]\label{def:wdeg}
+Let $w\in\N^m$. For $f\in\F[x_1,\dots,x_m]$,
+$\deg_w f:=\max\{\langle w,\alpha\rangle: f_\alpha\ne0\}$.
+For $g\in\F[T][x_{i+1},\dots,x_m]$, $\gdeg_w g:=\max\{a+\sum_{l>i}w_l\alpha_l\}$
+over the monomials $T^a x^\alpha$ of $g$.
+\end{definition}
+
+\begin{definition}[Graded codes]\label{def:graded}
+The \emph{graded codes} are
+\[
+\Vc_i^{w,D}:=\big\{\,U^{(i)}_g\big|_{L_i}\ :\ g\in\F[T][x_{i+1},\dots,x_m]_{<k},\ \gdeg_w g\le D\,\big\},
+\]
+and the \emph{degree code} $C_{w,D}$ is the set of $T$-free elements of $\Vc_0^{w,D}$.
+\end{definition}
+
+With $w=(1,\dots,1)$ the weighted degree is the total degree, and with $w=e_l$ it is the
+degree in $x_l$ alone. Every word of $\Vc_0^{w,D}$ is the image of a polynomial with
+$\deg_{x_l}<k$ for all $l$, so $C_{w,D}\subseteq\RS[\F,L_0,k^m]$ whatever $w$ and $D$ are.
+
+\subsection{Interactive oracle proofs of proximity}\label{sec:iop}
+
+An interactive oracle proof of proximity (IOPP) for a code $C$ is a public-coin protocol
+between a prover and a verifier in which each message of the prover is an oracle: the
+verifier may read single entries of it, at a cost charged per entry, and the prover may be
+unbounded. Completeness asks that an honest prover make the verifier accept with probability
+$1$ when the input word lies in $C$. Soundness asks for a bound $\varepsilon(\delta)$ such
+that no prover makes the verifier accept with probability above $\varepsilon(\delta)$ when
+the input word is $\delta$-far from $C$. The number of entries read is the query complexity,
+the number of exchanges is the round complexity, and the model is the one of
+\cite{BCS16,RRR16}.
+
+The test of \cref{sec:test} is an IOPP for $C_{w,D}$. Its prover sends the words
+$u_1,\dots,u_m$ together with the terminal polynomial $g$, its verifier sends the challenges
+$r_1,\dots,r_m$, and each repetition of its query phase reads one entry of $u_0$, $k$ entries
+of each subsequent word, and one entry of $g$. FRI \cite{BBHR18} is an IOPP for
+Reed--Solomon codes with logarithmic round and query complexity, and the fold it uses is the
+case $k=2$ of Definition~\ref{def:fold}.

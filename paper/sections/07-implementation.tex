@@ -1,0 +1,63 @@
+\section{Implementation}\label{sec:impl}
+
+The prototype is an implementation of Construction~\ref{def:protocol} at the level of the IOP: the prover
+and the verifier of Construction 5.2 run against each other with the messages in the clear.
+There are no Merkle trees and no Fiat--Shamir compilation, so the experiment measures the
+protocol and not a proof system built on it. The code is a single Rust crate with no
+dependencies, in the directory \texttt{code/} of the repository, run as
+\texttt{cargo run -{}-release -{}- 42}.
+
+The field is Goldilocks, $p=2^{64}-2^{32}+1$, whose multiplicative group has order
+$2^{64}-2^{32}$, so every length $N$ used below divides $|\F|-1$ and the chain
+$L_0,\dots,L_m$ of Definition~\ref{def:domains} exists. A value of an oracle is an element of $\F[T]$,
+stored as the vector of its coefficients, and the format bound $d_i$ of Construction~\ref{def:protocol}
+is enforced by truncation, so a prover that ignores it sends a word that the verifier
+rejects. The verifier is the one of Construction 5.2 with $s=64$ repetitions of the query
+phase. The polynomial $f$ and the challenges are drawn from the seed on the command line.
+
+Three configurations are run, each with $N=4096$: A with $k=4$, $m=4$ and $1/\rho=16$, B with
+$k=2$, $m=8$ and $1/\rho=16$, and C with $k=8$, $m=3$ and $1/\rho=8$. Six tests are run in
+each. E1 is completeness for the total degree: an honest prover on a random $f$ of total
+degree $D=\lfloor m(k-1)/2\rfloor+1$, checking that its last message equals
+$f(r_1T,\dots,r_mT)$ and that $\deg g=D$. E2 claims $D-1$ for a polynomial of degree $D$, so
+that the prover truncates its last message. E3 sends the honest intermediate words but
+truncates $g$ to degree $D-1$. E4 commits to a word that agrees with a codeword of $C_D$ on a
+fraction $a$ of $L_0$ and equals a word of weighted degree $D+1$ elsewhere, and answers the
+queries as the honest prover of the low-degree part would; the table reports the frequency
+with which a single query repetition accepts. E5 asks for $\deg_{x_1}$ with $w=e_1$, at the
+true degree and one below. E6 asks for the weighted degree with $w=(1,2,1,2,\dots)$.
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{4.9cm}lll@{}}
+\hline
+ & A & B & C \\
+\hline
+E1: $g=f(rT)$, $\deg g$ & yes, $7$ & yes, $5$ & yes, $11$ \\
+E1: max $T$-degree per round vs $d_i$ & $[3,6,7,7]$ = caps & $[1,2,3,4,5,5,5,5]$ = caps & $[7,11,11]$ = caps \\
+E2, E3 & reject, $0/64$ & reject, $0/64$ & reject, $0/64$ \\
+E4: acceptance at $a\approx0.90$ & $0.6445$ & $0.8235$ & $0.4430$ \\
+E4: at $a\approx0.60$ & $0.1345$ & $0.3830$ & $0.0123$ \\
+E4: at $a\approx0.40$ & $0.0260$ & $0.1562$ & $0.0030$ \\
+E4: at $a\approx0.25$ & $0.0027$ & $0.0625$ & $0.0000$ \\
+E5: correct / wrong claim on $\deg_{x_1}$ & accept / reject & accept / reject & accept / reject \\
+E6: $\deg_w$, accept & $9$, yes & $6$, yes & $14$, yes \\
+\hline
+\end{tabular}
+\end{center}
+
+In E1 the largest $T$-degree of a round attains the cap $d_i$ in every configuration and at
+every level, so the caps of Construction 5.2 are attained and the format bound cannot be
+lowered. The same holds in E5 and E6, where the terminal degree equals the claimed one. An
+honest fold of a word of weighted degree $D+1$ has $\deg g=D+1$, so the final check rejects it
+before any query is made.
+
+In E4 the measured acceptance stays below the agreement of the committed word with $C_D$, as
+Theorem~\ref{thm:main} requires, and is close to $a^k$: a query repetition passes only if every point
+of its fibre is one where the word agrees with the low-degree codeword. At the nominal
+$a=0.60$ the measured agreements are $0.603$, $0.615$ and $0.590$, and the acceptances are
+$0.1345$ against $0.603^4=0.132$, $0.3830$ against $0.615^2=0.378$, and $0.0123$ against
+$0.590^8=0.015$. E4 measures one cheating strategy, the one that folds the low-degree part and
+answers accordingly, so it is a check that the implementation behaves as the analysis predicts
+and not a measurement of the soundness error.
