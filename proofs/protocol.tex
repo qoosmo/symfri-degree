@@ -1,0 +1,29 @@
+\section{The protocol and the query weights}
+
+\setcounter{definition}{7}
+\begin{definition}[Degree test $\Pi_{w,D}$]\label{def:protocol}
+Parameters: $\F,k,m,N,L_0,\dots,L_m$ as in \cref{def:domains}; $w\in\N^m$; $D\in\N$;
+$s\ge1$. Put $d_0:=0$ and $d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
+\begin{enumerate}
+\item The prover sends $u_0:L_0\to\F$ (honestly $u_0=U_f|_{L_0}$).
+\item For $i=1,\dots,m$: the verifier sends a uniform $r_i\in\F$; put $c_i:=r_iT^{w_i}$.
+The prover sends $u_i:L_i\to\F[T]_{\le d_i}$ (honestly $u_i=\Fold_{c_i}(u_{i-1})$).
+For $i=m$ the word $u_m$ is constant, sent as one polynomial $g\in\F[T]_{\le D}$.
+\item Repeat $s$ times: pick a uniform $x_0\in L_0$, put $x_i:=x_{i-1}^k$, and check
+$u_i(x_i)=\Fold_{c_i}(u_{i-1})(x_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on
+$\fib(x_i)$).
+\end{enumerate}
+The verifier accepts iff all checks pass. (The format $u_i(y)\in\F[T]_{\le d_i}$ and
+$\deg g\le D$ is part of the message space.)
+\end{definition}
+
+\begin{definition}[Query weights, after {[BCIKS20, \S8.2.1]}]\label{def:weights}
+For a transcript, define $\mu^{(0)}\equiv1$ on $L_0$ and, for $1\le i\le m$ and
+$y\in L_i$,
+\[
+\nu^{(i)}(y):=\frac1k\sum_{x\in\fib(y)}\mu^{(i-1)}(x),\qquad
+\mu^{(i)}(y):=\begin{cases}\nu^{(i)}(y)&\text{if }u_i(y)=\Fold_{c_i}(u_{i-1})(y),\\0&\text{otherwise.}\end{cases}
+\]
+The values of $\mu^{(i)},\nu^{(i)}$ are multiples of $1/k^i$, and $k^i|L_i|=N$; hence
+every $\mu^{(i)}$- or $\nu^{(i)}$-agreement on $L_i$ is a multiple of $1/N$.
+\end{definition}
