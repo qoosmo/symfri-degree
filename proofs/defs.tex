@@ -49,5 +49,7 @@ and the \emph{degree code} $C_{w,D}$ is the set of $T$-free elements of $\Vc_0^{
 
 \begin{definition}[Weighted agreement]\label{def:agree}
 For words $u,v$ on $L$ and $\mu:L\to[0,1]$,
-$\agree_\mu(u,v):=\frac1{|L|}\sum_{x:\,u(x)=v(x)}\mu(x)$ (as in BCIKS20, \S7).
+$\agree_\mu(u,v):=\frac1{|L|}\sum_{x:\,u(x)=v(x)}\mu(x)$ (as in BCIKS20, \S7). For a set
+$C$ of words, $\agree_\mu(u,C):=\max_{v\in C}\agree_\mu(u,v)$. Without a subscript,
+$\mu\equiv1$: $\agree(u,v)=1-\Delta(u,v)$.
 \end{definition}

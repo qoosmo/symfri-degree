@@ -1,10 +1,10 @@
 \section{Tools}\label{sec:tools}
 
-This section collects what the analysis of \cref{sec:test} uses: the two properties of
-the Kronecker map that make a fold a substitution, the graded codes that the rounds
-produce, the identification of an interleaved code with a code over an extension field,
-and the imported correlated-agreement theorem together with the two facts about its
-proof that let the challenges come from a subfield.
+This section collects what the analysis of \cref{sec:test} uses: the Kronecker map
+and the fact that a fold is a substitution, the graded codes produced by the rounds, the
+identification of an interleaved code with a code over an extension field, and the
+correlated-agreement theorem of \cite{BCIKS20}, with the two facts about its proof that
+allow challenges from a subfield.
 
 \subsection{The Kronecker map and the fold}\label{sec:kron}
 
@@ -41,11 +41,10 @@ $|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, each $P_a=0$, so $U^{(i)}_g=0$ and $g=0$ by
 \cref{lem:kron}.
 \end{proof}
 
-The next lemma is the reason one pass over $m$ rounds suffices for $m$ variables. By
-\cref{lem:fold-sub}(b) the fold of a Kronecker image is the Kronecker image of the same
-polynomial with one variable replaced by the challenge $c$: an intermediate round sends
-the coefficients it already holds, and the verifier's consistency check is the
-substitution identity read at a single point.
+The next lemma explains the protocol. Folding the Kronecker image of $g$ with a
+challenge $c$ gives the Kronecker image of $g$ with its first remaining variable replaced
+by $c$. Round $i$ therefore eliminates $x_i$, and after $m$ rounds only the constant
+$f(c_1,\dots,c_m)$ is left.
 
 \begin{lemma}[Fold equals substitution]\label{lem:fold-sub}
 \leavevmode
@@ -201,7 +200,8 @@ rather than in $\E$; \cref{lem:subfield} uses it.
 
 {\sloppy
 We import the correlated-agreement theorem of Ben-Sasson, Carmon, Ishai, Kopparty and
-Saraf \cite{BCIKS20} in the three forms the analysis uses. That paper states its codes
+Saraf \cite{BCIKS20} in the two forms the analysis uses; a third imported statement,
+about the query phase, is in \cref{sec:weights}. That paper states its codes
 as $\RS[\F_q,D,k]$ with dimension $k+1$; in our notation this is $\RS[\F,L,d]$ with
 $d=k+1$, $L=D$, $n=|L|$ and the same rate $\rho=d/|L|$. We translate once, here, and
 use our notation throughout.\par}
@@ -222,17 +222,6 @@ Then there are $v_0,\dots,v_l\in V$ with
 $\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$.
 \end{importedthm}
 % = E1
-
-\begin{importedthm}[{\cite[Claim 8.5]{BCIKS20}: acceptance as a weight}]\label{ext:claim85}
-With the weights of Definition~\ref{def:weights}, the probability that one query of
-Definition~\ref{def:protocol} accepts equals $\frac1{|L_m|}\sum_{y\in L_m}\mu^{(m)}(y)$.
-\end{importedthm}
-% = E2
-
-The proof of \cite{BCIKS20} samples $y\in L_m$ uniformly and then a uniform element of
-each fibre downwards; sampling a uniform $x_0\in L_0$ and setting $x_i:=x_{i-1}^k$ gives
-the same distribution of query paths. The induction on $i$ in \cite[pp.~43]{BCIKS20}
-applies verbatim.
 
 \begin{importedthm}[{\cite[Theorem 7.1]{BCIKS20}: weighted correlated agreement over curves, version I}]\label{ext:bciks71}
 Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$, $u_0,\dots,u_l:L\to\F$, and $\mu:L\to[0,1]$

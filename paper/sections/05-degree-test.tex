@@ -7,10 +7,6 @@ the protocol afterwards. Throughout, $\kappa\ge3$, $\rho:=k^m/N$ and
 $\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$; the weights $w\in\N^m$ fix the linear
 combination of the degrees that the test certifies and $D$ bounds it.
 
-% CHECK: agreement without a weight function is written \agree(u_0,C_{w,D}) here and in
-% Corollary 1.1, but D7 (def:agree) defines only the weighted quantity \agree_\mu.
-% The unweighted convention (\mu\equiv1) needs a line in Section 3.
-{\renewcommand{\thelemma}{1}
 \begin{theorem}[Soundness up to the Johnson radius]\label{thm:main}
 Let $\kappa\ge3$, $\rho:=k^m/N$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
 suppose $\agree(u_0,C_{w,D})\le\alpha$. Then for every prover, $\Pi_{w,D}$ accepts with
@@ -19,7 +15,8 @@ probability at most $\varepsilon_C+\alpha^s$, where
 \varepsilon_C:=\frac1{|\F|}\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7\,N^2}{3(k+1)\rho^{3/2}}
 +m(k-1)\frac{(2\kappa+1)(N+1)}{\sqrt\rho}\Big).
 \]
-\end{theorem}}
+\end{theorem}
+% = Theorem 1 of proofs/
 
 The protocol has $m$ folding rounds and $s$ repetitions of the query phase. The bounds on
 the format are part of the definition: a word $u_i$ is accepted only if all its values lie
@@ -75,9 +72,9 @@ Schwartz--Zippel, and no larger power of $T$ occurs.
 
 \subsection{Query weights}\label{sec:weights}
 
-The analysis attaches a weight to each point of $L_i$, measuring the mass of query paths
-that reach that point and still agree with the code. The weights are defined backwards
-along the transcript.
+Following \cite[\S8.2.1]{BCIKS20}, the analysis attaches to each point $y\in L_i$ a
+weight $\mu^{(i)}(y)$: the probability that the checks at levels $1,\dots,i$ pass, for a
+query path through $y$. The weights are defined level by level from the transcript.
 
 \begin{definition}[Query weights, after {\cite[\S8.2.1]{BCIKS20}}]\label{def:weights}
 For a transcript, define $\mu^{(0)}\equiv1$ on $L_0$ and, for $1\le i\le m$ and
@@ -91,9 +88,16 @@ every $\mu^{(i)}$- or $\nu^{(i)}$-agreement on $L_i$ is a multiple of $1/N$.
 \end{definition}
 % = D9
 
-By Theorem~\ref{ext:claim85} the probability that one repetition of Step~3 accepts equals the
-total weight $\frac1{|L_m|}\sum_{y}\mu^{(m)}(y)$, so the last sentence of
-Definition~\ref{def:weights} also fixes the granularity of the acceptance probability.
+\begin{importedthm}[{\cite[Claim 8.5]{BCIKS20}: acceptance as a weight}]\label{ext:claim85}
+With the weights of Definition~\ref{def:weights}, the probability that one query of
+\cref{def:protocol} accepts equals $\frac1{|L_m|}\sum_{y\in L_m}\mu^{(m)}(y)$.
+\end{importedthm}
+% = E2
+
+The proof in \cite{BCIKS20} samples $y\in L_m$ uniformly and then a uniform element of
+each fibre downwards; sampling a uniform $x_0\in L_0$ and setting $x_i:=x_{i-1}^k$ gives
+the same distribution of query paths, and their induction on $i$ (p.~43) applies
+verbatim.
 
 \subsection{The round lemma}\label{sec:round}
 
@@ -173,7 +177,7 @@ $\eta\ge\eta_{\mathrm U}$, and $(\star\star)$ reads $|S|>(k-1)|L_i|$ and
 $|S|\ge(k-1)(N+1)(\frac1\eta+\frac3{\sqrt\rho})$; the second condition implies the first.
 \end{remark}
 
-\subsection{Proof of Theorem~1}\label{sec:proof-main}
+\subsection{Proof of \texorpdfstring{\cref{thm:main}}{the main theorem}}\label{sec:proof-main}
 
 The proof collects the rounds in which the challenge is bad and then counts the
 probability that a query survives all of them.
@@ -225,7 +229,6 @@ Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies
 $\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=d<k$ certifies $\deg_{x_l}f\le d$.
 \end{remark}
 
-{\renewcommand{\thelemma}{1.1}
 \begin{corollary}[Soundness in the unique-decoding regime]\label{cor:ud}
 Let $\alpha>\frac{1+\rho}2$ and suppose $\agree(u_0,C_{w,D})\le\alpha$. Then $\Pi_{w,D}$
 accepts with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
@@ -233,19 +236,19 @@ accepts with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
 \varepsilon_{\mathrm U}:=\frac{m(k-1)(N+1)}{|\F|}\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big),
 \qquad \eta_{\mathrm U}=\min\Big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\Big).
 \]
-\end{corollary}}
+\end{corollary}
 % = Cor. 1.1
 
 \begin{proof}[Proof of Corollary~\ref{cor:ud}]
 The proof of Theorem~\ref{thm:main} with $\alpha^{\mathrm U}_0$ in place of $\alpha_0$ and
-the bound of the remark after Lemma~\ref{lem:round} in place of Lemma~\ref{lem:round} in Step~2.
+\cref{rem:round-ud} in place of \cref{lem:round} in Step~2.
 \end{proof}
 
 \subsection{Parameters}\label{sec:numbers}
 
 We instantiate Theorem~\ref{thm:main} at a concrete point. Take $N=2^{20}$, $k=4$, $m=8$,
 $w=(1,\dots,1)$ and $D=6$, so $\rho=k^m/N=2^{16-20}=2^{-4}$; take $|\F|=2^{256}$, which
-satisfies $N\mid|\F|-1$, and $\kappa=2^{11}-1$. Theorem~1 bounds the error by
+satisfies $N\mid|\F|-1$, and $\kappa=2^{11}-1$. \Cref{thm:main} bounds the error by
 $\varepsilon_C+\alpha^s$ with $\alpha\ge\alpha_0$, and the bound is smallest at
 $\alpha=\alpha_0$.
 
@@ -276,7 +279,7 @@ $N^2/(3(k+1)\rho^{3/2})=2^{46}/15$. With $s=65$ repetitions,
 The query term dominates: the exponent is set by $s\log_2\alpha_0$, and each additional
 repetition lowers it by $2.0$.
 
-At the same instance Corollary~1.1 covers the smaller radius. Here
+At the same instance \cref{cor:ud} covers the smaller radius. Here
 $\eta_{\mathrm U}=\min\{0.125,\,0.0125\}=0.0125$, so $1/\eta_{\mathrm U}+3/\sqrt\rho=92$ and
 \[
 \varepsilon_{\mathrm U}=\frac{24\cdot(2^{20}+1)\cdot92}{2^{256}}=2^{-224.9}
