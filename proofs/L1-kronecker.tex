@@ -1,0 +1,17 @@
+\section{Kronecker map}
+
+\begin{lemma}[Kronecker map]\label{lem:kron}
+The map $g\mapsto U^{(i)}_g$ is an $R$-linear bijection
+\[
+R[x_{i+1},\dots,x_m]_{<k}\longrightarrow R[Y]_{<k^{m-i}},
+\]
+sending $x^\alpha$ to $Y^{n(\alpha)}$ with $n(\alpha):=\sum_{l>i}\alpha_l\,k^{\,l-i-1}$.
+\end{lemma}
+
+\begin{proof}
+Substitution is $R$-linear and sends $x^\alpha$ to $Y^{n(\alpha)}$. Since
+$0\le\alpha_l<k$, the integers $\alpha_{i+1},\dots,\alpha_m$ are the base-$k$ digits of
+$n(\alpha)$, so $\alpha\mapsto n(\alpha)$ is a bijection
+$\{0,\dots,k-1\}^{m-i}\to\{0,\dots,k^{m-i}-1\}$. A basis is sent to a basis.
+\end{proof}
+\uses{\cref{def:kron}}\usedby{\cref{lem:fold-sub}}
