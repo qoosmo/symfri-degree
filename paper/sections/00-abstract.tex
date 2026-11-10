@@ -11,7 +11,8 @@ and degree bound $D$. Soundness holds up to the Johnson radius. The proof adapts
 analysis of Ben-Sasson, Carmon, Ishai, Kopparty and Saraf through two observations: their
 correlated-agreement theorems remain valid when the code lives over an extension of the
 challenge field, and weighted correlated agreement over curves passes to every linear
-subcode. For $N=2^{20}$, rate $2^{-4}$, eight variables of individual degree below $4$ and
+subcode, so the test applies to linear subcodes of Reed--Solomon codes in general, such as the
+constrained codes of WHIR. For $N=2^{20}$, rate $2^{-4}$, eight variables of individual degree below $4$ and
 total degree at most $6$, $65$ query repetitions over a $256$-bit field give soundness error
 below $2^{-129.9}$. A Rust prototype checks completeness and the predicted behaviour on
 cheating provers.

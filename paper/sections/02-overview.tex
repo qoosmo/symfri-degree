@@ -32,7 +32,8 @@ The price is in the messages. The intermediate oracles take values in $\F[T]$, a
 value at level $i$ has degree at most $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$
 (\cref{lem:stab}). For $w=(1,\dots,1)$ a value is a vector of at most $D+1$ field elements,
 and the verifier performs the same fibre computations as in FRI, with coefficients in $\F[T]$
-instead of $\F$. \Cref{fig:chain} shows the polynomial behind each oracle.
+instead of $\F$. For $k=4$, $w=(1,\dots,1)$ and $D=6$, the caps are $d_1=3$ and
+$d_i=6$ for $i\ge2$. \Cref{fig:chain} shows the polynomial behind each oracle.
 
 \begin{figure}[t]
 \centering
@@ -83,9 +84,10 @@ with coefficients over $\E$ and parameter $r\in\F$. The theorems of~\cite{BCIKS2
 parameter from the field of the code, and their Remark~1.2 allows a larger parameter field,
 not a smaller one. Their proofs, however, use the set of good parameters only through its size
 and through membership in it (\cref{ext:proof-facts}, with page references), so they apply
-as they stand, with the error measured in $|\F|$ (\cref{lem:subfield}). This is the step of
-the paper that rests on a reading of a proof rather than on a stated theorem, and
-\cref{sec:params} records it in detail.
+as they stand, with the error measured in $|\F|$ (\cref{lem:subfield}). Of the two facts we use about these proofs, one is a consequence of a stated proposition
+of~\cite{BCIKS20}, and the other is a reading of the proofs: it is the step of the paper that
+does not rest on a stated theorem, and \cref{sec:params} records it with the places where it
+can be checked.
 
 \paragraph{Correlated agreement passes to linear subcodes.} Let $W$ be an $\F$-linear
 subcode. For each good parameter $r$ we choose the nearby codeword $P_r$ inside $W$. The

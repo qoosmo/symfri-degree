@@ -49,8 +49,9 @@ E6: $\deg_w$, accept & $9$, yes & $6$, yes & $14$, yes \\
 \end{center}
 
 In E1 the largest $T$-degree of a round equals the cap $d_i$ in every configuration and at
-every level: the caps of \cref{def:protocol} are attained by honest provers and cannot be
-lowered without rejecting them. In E5 and E6 the terminal degree equals the claimed degree.
+every level: the caps of \cref{def:protocol} are tight. On the author's laptop (release build), the honest
+prover and the verifier with $64$ repetitions run in $70$ to
+$115$\,ms per configuration for E1. In E5 and E6 the terminal degree equals the claimed degree.
 An honest fold of a word of weighted degree $D+1$ has $\deg g=D+1$ with high probability
 (\cref{prop:complete}(c)), so the format check on $g$ rejects it before any query is made.
 

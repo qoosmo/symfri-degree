@@ -240,7 +240,7 @@ $\mu(\{x:\ u_j(x)=v_j(x)\ \forall j\})\ge\alpha$.
 
 \subsection{The parameter set}\label{sec:params}
 
-The three theorems above are stated for challenges drawn from the field of the code. The
+The two theorems above are stated for challenges drawn from the field of the code. The
 proofs use the set of good parameters more weakly than that, and we record the two
 properties before relying on them.
 
@@ -262,13 +262,19 @@ the paragraph on p.~34), for \emph{those same} $P_z$. In the unique-decoding ran
 $S'=S$, because $P_z$ and $\sum_jz^jv_j$ are both decodings of $\sum_jz^ju_j$ and the
 decoding is unique (p.~34).
 \item[(F2)] \emph{Only $|S|$ and membership are used.} The proofs of Theorems 5.1, 6.2
-and 7.2, of Proposition 5.5 and of Lemma A.1 use $S$ only through its cardinality and
+and 7.2 of~\cite{BCIKS20}, of their Proposition 5.5 and of their Lemma A.1 use $S$ only through its cardinality and
 through membership $z\in S$. The size of the field enters only (i) through the bound
 $|S|\le|\F|$, used on p.~22 to find a point $x_0\in\F$ outside fewer than
 $(\kappa+\frac12)^2n$ bad values, and (ii) through the separability hypothesis (characteristic
 larger than $D_Y$, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole
 field.
 \end{enumerate}
+The two facts have different status. (F1) is a consequence of a stated result,
+\cite[Proposition 5.5, eq.~(5.10)]{BCIKS20}, together with the paragraph of p.~34 that
+transfers it to the weighted setting. (F2) is a statement about which quantities the proofs
+use, and it is stated nowhere in~\cite{BCIKS20}. It can be checked at two places: the choice
+of $x_0$ on p.~22, which is the only step that compares $|S|$ with the size of the field,
+and the separability hypothesis of \S5.2.3, which depends on the characteristic only.
 \end{remark}
 
 The consequence we need is that the code may live over an extension of the field the

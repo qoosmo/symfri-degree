@@ -11,13 +11,13 @@ choice the protocol certifies an individual degree bound of its own.
 
 \begin{remark}[Individual degrees]
 Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies
-$\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=d<k$ certifies $\deg_{x_l}f\le d$.
+$\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=b<k$ certifies $\deg_{x_l}f\le b$.
 \end{remark}
 
-The bound $d$ is free below $k$: the same commitment and the same protocol certify
-$\deg_{x_l}f\le d$ for every $d<k$, and not only for $d=k-1$. The caps of
-Construction~\ref{def:protocol} read $d_i=0$ for $i<l$ and $d_i=d$ for $i\ge l$ in this case, so the
-words before level $l$ are scalar and the constraint costs no $T$-degrees. A bound $d\ge k-1$ adds nothing, because the commitment already restricts $f$ to the box
+The bound $b$ is free below $k$: the same commitment and the same protocol certify
+$\deg_{x_l}f\le b$ for every $b<k$, and not only for $b=k-1$. The caps of
+Construction~\ref{def:protocol} read $d_i=0$ for $i<l$ and $d_i=b$ for $i\ge l$ in this case, so the
+words before level $l$ are scalar and the constraint costs no $T$-degrees. A bound $b\ge k-1$ adds nothing, because the commitment already restricts $f$ to the box
 $\deg_{x_l}<k$ for all $l$: the range of individual degrees is fixed by the encoding, and the
 test certifies bounds inside it.
 

@@ -280,3 +280,7 @@ $\eta_{\mathrm U}=\min\{0.125,\,0.0125\}=0.0125$, so $1/\eta_{\mathrm U}+3/\sqrt
 \varepsilon_{\mathrm U}=\frac{24\cdot(2^{20}+1)\cdot92}{2^{256}}=2^{-224.9}
 \]
 for every $\alpha>\frac{1+\rho}2=0.625$, that is, up to distance $0.375$.
+
+The query cost at this instance is $k\sum_{i=1}^{m}(d_{i-1}+1)=4\,(1+4+6\cdot6)=188$ field
+elements per repetition, below the bound $km(D+1)=224$; FRI on the same word reads
+$km=32$.
