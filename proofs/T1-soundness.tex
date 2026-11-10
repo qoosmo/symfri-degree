@@ -1,0 +1,68 @@
+\section{Soundness}
+
+\begin{theorem}[Soundness, reduction form]\label{thm:reduction}
+% CHECK: alpha_* > rho added, as in L13, since the round lemma is used at each level.
+Assume $\mathrm H(\alpha_*,\Theta)$ with $\alpha_*>\rho$, let $\alpha\ge\alpha_*$, and suppose
+$\agree(u_0,C_{w,D})\le\alpha$. Then for every prover the test $\Pi_{w,D}$ accepts with
+probability at most
+\[
+\frac1{|\F|}\sum_{i=1}^{m}\Theta\big(|L_i|,k^i,k-1\big)+\alpha^s .
+\]
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+\item By \cref{lem:start}, $\agree(u_0,\Gc_0^{w,D})=\agree(u_0,C_{w,D})\le\alpha$.
+\item For $1\le i\le m$ let $B_i$ be the event that $r_i$ lies in the set $S_i$ of \cref{lem:round}; then $\Pr[B_i]\le\Theta(|L_i|,k^i,k-1)/|\F|$, so $\Pr[\bigcup_iB_i]$ is at most the first term.
+\item By \cref{lem:no-increase}, outside $B_i$ one has $\agree_{\mu^{(i)}}(u_i,\Gc_i^{w,D})\le\max(\agree_{\mu^{(i-1)}}(u_{i-1},\Gc_{i-1}^{w,D}),\alpha_*)$, so induction from step 1 gives $\agree_{\mu^{(m)}}(u_m,\Gc_m^{w,D})\le\alpha$.
+\item Since $u_m=g\in\Gc_m^{w,D}$ and $\Gc_m^{w,D}$ is the set of constant words with value in $\F[T]_{\le D}$, \cref{ext:claim85} bounds the probability that one query accepts by $\agree_{\mu^{(m)}}(g,g)\le\alpha$, and the $s$ repetitions by $\alpha^s$.
+\end{enumerate}
+\end{proof}
+\uses{\cref{lem:start,lem:round,lem:no-increase,ext:claim85}}\usedby{\ref{cor:johnson}, \ref{cor:ud}}
+
+\begin{consequence}[Soundness at the Johnson radius]\label{cor:johnson}
+Let $\kappa\ge3$, $\rho:=k^m/N$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
+suppose $\agree(u_0,C_{w,D})\le\alpha$. Then the test accepts with probability at most
+$\varepsilon_C+\alpha^s$, where
+\[
+\varepsilon_C:=\frac1{|\F|}\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7\,N^2}{3(k+1)\rho^{3/2}}
++m(k-1)\frac{(2\kappa+1)(N+1)}{\sqrt\rho}\Big).
+\]
+\end{consequence}
+
+\begin{proof}
+Use \cref{prop:H1} in \cref{thm:reduction}: for each $i$,
+$\Theta_J(|L_i|,k^i,k-1)=(k-1)\max(A|L_i|^2,B(N+1))$, with $A$ and $B$ the two constants of
+$\Theta_J$ and $M=k^i$, so $Mn=N$. Hence
+\[
+\sum_{i=1}^{m}\Theta_J(|L_i|,k^i,k-1)\ \le\ A\sum_{i=1}^{m}(k-1)|L_i|^2+B\,m(k-1)(N+1),
+\]
+and $\sum_i(k-1)|L_i|^2=(k-1)N^2\sum_ik^{-2i}=\frac{N^2}{k+1}$.
+\end{proof}
+\uses{\cref{prop:H1,thm:reduction}}\usedby{the paper}
+
+\begin{consequence}[Soundness in the unique-decoding regime]\label{cor:ud}
+Let $\alpha>\frac{1+\rho}2$ and suppose $\agree(u_0,C_{w,D})\le\alpha$. Then the test accepts
+with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
+\[
+\varepsilon_{\mathrm U}:=\frac{m(k-1)(N+1)}{|\F|}\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big),
+\qquad \eta_{\mathrm U}=\min\Big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\Big).
+\]
+\end{consequence}
+
+\begin{proof}
+Use \cref{prop:H2} with $\alpha_*=\alpha$ in \cref{thm:reduction}, and
+$\sum_i|L_i|=\sum_iN/k^i<N$.
+\end{proof}
+\uses{\cref{prop:H2,thm:reduction}}\usedby{the paper}
+
+\begin{remark}[Individual degrees]
+Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies $\deg_{x_l}<k$ for all $l$;
+taking $w=e_l$ and $D=b<k$ certifies $\deg_{x_l}f\le b$.
+\end{remark}
+
+\begin{remark}[Characteristic]\label{rem:char}
+\Cref{prop:H1} inherits from \cref{ext:bciks72} the separability convention of
+[BCIKS20, \S5.2.3] (characteristic larger than their $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$); the
+general case, with inseparable factors, is treated in [BCIKS20, Appendix~C].
+\end{remark}

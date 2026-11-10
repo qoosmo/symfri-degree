@@ -1,0 +1,15 @@
+\section{The subcode lemma}
+
+\begin{lemma}[Subcode lemma]\label{lem:subcode}
+Let $\E\supseteq\F$, let $V$ be an $\E$-linear code and $W\subseteq V$ an $\F$-linear
+subspace. Let $v_0,\dots,v_l\in V$ and $S'\subseteq\F$ with $|S'|>l$. If
+$\sum_{j\le l}z^jv_j\in W$ for every $z\in S'$, then $v_j\in W$ for every $j$.
+\end{lemma}
+
+\begin{proof}
+Pick distinct $z_0,\dots,z_l\in S'$ and put $P_a:=\sum_jz_a^jv_j\in W$. The Vandermonde
+matrix $A:=(z_a^{\,j})_{a,j}\in\F^{(l+1)\times(l+1)}$ is invertible, so
+$v_j=\sum_a(A^{-1})_{j,a}P_a$ with $(A^{-1})_{j,a}\in\F$. Since $W$ is $\F$-linear,
+$v_j\in W$.
+\end{proof}
+\uses{nothing}\usedby{\ref{cor:share}}

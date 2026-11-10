@@ -1,36 +1,32 @@
 \section{Several degree constraints}
 
-Let $p\ge1$, weights $w^{(1)},\dots,w^{(p)}\in\N^m$ and bounds $D_1,\dots,D_p$; write
-$\mathbf w,\mathbf D$. The target code is
-$C_{\mathbf w,\mathbf D}:=\bigcap_sC_{w^{(s)},D_s}$.
+Let $p\ge1$, let $w^{(1)},\dots,w^{(p)}\in\N^m$ be weights and $D_1,\dots,D_p$ bounds, and
+write $\mathbf w,\mathbf D$. The target code is $C_{\mathbf w,\mathbf D}:=\bigcap_sC_{w^{(s)},D_s}$.
 
-\begin{proposition}[One run with $p$ formal variables]\label{prop:multi}
+\begin{remark}[Several constraints in one run]\label{rem:multi}
 Replace $\F[T]$ by $\F[T_1,\dots,T_p]$, the challenge $r_iT^{w_i}$ by
 $r_i\prod_sT_s^{\,w^{(s)}_i}$, the graded degree by the vector of degrees
-$\big(a_s+\sum_{l>i}w^{(s)}_l\alpha_l\big)_s$ of a monomial
-$\prod_sT_s^{a_s}x^\alpha$, the condition $\gdeg\le D$ by ``$\le D_s$ in every
-coordinate'', the formats $\F[T]_{\le d_i}$ by $\prod_s\F[T_s]_{\le d^{(s)}_i}$, and the final
-check $\deg g\le D$ by $\deg_{T_s}g\le D_s$ for all $s$. Then \cref{lem:inj}, L2--L4, L8,
-\cref{thm:main}, \cref{cor:ud} and \cref{prop:complete}(a)(b) hold verbatim for
+$\big(a_s+\sum_{l>i}w^{(s)}_l\alpha_l\big)_s$ of a monomial $\prod_sT_s^{a_s}x^\alpha$, the
+condition $\gdeg\le D$ by ``$\le D_s$ in every coordinate'', the formats $\F[T]_{\le d_i}$ by
+$\prod_s\F[T_s]_{\le d^{(s)}_i}$, and the final check $\deg g\le D$ by $\deg_{T_s}g\le D_s$
+for all $s$. Then \cref{lem:inj}, \cref{lem:fold-sub}, \cref{lem:stab}, \cref{lem:div},
+\cref{lem:unfold}, \cref{lem:round} and \cref{thm:reduction} extend verbatim to
 $C_{\mathbf w,\mathbf D}$, with $t:=\prod_s\big(1+\max(D_s,\,d^{(s)}_{i-1}+w^{(s)}_i(k-1))\big)$
-in Step~1 of \cref{lem:round}.
-\end{proposition}
+in item~3 of \cref{lem:round}.
 
-\begin{proof}
-The proofs use only three facts about $\F[T]$: it is an integral domain (cancellation in
-L4 and L8); divisibility by a monomial is read off coefficientwise (L4, Step~1, and L8,
-Step~3, where ``$T^a$-coefficient with $a<w_ij$'' becomes ``coefficient of a monomial not
-divisible by $\prod_sT_s^{w_i^{(s)}j}$''); and the value spaces are finite-dimensional
-over $\F$, which is all \cref{lem:ext} needs. All three hold for
-$\F[T_1,\dots,T_p]$ with bounded degrees.
-\end{proof}
+The proofs use only three properties of $\F[T]$: it is an integral domain (cancellation in
+\cref{lem:unfold} and \cref{lem:round}); divisibility by a monomial is read off coefficientwise
+(\cref{lem:div} and \cref{lem:round}, item~4); and the value spaces are finite-dimensional over
+$\F$, which is all \cref{lem:ext} needs. All three hold for $\F[T_1,\dots,T_p]$ with bounded
+degrees, with the bound $t$ above.
+\end{remark}
 
 \begin{remark}[Separate runs on one commitment]\label{rem:separate}
-Running $\Pi_{w^{(s)},D_s}$ separately on the same $u_0$ costs the sum of the $p$ runs
-instead of the product $t$. Below the unique-decoding radius it certifies the same
-statement: if $\agree(u_0,C_{w^{(s)},D_s})>\frac{1+\rho}2$ for all $s$, the codewords
-achieving these agreements are all the unique closest codeword of
-$\RS[\F,L_0,k^m]$, which therefore lies in $C_{\mathbf w,\mathbf D}$. Above that radius,
-separate runs only certify closeness to each $C_{w^{(s)},D_s}$, possibly through different
-codewords of the list; \cref{prop:multi} is then the right tool.
+Running $\Pi_{w^{(s)},D_s}$ separately on the same $u_0$ costs the sum of the $p$ runs instead
+of the product $t$. Below the unique-decoding radius it certifies the same statement: if
+$\agree(u_0,C_{w^{(s)},D_s})>\frac{1+\rho}2$ for all $s$, the codewords achieving these
+agreements are all the unique closest codeword of $\RS[\F,L_0,k^m]$, which therefore lies in
+$C_{\mathbf w,\mathbf D}$. Above that radius, separate runs only certify closeness to each
+$C_{w^{(s)},D_s}$, possibly through different codewords of the list; \cref{rem:multi} is then
+the right tool.
 \end{remark}

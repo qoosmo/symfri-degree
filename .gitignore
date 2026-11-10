@@ -6,3 +6,4 @@ target/
 *.blg
 *.synctex.gz
 *.pdf
+*.toc

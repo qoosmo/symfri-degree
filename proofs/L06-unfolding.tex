@@ -1,0 +1,18 @@
+\section{Unfolding}
+
+\begin{lemma}[Unfolding]\label{lem:unfold}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$. Let $v_0,\dots,v_{k-1}\in\Gc_i^{w,D}$ and
+$p_0,\dots,p_{k-1}:L_i\to\F[T]$ satisfy $v_j(y)=T^{w_ij}p_j(y)$ for all $y\in L_i$ and
+$0\le j<k$. Define $h:L_{i-1}\to\F[T]$ by $h(x):=\sum_{j<k}x^jp_j(x^k)$. Then
+$h\in\Gc_{i-1}^{w,D}$, and the components of $h$ (\cref{def:fold}) are $h_j=p_j$.
+\end{lemma}
+
+\begin{proof}
+Write $v_j=T^{w_ij}p_j$ on $L_i$; by \cref{lem:div} with $A=L_i$, \cref{lem:inj} gives
+$v_j=U^{(i)}_{q'_j}|_{L_i}$ with $p_j=U^{(i)}_{q'_j}|_{L_i}$ and $\gdeg_w q'_j\le D-w_ij$.
+Put $Q:=\sum_{j<k}x_i^{\,j}q'_j$. A monomial $x_i^{\,j}T^ax^\beta$ of $Q$ has graded degree
+$w_ij+a+\sum_{l>i}w_l\beta_l\le w_ij+(D-w_ij)=D$, so $Q$ has graded degree $\le D$, and by
+\cref{def:kron} $h=U^{(i-1)}_Q|_{L_{i-1}}\in\Gc_{i-1}^{w,D}$. Its components are $p_j$ by
+\cref{lem:fold-sub}(a).
+\end{proof}
+\uses{\cref{def:kron,def:codes,lem:div,lem:inj,lem:fold-sub}}\usedby{\cref{lem:round}}

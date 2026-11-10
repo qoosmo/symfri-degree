@@ -1,0 +1,18 @@
+\section{Lifting agreement from a set}
+
+\begin{lemma}[Lifting]\label{lem:lift}
+Let $\mu^{(i-1)}$ be a weight on $L_{i-1}$ and $\nu^{(i)}$ its fibre average
+(\cref{def:weights}). If $u,h:L_{i-1}\to R$ agree on $\fib(y)$ for every $y\in A\subseteq L_i$,
+then
+\[
+\agree_{\mu^{(i-1)}}(u,h)\ \ge\ \nu^{(i)}(A):=\frac1{|L_i|}\sum_{y\in A}\nu^{(i)}(y).
+\]
+\end{lemma}
+
+\begin{proof}
+The set of $x\in L_{i-1}$ on which $u$ and $h$ agree contains the union of the fibres
+$\fib(y)$, $y\in A$, and these are disjoint. Hence
+$\agree_{\mu^{(i-1)}}(u,h)\ge\frac1{|L_{i-1}|}\sum_{y\in A}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)$,
+and $\frac1{|L_{i-1}|}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)=\frac1{k|L_i|}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)=\frac{\nu^{(i)}(y)}{|L_i|}$.
+\end{proof}
+\uses{\cref{def:agree,def:weights,def:domains}}\usedby{\cref{lem:round}}

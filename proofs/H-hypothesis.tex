@@ -1,0 +1,59 @@
+\section{The hypothesis}
+
+\begin{hypothesis}\label{hyp:ca}
+For $\alpha_*\in(0,1]$ and a function $\Theta(n,M,l)$, $\mathrm H(\alpha_*,\Theta)$ is the
+following assertion. For every finite field $\E\supseteq\F$, every $L\subseteq\F$ with
+$|L|=n$, every $V=\RS[\E,L,d]$ of rate $\rho=d/n$, all words $u_0,\dots,u_l:L\to\E$, every
+weight $\mu$ whose values have denominator $M$, every $\alpha\ge\alpha_*$, and every choice of
+witnesses $P_z\in V$ with $\agree_\mu\big(\sum_{j\le l}z^ju_j,P_z\big)\ge\alpha$ for the
+elements $z$ of a set $S\subseteq\F$: if $|S|>\Theta(n,M,l)$, then there are $v_0,\dots,v_l\in V$
+with
+\[
+\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha
+\quad\text{and}\quad
+\textstyle\sum_{j\le l}z^jv_j=P_z\ \text{ for more than }l\text{ values }z\in S .
+\]
+\end{hypothesis}
+\uses{\cref{ext:bciks72,ext:proof-facts}}\usedby{\cref{prop:H1,prop:H2,cor:share,lem:round,thm:reduction}}
+
+{\renewcommand{\theproposition}{P-H1}
+\begin{proposition}[H holds at the Johnson radius]\label{prop:H1}
+Let $\kappa\ge3$ and $\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$. Then
+$\mathrm H(\alpha_0,\Theta_J)$ holds for
+\[
+\Theta_J(n,M,l):=l\,\max\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}}\,n^2,\ \
+\frac{2\kappa+1}{\sqrt\rho}\,(Mn+1)\Big).
+\]
+\end{proposition}
+
+\begin{proof}
+Let $\E,L,d,V,u_j,\mu,M,\alpha\ge\alpha_0,S,P_z$ be as in \ref{hyp:ca}, with
+$|S|>\Theta_J(n,M,l)$. The proof of \cref{ext:bciks72} uses the set $S$ only through $|S|$ and
+membership in it, and both places where the field enters hold over $\E$, since
+$|S|\le|\F|\le|\E|$ and $\E$ has the characteristic of $\F$; so its conclusion holds for the
+field $\E$ and the set $S$, giving $v_0,\dots,v_l\in V$ with the stated agreement. By the first
+fact of \cref{ext:proof-facts} these $v_j$ satisfy $\sum_jz^jv_j=P_z$ for the given witnesses on
+a set of more than $l$ values of $z$.
+\end{proof}
+\uses{\cref{ext:bciks72,ext:proof-facts}}\usedby{\ref{cor:johnson}}}
+
+{\renewcommand{\theproposition}{P-H2}
+\begin{proposition}[H holds in the unique-decoding regime]\label{prop:H2}
+Put $\eta_{\mathrm U}:=\min\big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\big)$. For every
+$\alpha_*>\frac{1+\rho}2$, $\mathrm H(\alpha_*,\Theta_U)$ holds for
+\[
+\Theta_U(n,M,l):=l\,(Mn+1)\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big).
+\]
+\end{proposition}
+
+\begin{proof}
+Let $\alpha\ge\alpha_*>\frac{1+\rho}2$ and $|S|>\Theta_U(n,M,l)$, and put
+$\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$. Since
+$\alpha-\sqrt\rho>\frac{1+\rho}2-\sqrt\rho=\frac{(1-\sqrt\rho)^2}2$ we have
+$\eta\ge\eta_{\mathrm U}$, so $|S|>l(Mn+1)(\frac1\eta+\frac3{\sqrt\rho})$; also
+$\alpha>\frac{1+\rho}2$ gives $\varepsilon=n/|\F|$ in $(\star\star)$, and
+$(Mn+1)(\frac1\eta+\frac3{\sqrt\rho})>n$. So \cref{ext:bciks71} applies, with the same
+transposition to $\E$ as in \cref{prop:H1}, and \cref{ext:facts71} supplies the curve identity
+for the chosen witnesses on more than $l$ values of $z$.
+\end{proof}
+\uses{\cref{ext:bciks71,ext:facts71}}\usedby{\ref{cor:ud}}}

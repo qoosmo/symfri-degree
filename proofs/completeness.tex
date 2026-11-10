@@ -1,5 +1,6 @@
 \section{Completeness}
 
+{\renewcommand{\theproposition}{P1}
 \begin{proposition}[Completeness and the terminal polynomial]\label{prop:complete}
 Let $f\in\F[x_1,\dots,x_m]_{<k}$ with $\deg_wf\le D$, and let the prover be honest.
 \begin{enumerate}
@@ -8,7 +9,7 @@ choice of challenges; the verifier accepts with probability $1$.
 \item[(b)] The final message is $g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m})$.
 \item[(c)] $\deg g\le\deg_wf$, and $\Pr_r\big[\deg g<\deg_wf\big]\le\frac{m(k-1)}{|\F|}$.
 \end{enumerate}
-\end{proposition}
+\end{proposition}}
 
 \begin{proof}
 (a) $u_0=U_f|_{L_0}\in C_{w,D}$. By \cref{lem:stab}(c), each honest $u_i$ takes values of

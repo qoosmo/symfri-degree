@@ -1,7 +1,13 @@
-\section{Dependency graph (current state)}
-\[
-\text{L1}\to\text{L2}\to\text{Cor.~(terminal)},\qquad
-\text{L1, L2}\to\text{L3, L4}\to\text{L8},\qquad
-\text{L5}\to\text{L6}\to\text{L7}\to\text{L8}\to\text{Theorem}.
-\]
-All results are proved: L1, L1$'$, L2, L3, L4, L5, L6, L7, L8 and \cref{thm:main}, from the imported results E1 (BCIKS20 Thm 7.2, with facts F1--F2 of its proof) and E2 (BCIKS20 Claim 8.5); the unique-decoding corollary uses E3 (BCIKS20 Thm 7.1). Completeness: \cref{prop:complete}. Several constraints: \cref{prop:multi,rem:separate}.
+\section{Dependency graph}
+
+\begin{itemize}
+\item L1 implies L2; L1 and L2 give L3, and L3 gives Corollary~L3.1.
+\item L3 gives L4, L4 gives L5, L5 gives L6.
+\item L7 and the hypothesis \cref{hyp:ca} give \cref{cor:share}, which with L9, L10, L5, L6 and L3
+gives L13.
+\item L11, L12 and L13 give \cref{thm:reduction}, hence \cref{cor:johnson} through \cref{prop:H1}
+and \cref{cor:ud} through \cref{prop:H2}.
+\end{itemize}
+The hypothesis is discharged at the Johnson radius by \cref{prop:H1} (from E1 and the two facts of
+\cref{ext:proof-facts}) and in the unique-decoding regime by \cref{prop:H2} (from E3 and
+\cref{ext:facts71}). Every other result is proved unconditionally.

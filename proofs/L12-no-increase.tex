@@ -1,0 +1,19 @@
+\section{Agreement does not increase}
+
+\begin{lemma}[No increase]\label{lem:no-increase}
+Let $1\le i\le m$ and let $\mu^{(i)},\nu^{(i)}$ be the weights of \cref{def:weights} for a
+transcript. For every set $C$ of words on $L_i$,
+\[
+\agree_{\mu^{(i)}}\big(u_i,C\big)\ \le\ \agree_{\nu^{(i)}}\big(\Fold_{c_i}(u_{i-1}),C\big).
+\]
+\end{lemma}
+
+\begin{proof}
+By \cref{def:weights}, $\mu^{(i)}(y)=\nu^{(i)}(y)$ where
+$u_i(y)=\Fold_{c_i}(u_{i-1})(y)$ and $\mu^{(i)}(y)=0$ elsewhere. Hence for every word $w$ on
+$L_i$ the set $\{y:u_i(y)=w\}$ meets $\{y:\mu^{(i)}(y)>0\}$ inside
+$\{y:\Fold_{c_i}(u_{i-1})(y)=w\}$, where $\mu^{(i)}=\nu^{(i)}$; so
+$\agree_{\mu^{(i)}}(u_i,w)\le\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),w)$. Taking the maximum
+over $w\in C$ gives the claim.
+\end{proof}
+\uses{\cref{def:weights,def:agree}}\usedby{\cref{thm:reduction}}

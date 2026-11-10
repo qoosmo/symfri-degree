@@ -7,22 +7,29 @@
 \date{Working draft}
 \begin{document}
 \maketitle
-\noindent Each lemma is self-contained: statement, proof, the results it uses
-and the results that use it. Definitions here are the minimal shared vocabulary;
-the paper will restate them in full.
+\noindent Each result is self-contained: statement, proof, the results it uses and the results
+that use it. One hypothesis, \ref{hyp:ca}, isolates the reading of the [BCIKS20] proofs; every
+other ingredient is proved. Definitions here are the minimal shared vocabulary; the paper
+restates them in full.
 \tableofcontents
 \input{defs}
-\input{L1-kronecker}
-\input{L2-fold-substitution}
-\input{L3-stability}
-\input{L4-unfolding}
-\input{L5-interleaved-extension}
+\input{L01-kronecker}
+\input{L03-fold-substitution}
+\input{L04-stability}
+\input{L05-divisibility}
+\input{L06-unfolding}
+\input{L07-interleaved}
+\input{L08-subcode}
+\input{L09-granularity}
+\input{L10-lifting}
+\input{L11-start}
+\input{L12-no-increase}
 \input{external}
-\input{L6-subfield}
-\input{L7-subcode}
+\input{H-hypothesis}
+\input{C1-share}
 \input{protocol}
-\input{L8-round}
-\input{T-soundness}
+\input{L13-round}
+\input{T1-soundness}
 \input{completeness}
 \input{variants}
 \input{dependencies}

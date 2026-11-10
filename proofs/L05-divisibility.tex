@@ -1,0 +1,16 @@
+\section{Divisibility}
+
+\begin{lemma}[Divisibility]\label{lem:div}
+Let $1\le i\le m$, $e\in\N$, $v\in\Gc_i^{w,D}$ and $A\subseteq L_i$ with $|A|\ge k^{m-i}$.
+If $T^e$ divides $v(y)$ for every $y\in A$, then $v=T^ep$ on $L_i$ for some
+$p\in\Gc_i^{w,D-e}$; for $e>D$, $v=0$.
+\end{lemma}
+
+\begin{proof}
+Write $v=U^{(i)}_q|_{L_i}$ with $\gdeg_w q\le D$ and $q=\sum_aT^aq_a$. For $a<e$, the
+$T^a$-coefficient of $v$ is $U^{(i)}_{q_a}|_{L_i}$, a codeword of $\RS[\F,L_i,k^{m-i}]$ that
+vanishes on $A$; since $|A|\ge k^{m-i}>\deg U^{(i)}_{q_a}$, it is $0$, so $q_a=0$ by
+\cref{lem:inj}. Hence $q=T^eQ$ with $\gdeg_w Q\le D-e$, and $v=T^ep$ for
+$p:=U^{(i)}_Q|_{L_i}\in\Gc_i^{w,D-e}$. If $e>D$ then $q=0$.
+\end{proof}
+\uses{\cref{def:codes,lem:inj,lem:kron}}\usedby{\cref{lem:unfold,lem:round}}

@@ -1,0 +1,25 @@
+\section{The round lemma}
+
+\begin{lemma}[Round lemma]\label{lem:round}
+% CHECK: L13 of the brief omits the condition alpha_* > rho; item 5 of the proof needs beta_i^+ > rho and beta_i >= alpha_*. Added to the statement.
+Assume $\mathrm H(\alpha_*,\Theta)$ and $\alpha_*>\rho$. Let $1\le i\le m$, let $u:L_{i-1}\to\F[T]_{\le d_{i-1}}$,
+and let $\mu^{(i-1)}$ be a weight on $L_{i-1}$ with values in $\frac1{k^{i-1}}\Z$; let
+$\nu^{(i)}$ be its fibre average (\cref{def:weights}). Put
+\[
+\beta_i:=\max\Big(\agree_{\mu^{(i-1)}}\big(u,\Gc_{i-1}^{w,D}\big),\ \alpha_*\Big),\qquad
+S:=\Big\{r\in\F:\ \agree_{\nu^{(i)}}\big(\Fold_{rT^{w_i}}(u),\Gc_i^{w,D}\big)>\beta_i\Big\}.
+\]
+Then $|S|\le\Theta\big(|L_i|,k^i,k-1\big)$.
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Assume $|S|>\Theta(|L_i|,k^i,k-1)$, let $u_j$ be the components of $u$ and put $\tilde u_j:=T^{w_ij}u_j$; by \cref{def:fold}, $\Fold_{rT^{w_i}}(u)=\sum_{j<k}r^j\tilde u_j$ for every $r\in\F$.
+\item By \cref{lem:gran}, $S=\{r:\agree_{\nu^{(i)}}(\sum_jr^j\tilde u_j,\Gc_i^{w,D})\ge\beta_i^+\}$, and $\beta_i^+\ge\alpha_*$.
+\item By \cref{lem:ext} with $\E\supseteq\F$ of degree $t:=1+\max(D,d_{i-1}+w_i(k-1))$, the $\tilde u_j$ become words over $\E$ and $\Gc_i^{w,D}$ an $\F$-linear subspace $W$ of $\RS[\E,L_i,k^{m-i}]$, of rate $\rho$.
+\item So \cref{cor:share} with $n=|L_i|$, $M=k^i$, $l=k-1$ gives $v_0,\dots,v_{k-1}\in\Gc_i^{w,D}$ and $A\subseteq L_i$ with $\nu^{(i)}(A)\ge\beta_i^+$ and $\tilde u_j=v_j$ on $A$.
+\item $|A|\ge\nu^{(i)}(A)|L_i|>\rho|L_i|=k^{m-i}$ and $T^{w_ij}\mid v_j$ on $A$, so \cref{lem:div} gives $v_j=T^{w_ij}p_j$ with $p_j\in\Gc_i^{w,D-w_ij}$; then $u_j=p_j$ on $A$.
+\item By \cref{lem:unfold}, $h:=\sum_{j<k}x^jp_j(x^k)$ lies in $\Gc_{i-1}^{w,D}$ with components $h_j=p_j$.
+\item By \cref{lem:fold-sub}(c), $u(x)=\sum_jx^ju_j(x^k)=h(x)$ for every $x\in\fib(y)$, $y\in A$.
+\item By \cref{lem:lift}, $\agree_{\mu^{(i-1)}}(u,h)\ge\nu^{(i)}(A)\ge\beta_i^+>\beta_i$, contradicting the definition of $\beta_i$.
+\end{enumerate}\end{proof}
+\uses{\ref{hyp:ca},\ref{cor:share},\cref{lem:div,lem:ext,lem:fold-sub,lem:gran,lem:lift,lem:unfold}}\usedby{\cref{thm:reduction}}

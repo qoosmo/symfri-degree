@@ -1,0 +1,14 @@
+\section{Starting the induction}
+
+\begin{lemma}[Start]\label{lem:start}
+For every $u_0:L_0\to\F$, $\agree\big(u_0,\Gc_0^{w,D}\big)=\agree\big(u_0,C_{w,D}\big)$.
+\end{lemma}
+
+\begin{proof}
+Both sides are maxima over words, and $C_{w,D}\subseteq\Gc_0^{w,D}$, so it suffices to show
+that every $v\in\Gc_0^{w,D}$ has an element of $C_{w,D}$ agreeing with it wherever $u_0$ does.
+Let $v=U^{(0)}_q|_{L_0}$ and let $q_0$ be the $T^0$-coefficient of $q$; then
+$U^{(0)}_{q_0}|_{L_0}\in C_{w,D}$ and $U^{(0)}_q=U^{(0)}_{q_0}$ wherever the value is
+$T$-free, in particular wherever it equals $u_0(x)\in\F$.
+\end{proof}
+\uses{\cref{def:codes,def:agree,lem:kron}}\usedby{\cref{thm:reduction}}
