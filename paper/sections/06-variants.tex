@@ -17,9 +17,9 @@ $\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=d<k$ certifies $\deg_{x_l}f\le
 The bound $d$ is free below $k$: the same commitment and the same protocol certify
 $\deg_{x_l}f\le d$ for every $d<k$, and not only for $d=k-1$. The caps of
 Construction~\ref{def:protocol} read $d_i=0$ for $i<l$ and $d_i=d$ for $i\ge l$ in this case, so the
-words before level $l$ are scalar and the constraint costs no $T$-degrees. A bound $d\ge k$
-certifies nothing, because the commitment already restricts $f$ to the box $\deg_{x_l}<k$
-for all $l$; the individual-degree range is a property of the encoding, not of the test.
+words before level $l$ are scalar and the constraint costs no $T$-degrees. A bound $d\ge k-1$ adds nothing, because the commitment already restricts $f$ to the box
+$\deg_{x_l}<k$ for all $l$: the range of individual degrees is fixed by the encoding, and the
+test certifies bounds inside it.
 
 \subsection{Several constraints in one run}\label{sec:multi}
 
@@ -57,8 +57,8 @@ $\prod_s\F[T_s]_{\le d^{(s)}_i}$, that is, a vector of $\prod_s(d^{(s)}_i+1)$ fi
 and the analysis of \cref{lem:round} runs with the bound $t$ above in place of
 $1+\max(D,d_{i-1}+w_i(k-1))$. For $k=4$, $m=4$ and $p=2$, with $w^{(1)}=(1,1,1,1)$,
 $D_1=6$ and $w^{(2)}=e_1$, $D_2=2$, one run proves the two constraints, and a value of
-$u_i$ carries $12$ field elements at level $1$ and $21$ at levels $2$ to $4$, where the two
-separate runs would carry $7$ and $10$.
+$u_i$ carries $12$ field elements at level $1$ and $21$ at levels $2$ to $4$; two separate
+runs carry $4+3=7$ and $7+3=10$ field elements per point at the same levels.
 
 \subsection{Separate runs}\label{sec:separate}
 

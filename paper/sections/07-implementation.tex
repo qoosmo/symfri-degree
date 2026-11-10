@@ -1,7 +1,7 @@
 \section{Implementation}\label{sec:impl}
 
 The prototype is an implementation of Construction~\ref{def:protocol} at the level of the IOP: the prover
-and the verifier of Construction 5.2 run against each other with the messages in the clear.
+and the verifier run against each other with the messages in the clear.
 There are no Merkle trees and no Fiat--Shamir compilation, so the experiment measures the
 protocol and not a proof system built on it. The code is a single Rust crate with no
 dependencies, in the directory \texttt{code/} of the repository, run as
@@ -10,9 +10,10 @@ dependencies, in the directory \texttt{code/} of the repository, run as
 The field is Goldilocks, $p=2^{64}-2^{32}+1$, whose multiplicative group has order
 $2^{64}-2^{32}$, so every length $N$ used below divides $|\F|-1$ and the chain
 $L_0,\dots,L_m$ of Definition~\ref{def:domains} exists. A value of an oracle is an element of $\F[T]$,
-stored as the vector of its coefficients, and the format bound $d_i$ of Construction~\ref{def:protocol}
-is enforced by truncation, so a prover that ignores it sends a word that the verifier
-rejects. The verifier is the one of Construction 5.2 with $s=64$ repetitions of the query
+stored as the vector of its coefficients. The prover truncates each value of $u_i$ to
+degree $d_i$, as the format of \cref{def:protocol} requires; the verifier recomputes the
+fold without truncation, so a value whose fold exceeds the cap fails its check. The
+verifier is the one of \cref{def:protocol} with $s=64$ repetitions of the query
 phase. The polynomial $f$ and the challenges are drawn from the seed on the command line.
 
 Three configurations are run, each with $N=4096$: A with $k=4$, $m=4$ and $1/\rho=16$, B with
@@ -47,11 +48,11 @@ E6: $\deg_w$, accept & $9$, yes & $6$, yes & $14$, yes \\
 \end{tabular}
 \end{center}
 
-In E1 the largest $T$-degree of a round attains the cap $d_i$ in every configuration and at
-every level, so the caps of Construction 5.2 are attained and the format bound cannot be
-lowered. The same holds in E5 and E6, where the terminal degree equals the claimed one. An
-honest fold of a word of weighted degree $D+1$ has $\deg g=D+1$, so the final check rejects it
-before any query is made.
+In E1 the largest $T$-degree of a round equals the cap $d_i$ in every configuration and at
+every level: the caps of \cref{def:protocol} are attained by honest provers and cannot be
+lowered without rejecting them. In E5 and E6 the terminal degree equals the claimed degree.
+An honest fold of a word of weighted degree $D+1$ has $\deg g=D+1$ with high probability
+(\cref{prop:complete}(c)), so the format check on $g$ rejects it before any query is made.
 
 In E4 the measured acceptance stays below the agreement of the committed word with $C_D$, as
 Theorem~\ref{thm:main} requires, and is close to $a^k$: a query repetition passes only if every point

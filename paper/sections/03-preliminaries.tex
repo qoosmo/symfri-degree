@@ -4,7 +4,7 @@ This section fixes the notation, the codes, and the two maps from which the test
 
 \subsection{Notation}\label{sec:notation}
 
-We write $[n]:=\{1,\dots,n\}$ and $\N:=\{1,2,\dots\}$, and $\F$ is a finite field; $\E$ is an
+We write $[n]:=\{1,\dots,n\}$ and $\N:=\{0,1,2,\dots\}$, and $\F$ is a finite field; $\E$ is an
 extension field of $\F$ when one occurs. Relative to a level $i$, a tuple of exponents is
 written $\alpha=(\alpha_{i+1},\dots,\alpha_m)$ and $x^\alpha:=\prod_{l>i}x_l^{\alpha_l}$; for
 a weight $w\in\N^m$ we write $\langle w,\alpha\rangle=\sum_lw_l\alpha_l$. Polynomials are
@@ -31,9 +31,10 @@ $y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\mu_k$ for any
 $x_0\in\fib(y)$, where $\mu_k$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
 \end{definition}
 
-Every fibre is a coset of $\mu_k$, because $x^k=y$ and $x_0^k=y$ give $(x/x_0)^k=1$; this is
-what turns the component formula of Definition~\ref{def:fold} into a $k$-point average, and it is the
-only place where $k\mid N\mid|\F|-1$ is used.
+Every fibre is a coset of $\mu_k$, because $x^k=y$ and $x_0^k=y$ give $(x/x_0)^k=1$. The
+condition $k\mid N\mid|\F|-1$ also makes $k$ invertible in $\F$. Both facts are used in
+\cref{lem:fold-sub}(a), where the components of Definition~\ref{def:fold} recover the
+coefficients of a polynomial.
 
 \subsection{Codes and agreement}\label{sec:codes}
 
@@ -135,7 +136,7 @@ the number of exchanges is the round complexity, and the model is the one of
 
 The test of \cref{sec:test} is an IOPP for $C_{w,D}$. Its prover sends the words
 $u_1,\dots,u_m$ together with the terminal polynomial $g$, its verifier sends the challenges
-$r_1,\dots,r_m$, and each repetition of its query phase reads one entry of $u_0$, $k$ entries
-of each subsequent word, and one entry of $g$. FRI \cite{BBHR18} is an IOPP for
+$r_1,\dots,r_m$, and each repetition of its query phase reads $k$ entries of each of
+$u_0,\dots,u_{m-1}$ (one fibre per level) and compares the last fold with $g$. FRI \cite{BBHR18} is an IOPP for
 Reed--Solomon codes with logarithmic round and query complexity, and the fold it uses is the
 case $k=2$ of Definition~\ref{def:fold}.
