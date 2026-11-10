@@ -100,7 +100,9 @@ with $C_{w,D}$, where $\kappa=2^{11}-1$ is the parameter of \cref{cor:johnson},
 that is, at distance just inside the Johnson radius. This is the number of repetitions FRI
 needs at the same distance~\cite[\S8.2]{BCIKS20}, and each repetition reads $188$ field
 elements against $32$ for FRI (\cref{sec:numbers}). After the commitment the prover performs
-$O(k^2(D+1)N/(k-1))$ field operations with direct interpolation on each fibre.
+$O(k^2(D+1)N/(k-1))$ field operations with direct interpolation on each fibre. The test also
+fixes the thresholds of a FRI-based verifiable secret sharing scheme, whose sharing polynomial
+is bound only by the box of its commitment (\cref{sec:avss}).
 
 \subsection{Correlated agreement for subcodes}\label{sec:intro-ca}
 

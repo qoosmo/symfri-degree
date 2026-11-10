@@ -46,5 +46,17 @@ $D_Y$ & $Y$-degree bound in \cite[\S5]{BCIKS20} & \cref{ext:proof-facts}\\
 $\Theta_J,\ \Theta_U,\ \eta_{\mathrm U}$ & thresholds for $\mathrm H$ & \cref{prop:H1,prop:H2}\\
 $\varepsilon_C,\ \varepsilon_{\mathrm U}$ & soundness errors & \cref{cor:johnson,cor:ud}\\
 $\mathbf w,\ \mathbf D,\ d^{(s)}_i,\ C_{\mathbf w,\mathbf D}$ & several constraints & \cref{sec:multi}\\
+$\tau$ & integer with $2^\tau\ge t+1$; the box of the sharing polynomial is $2^\tau-1$ & \cref{def:avss}\\
+$X,\ Y$ & the indeterminates of the bivariate sharing polynomial & \cref{def:avss}\\
+$t$ & degree bound of the sharing polynomial and threshold of the scheme; also the length in $\F[T]_{<t}$ & \cref{def:avss}\\
+$f',\ \hat f$ & multilinear form of a bivariate $f$; $\hat f=U_{f'}$, $\hat f(Z)=f(Z,Z^{2^\tau})$ & \cref{def:avss}\\
+$w^X,\ w^Y$ & $(1,2,\dots,2^{\tau-1},0,\dots,0)$ and $(0,\dots,0,1,2,\dots,2^{\tau-1})$ in $\N^{2\tau}$ & \cref{def:avss}\\
+$V_t$ & $\{f\in\F[X,Y]:\ \deg_Xf\le t,\ \deg_Yf\le t\}$ & \cref{def:avss}\\
+$u_f,\ u_e,\ \delta_0$ & committed words of $\hat f$ and $\hat e$, distance bound & \cref{def:avss}\\
+$e,\ h,\ u_h$ & mask uniform in $V_t$, $h=f+\alpha e$, $u_h=u_f+\alpha u_e$ & \cref{con:avss-mask}\\
+$\alpha,\ \alpha_*$ & challenge of the masked test; also the agreement bound of \cref{thm:main} & \cref{con:avss-mask}\\
+$n$ & number of parties, $n=3t+1$ & \cref{sec:avss}\\
+$p,\ q$ & corrupted parties and queries in the threshold $t=p+2q$ of FRISS & \cref{sec:avss}\\
+$y_i,\ P_A$ & $f(x_i,0)$ and its interpolant through a set $A$ of $t+1$ parties & \cref{rem:avss-threshold}\\
 \bottomrule
 \end{longtable}}
