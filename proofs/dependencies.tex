@@ -7,6 +7,10 @@
 gives L13.
 \item L11, L12 and L13 give \cref{thm:reduction}, hence \cref{cor:johnson} through \cref{prop:H1}
 and \cref{cor:ud} through \cref{prop:H2}.
+\item \cref{lem:avss-bits} gives \cref{lem:avss-dist}, which with \cref{lem:avss-bad} and
+\cref{cor:ud} gives \cref{prop:avss-sound}: one bad challenge, then the unique-decoding bound.
+\item \cref{lem:avss-secret}, \cref{prop:avss-cost}, \cref{rem:avss-threshold} and
+\cref{rem:avss-leak} use only \cref{def:avss}, \cref{con:avss-mask} and \cref{def:protocol}.
 \end{itemize}
 The hypothesis is discharged at the Johnson radius by \cref{prop:H1} (from E1 and the two facts of
 \cref{ext:proof-facts}) and in the unique-decoding regime by \cref{prop:H2} (from E3 and

@@ -1,0 +1,26 @@
+\section{Soundness of the masked degree test}
+
+{\renewcommand{\theproposition}{P2}
+\begin{proposition}[Soundness]\label{prop:avss-sound}
+Let $\tau,t,u_f,u_e,\delta_0$ be as in \cref{def:avss}, let $\delta_0\le(1-\rho)/4$, and let
+$f$ satisfy $\deg_Xf>t$. Then for every $\alpha_*>(1+\rho)/2$ the masked test
+\cref{con:avss-mask}, run with $w=w^X$, $k=2$, $m=2\tau$ and $D=t$, accepts with probability at
+most
+\[
+\frac1{|\F|}+\varepsilon_{\mathrm U}+\alpha_*^s,
+\]
+where $\varepsilon_{\mathrm U}$ is the error of \cref{cor:ud} for these parameters, that is
+$\varepsilon_{\mathrm U}=2\tau\,(N+1)\big(\eta_{\mathrm U}^{-1}+3/\sqrt\rho\big)/|\F|$.
+\end{proposition}}
+
+\begin{proof}\begin{enumerate}
+\item By \cref{lem:avss-bad} the set $B$ of $\alpha\in\F$ with $\deg_X(f+\alpha e)\le t$ has at
+most one element, so $\Pr[B]\le1/|\F|$.
+\item Outside $B$ one has $\deg_Xh>t$, and \cref{lem:avss-dist} gives
+$\agree(u_h,C_{w^X,t})\le\rho+2\delta_0\le\rho+\frac{1-\rho}2=\frac{1+\rho}2<\alpha_*$.
+\item On that event the transcript is a run of $\Pi_{w^X,t}$ with $u_0=u_h$ fixed by the two
+commitments and with $\agree(u_0,C_{w^X,t})\le\alpha_*$, so \cref{cor:ud} bounds the acceptance
+probability by $\varepsilon_{\mathrm U}+\alpha_*^s$.
+\item Adding the bound of step 1 gives $\frac1{|\F|}+\varepsilon_{\mathrm U}+\alpha_*^s$.
+\end{enumerate}\end{proof}
+\uses{\cref{def:avss,con:avss-mask,lem:avss-bad,lem:avss-dist,cor:ud}}\usedby{the paper}

@@ -1,0 +1,53 @@
+\section{The bivariate setting of {FRISS}}
+
+\begin{definition}[Bivariate setting]\label{def:avss}
+Let $\tau,t\in\N$ with $2^\tau\ge t+1$. Set $k:=2$ and $m:=2\tau$, and let $N,L_0,\dots,L_m$ be
+as in \cref{def:domains}, so $2^{2\tau}=k^m\mid N$; put $\rho:=2^{2\tau}/N$. Here $X,Y$ are two
+indeterminates, $\deg_X$ and $\deg_Y$ the degrees in them, and $C_{w^X,t}$ is the degree code of
+\cref{def:codes} for the weight $w^X$ below and $D=t$. For
+$f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $f'\in\F[x_1,\dots,x_{2\tau}]_{<2}$ be the
+multilinear polynomial with
+\[
+f(X,Y)=f'\big(X,X^2,\dots,X^{2^{\tau-1}},\,Y,Y^2,\dots,Y^{2^{\tau-1}}\big),
+\]
+and put $\hat f:=U_{f'}$; substituting $x_l=Z^{2^{l-1}}$ in $U_{f'}$ gives
+$\hat f(Z)=f(Z,Z^{2^\tau})$. The weights are
+\[
+w^X:=(1,2,\dots,2^{\tau-1},0,\dots,0),\qquad
+w^Y:=(0,\dots,0,1,2,\dots,2^{\tau-1})\in\N^{2\tau},
+\]
+the box of the intermediate degree bound is $V_t:=\{f\in\F[X,Y]:\ \deg_Xf\le t,\ \deg_Yf\le t\}$,
+$u_f,u_e:L_0\to\F$ are the committed words, honestly $u_f=\hat f|_{L_0}$ and
+$u_e=\hat e|_{L_0}$, and $\delta_0\in[0,1]$ bounds their distance to these words.
+\end{definition}
+\uses{\cref{def:domains,def:kron,def:codes}}
+
+\begin{lemma}[Binary digits: individual degree is weighted degree]\label{lem:avss-bits}
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, and let $f',w^X,w^Y$ be as in
+\cref{def:avss}. Then
+\[
+\deg_Xf=\deg_{w^X}f',\qquad \deg_Yf=\deg_{w^Y}f'.
+\]
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Under the substitution of \cref{def:avss} the monomial $x^\alpha$,
+$\alpha\in\{0,1\}^{2\tau}$, maps to $X^{a(\alpha)}Y^{b(\alpha)}$ with
+$a(\alpha):=\sum_{l\le\tau}\alpha_l2^{l-1}=\langle w^X,\alpha\rangle$ and
+$b(\alpha):=\sum_{l>\tau}\alpha_l2^{l-\tau-1}=\langle w^Y,\alpha\rangle$, and its coefficient
+is unchanged.
+\item By uniqueness of the binary expansion, $\alpha\mapsto(a(\alpha),b(\alpha))$ is a bijection
+from $\{0,1\}^{2\tau}$ to $\{0,\dots,2^\tau-1\}^2$; hence $f'_\alpha=f_{a(\alpha),b(\alpha)}$ for every
+$\alpha$, and every pair $(a,b)$ with $f_{a,b}\ne0$ is of the form $(a(\alpha),b(\alpha))$.
+\item Therefore $\deg_Xf=\max\{\langle w^X,\alpha\rangle:\ f'_\alpha\ne0\}=\deg_{w^X}f'$, and
+likewise for $Y$.
+\end{enumerate}\end{proof}
+\uses{\cref{def:avss,def:wdeg}}\usedby{\cref{lem:avss-dist,rem:avss-y}}
+
+\begin{remark}[The $Y$ direction]\label{rem:avss-y}
+With $X$ the low variable, $\deg_Yf\le t$ if and only if $\deg\hat f<2^\tau(t+1)$. Indeed
+$\hat f(Z)=f(Z,Z^{2^\tau})=\sum_{a,b}f_{a,b}Z^{a+2^\tau b}$ with $0\le a<2^\tau$, so
+$\deg\hat f=\max\{a+2^\tau b:\ f_{a,b}\ne0\}$; if $b\le t$ then $a+2^\tau b\le
+(2^\tau-1)+2^\tau t<2^\tau(t+1)$, and if $a+2^\tau b<2^\tau(t+1)$ then $2^\tau b<2^\tau(t+1)$
+because $a\ge0$, so $b<t+1$.
+\end{remark}

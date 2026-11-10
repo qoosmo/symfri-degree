@@ -1,0 +1,49 @@
+\section{The masked degree test}
+
+\begin{definition}[Masked degree test]\label{con:avss-mask}
+Let $\tau,t$ and $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$ be as in \cref{def:avss}. The
+dealer samples $e$ uniformly from $V_t$ and commits to $\hat e$ with salted Merkle leaves: the
+leaf of $x$ hashes $x$, $\hat e(x)$ and an independent uniform salt. The verifier sends
+$\alpha\in\F$. Put $h:=f+\alpha e$ and $u_h:=u_f+\alpha u_e$. The two parties run
+$\Pi_{w^X,t}$ (\cref{def:protocol}) with $k=2$, $m=2\tau$, $D=t$ and $u_0:=u_h$, the verifier
+reading $u_h(x)$ by opening $u_f(x)$ and $u_e(x)$; the query points $\xi_0$ of the $s$
+repetitions are chosen among the positions at which the commitment already opens $\hat f$.
+\end{definition}
+\uses{\cref{def:avss,def:protocol}}\usedby{\cref{lem:avss-bad,lem:avss-dist,prop:avss-sound,lem:avss-secret}}
+
+\begin{remark}[The threshold is not enforced]\label{rem:avss-threshold}
+Let $2^\tau\ge t+2$ and let $f\in\F[X,Y]$ satisfy $\deg_Xf,\deg_Yf<2^\tau$ and
+$\deg_Xf(X,0)>t$; for instance $f=X^{t+1}$ if $t+1\le2^\tau-1$. PolyFRIM's binding certifies
+only $\deg_Xf,\deg_Yf<2^\tau$ {[PolyFRIM, Def.~2.3, App.~B, App.~D]}, and the dealer's messages
+and proofs are those of an honest dealer for this $f$, so every check of FRISS
+{[PolyFRIM, Alg.~2--4]} passes. The Rec\_strong value of party $i$ is $y_i:=f(x_i,0)$, at
+distinct points $x_i$ {[PolyFRIM, Alg.~3--4]}. For a set $A$ of $t+1$ parties let
+$P_A\in\F[X]$ be the interpolant of $\{(x_i,y_i):\ i\in A\}$, of degree at most $t$, and put
+$s:=f(z,0)$. Then one of two cases occurs.
+\begin{enumerate}
+\item $P_A\ne P_B$ for some two sets $A,B$ of $t+1$ parties. Then $P_A-P_B$ is a nonzero
+polynomial of degree at most $t$, so $P_A(z)\ne P_B(z)$ for every $z$ outside a set of at most
+$t$ elements: the parties may output different secrets.
+\item $P_A=P$ for every $A$. Then $P$ agrees with $f(\cdot,0)$ on every $x_i$, while
+$P\ne f(\cdot,0)$ because $\deg f(\cdot,0)>t\ge\deg P$; hence $f(\cdot,0)-P$ is a nonzero
+polynomial of degree at most $2^\tau-1$, and $P(z)\ne s$ for every $z$ outside its set of at
+most $2^\tau-1$ roots: every party outputs a secret other than $s$.
+\end{enumerate}
+The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(x_i,Y)$
+interpolated from $t+1$ valid Echo values {[PolyFRIM, Alg.~3, step 16]}.
+\end{remark}
+\uses{\cref{def:avss}}\usedby{the paper}
+
+\begin{lemma}[One bad challenge]\label{lem:avss-bad}
+Let $f\in\F[X,Y]$, $e\in V_t$, and $\deg_Xf>t$. Then $\deg_X(f+\alpha e)\le t$ for at most one
+$\alpha\in\F$.
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Assume $\deg_X(f+\alpha e)\le t$ and $\deg_X(f+\alpha'e)\le t$ for some
+$\alpha\ne\alpha'$.
+\item Then $(\alpha-\alpha')e=(f+\alpha e)-(f+\alpha'e)$ has $\deg_X\le t$, and
+$\alpha-\alpha'\ne0$, so $\deg_Xe\le t$.
+\item Hence $\deg_Xf=\deg_X\big((f+\alpha e)-\alpha e\big)\le t$, contradicting the hypothesis.
+\end{enumerate}\end{proof}
+\uses{\cref{def:avss,con:avss-mask}}\usedby{\cref{prop:avss-sound}}
