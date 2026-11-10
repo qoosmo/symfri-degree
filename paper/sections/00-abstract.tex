@@ -4,7 +4,8 @@ a multivariate polynomial committed through its univariate Kronecker image, the 
 used by FRI-based commitments to multilinear and higher-degree polynomials. The test is FRI
 with symbolic folding challenges $r_iT^{w_i}$: the oracles take values in $\F[T]$, and the
 last message is $g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m})$, whose degree is the weighted degree
-of $f$. Existing tests either certify only the individual degrees fixed by the encoding or
+$\deg_wf:=\max\{w_1\alpha_1+\dots+w_m\alpha_m:\ x_1^{\alpha_1}\cdots x_m^{\alpha_m}\text{ is a monomial of }f\}$
+for the weight vector $w\in\N^m$. Existing tests either certify only the individual degrees fixed by the encoding or
 work on evaluations over a product set, with $2^m$ queries per round; ours runs on the
 univariate encoding and reads at most $km(D+1)$ field elements per query for $k$-ary folding
 and degree bound $D$. Soundness holds up to the Johnson radius. The proof adapts the FRI

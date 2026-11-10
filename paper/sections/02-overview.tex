@@ -21,10 +21,14 @@ verifier sends $r_i\in\F$, and the fold uses the challenge $r_iT^{w_i}$, where $
 variable and $w\in\N^m$ is a fixed weight vector:
 \[
 x_i\ \longmapsto\ r_iT^{w_i}\quad(i=1,\dots,m),\qquad
-g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big)=\sum_\alpha f_\alpha\,r^\alpha\,T^{\langle w,\alpha\rangle}.
+g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big)=\sum_\alpha f_\alpha\,r^\alpha\,T^{\langle w,\alpha\rangle},
 \]
+where $r:=(r_1,\dots,r_m)$, $r^\alpha:=r_1^{\alpha_1}\cdots r_m^{\alpha_m}$, and
+$f_\alpha$, $\langle w,\alpha\rangle$ are as in \cref{sec:notation}.
 The last message is the polynomial $g$, and its degree is the weighted degree $\deg_wf$
-unless the top part of $f$ vanishes at $r$, which happens with probability at most
+unless $f^{\mathrm{top}}(r)=0$, where
+$f^{\mathrm{top}}:=\sum_{\langle w,\alpha\rangle=\deg_wf}f_\alpha x^\alpha$ collects the terms of
+largest weighted degree; this happens with probability at most
 $m(k-1)/|\F|$ (\cref{prop:complete}). The verifier checks $\deg g\le D$. With
 $w=(1,\dots,1)$ this tests the total degree; with $w=e_l$ it tests the degree in $x_l$.
 

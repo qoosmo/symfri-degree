@@ -1,16 +1,34 @@
 \section{Shared definitions}
 
+\paragraph{Conventions.} These fix every symbol used below; the paper's \S3.1 is identical.
+\begin{itemize}
+\item $\N:=\{0,1,2,\dots\}$, $\Z$ the integers, $[n]:=\{1,\dots,n\}$,
+$\frac1a\Z:=\{z/a:\ z\in\Z\}$ for an integer $a\ge1$, and $\max\emptyset:=-\infty$.
+\item $\F$ is a finite field, $\F^*:=\F\setminus\{0\}$, and $\E$ a finite extension of $\F$.
+\item For $0\le i\le m$, a multi-index at level $i$ is $\alpha=(\alpha_{i+1},\dots,\alpha_m)\in\N^{m-i}$,
+$x^\alpha:=x_{i+1}^{\alpha_{i+1}}\cdots x_m^{\alpha_m}$, and for a weight vector $w\in\N^m$,
+$\langle w,\alpha\rangle:=\sum_{l=i+1}^mw_l\alpha_l$. $e_l\in\N^m$ is the $l$-th unit vector and
+$\mathbf 1:=(1,\dots,1)$.
+\item For a commutative $\F$-algebra $R$, every $q\in R[x_{i+1},\dots,x_m]$ is uniquely
+$\sum_\alpha q_\alpha x^\alpha$ with $q_\alpha\in R$ (finitely many nonzero), and
+$\deg_{x_l}q:=\max\{\alpha_l:\ q_\alpha\ne0\}$.
+\item $\F[T]_{\le e}:=\{g:\deg g\le e\}$ and $\F[T]_{<t}:=\{g:\deg g<t\}$, with $\deg0:=-\infty$.
+\item A word on a finite set $L$ is a map $u:L\to A$; $P|_L$ is $x\mapsto P(x)$.
+\item A weight function on $L$ is $\mu:L\to[0,1]$; $\mu(A):=\frac1{|L|}\sum_{x\in A}\mu(x)$ for
+$A\subseteq L$; $\mu$ has common denominator $M\ge1$ if $\mu(x)\in\frac1M\Z$ for all $x$.
+\end{itemize}
+
 \begin{definition}[Field and domains]\label{def:domains}
 $\F$ is a finite field; $k\ge 2$, $m\ge 1$ and $N$ are integers with $k^m\mid N$ and
 $N\mid |\F|-1$. $L_0\subset\F^*$ is a coset of the subgroup of order $N$, and
 $L_i:=\{x^k: x\in L_{i-1}\}$ for $1\le i\le m$, so $|L_i|=N/k^i$. The \emph{fibre} of
-$y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\mu_k$ for any
-$x_0\in\fib(y)$, where $\mu_k$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
+$y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\Omega_k$ for any
+$x_0\in\fib(y)$, where $\Omega_k:=\{\zeta\in\F:\ \zeta^k=1\}$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
 \end{definition}
 
 \begin{definition}[Polynomials]\label{def:poly}
-$R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$).
-$R[x_i,\dots,x_m]_{<k}$ is the set of polynomials with $\deg_{x_l}<k$ for all $l$.
+$R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$). For
+$1\le i\le m+1$, $R[x_i,\dots,x_m]_{<k}:=\{q\in R[x_i,\dots,x_m]:\ \deg_{x_l}q<k\text{ for }i\le l\le m\}$.
 \end{definition}
 
 \begin{definition}[Kronecker map]\label{def:kron}
@@ -31,10 +49,10 @@ $\Fold_c(u)(y):=\sum_{j<k}c^j\,u_j(y)$.
 \end{definition}
 
 \begin{definition}[Weighted and graded degree]\label{def:wdeg}
-Let $w\in\N^m$. For $f\in\F[x_1,\dots,x_m]$,
-$\deg_w f:=\max\{\langle w,\alpha\rangle: f_\alpha\ne0\}$.
-For $q\in\F[T][x_{i+1},\dots,x_m]$, $\gdeg_w q:=\max\{a+\sum_{l>i}w_l\alpha_l\}$
-over the monomials $T^a x^\alpha$ of $q$.
+Let $w\in\N^m$. For $f=\sum_\alpha f_\alpha x^\alpha\in\F[x_1,\dots,x_m]$,
+$\deg_w f:=\max\{\langle w,\alpha\rangle:\ f_\alpha\ne0\}$. For $0\le i\le m$ and
+$q=\sum_{a,\alpha}q_{a,\alpha}T^ax^\alpha\in\F[T][x_{i+1},\dots,x_m]$ ($q_{a,\alpha}\in\F$),
+$\gdeg_w q:=\max\{a+\langle w,\alpha\rangle:\ q_{a,\alpha}\ne0\}$.
 \end{definition}
 
 \begin{definition}[Codes]\label{def:codes}

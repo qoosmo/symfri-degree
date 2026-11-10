@@ -63,7 +63,7 @@ $u(x)=\sum_{j<k}x^j\,u_j(x^k)$.
 
 \begin{proof}
 (a) Fix $y\in L_i$ and $x_0\in\fib(y)$; then
-$\sum_{x\in\fib(y)}x^{-j}P(x)=\sum_{j'<k}P_{j'}(y)\,x_0^{\,j'-j}\sum_{\zeta\in\mu_k}\zeta^{\,j'-j}=k\,P_j(y)$,
+$\sum_{x\in\fib(y)}x^{-j}P(x)=\sum_{j'<k}P_{j'}(y)\,x_0^{\,j'-j}\sum_{\zeta\in\Omega_k}\zeta^{\,j'-j}=k\,P_j(y)$,
 the inner sum being $k$ for $j'=j$ and $0$ otherwise, and $k$ is invertible since
 $k\mid N\mid|\F|-1$.
 
@@ -73,7 +73,7 @@ $\Fold_c(u)=\sum_jc^jU^{(i)}_{q_j}|_{L_i}=U^{(i)}_{\sum_jc^jq_j}|_{L_i}$.
 
 (c) Put $y:=x^k$; then
 $\sum_{j<k}x^ju_j(y)=\frac1k\sum_{x'\in\fib(y)}u(x')\sum_{j<k}(x/x')^j=u(x)$, since
-$x/x'\in\mu_k$ and the inner sum is $k$ for $x'=x$ and $0$ otherwise.
+$x/x'\in\Omega_k$ and the inner sum is $k$ for $x'=x$ and $0$ otherwise.
 \end{proof}
 
 \begin{corollary}[Honest terminal]\label{cor:terminal}
@@ -280,7 +280,7 @@ $\rho=d/|L|$. We translate once, here, and use our notation throughout.
 
 \begin{importedthm}[{\cite[Theorem 7.2]{BCIKS20}: weighted correlated agreement over curves}]\label{ext:bciks72}
 Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let $\mu:L\to[0,1]$
-take values with common denominator $M$. Let $\kappa\ge3$ and
+have common denominator $M$ (\cref{sec:notation}). Let $\kappa\ge3$ be an integer and
 $\alpha\ge\alpha_0(\rho,\kappa):=\sqrt\rho\,(1+\tfrac1{2\kappa})$. Let
 \[
 S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,\,V\Big)\ge\alpha\Big\}
@@ -335,7 +335,9 @@ $P_z$ and $\sum_jz^jv_j$ are both decodings of $\sum_jz^ju_j$ and the decoding i
 Proposition 5.5 and of Lemma A.1 use $S$ only through its cardinality and through membership
 $z\in S$. The size of the field enters only (i) through the bound $|S|\le|\F|$, used on p.~22 to
 find a point $x_0\in\F$ outside fewer than $(\kappa+\frac12)^2n$ bad values, and (ii) through the
-separability hypothesis (characteristic larger than $D_Y$, or Appendix~C) of \S5.2.3. No step
+separability hypothesis of \S5.2.3 (characteristic of $\F$ larger than $D_Y$, the bound on the
+$Y$-degree of the interpolating polynomial $Q(X,Y,Z)$ of \cite[\S5]{BCIKS20}, which satisfies
+$D_Y<\frac{2\kappa+1}{2\sqrt\rho}$; or Appendix~C). No step
 requires $S$ to range over the whole field.
 \end{enumerate}
 \end{remark}

@@ -9,9 +9,9 @@ $s\ge1$. Put $d_0:=0$ and $d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
 \item For $i=1,\dots,m$: the verifier sends a uniform $r_i\in\F$; put $c_i:=r_iT^{w_i}$.
 The prover sends $u_i:L_i\to\F[T]_{\le d_i}$ (honestly $u_i=\Fold_{c_i}(u_{i-1})$).
 For $i=m$ the word $u_m$ is constant, sent as one polynomial $g\in\F[T]_{\le D}$.
-\item Repeat $s$ times: pick a uniform $x_0\in L_0$, put $x_i:=x_{i-1}^k$, and check
-$u_i(x_i)=\Fold_{c_i}(u_{i-1})(x_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on
-$\fib(x_i)$).
+\item Repeat $s$ times: pick a uniform $\xi_0\in L_0$, put $\xi_i:=\xi_{i-1}^k$, and check
+$u_i(\xi_i)=\Fold_{c_i}(u_{i-1})(\xi_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on
+$\fib(\xi_i)$).
 \end{enumerate}
 The verifier accepts iff all checks pass. (The format $u_i(y)\in\F[T]_{\le d_i}$ and
 $\deg g\le D$ is part of the message space.)

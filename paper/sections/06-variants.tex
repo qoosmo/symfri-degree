@@ -24,7 +24,9 @@ test certifies bounds inside it.
 \subsection{Several constraints in one run}\label{sec:multi}
 
 Let $p\ge1$, let $w^{(1)},\dots,w^{(p)}\in\N^m$ be weights and $D_1,\dots,D_p$ bounds, and
-write $\mathbf w,\mathbf D$. The target code is
+write $\mathbf w:=(w^{(1)},\dots,w^{(p)})$, $\mathbf D:=(D_1,\dots,D_p)$, and
+$d^{(s)}_i:=\min\big(D_s,(k-1)\sum_{l\le i}w^{(s)}_l\big)$, the cap of \cref{def:protocol}
+for the $s$-th constraint. The target code is
 $C_{\mathbf w,\mathbf D}:=\bigcap_sC_{w^{(s)},D_s}$. One run of the protocol with $p$ formal
 variables proves all $p$ constraints at once.
 

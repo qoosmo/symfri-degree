@@ -1,0 +1,50 @@
+\section{Index of notation}\label{app:notation}
+
+Each symbol is listed with its meaning and the place where it is defined.
+
+{\small
+\begin{longtable}{@{}p{0.24\textwidth}p{0.54\textwidth}p{0.16\textwidth}@{}}
+\toprule
+Symbol & Meaning & Defined in\\
+\midrule
+\endhead
+$\N,\ \Z,\ [n],\ \frac1a\Z$ & $\{0,1,\dots\}$, integers, $\{1,\dots,n\}$, $\{z/a:z\in\Z\}$ & \cref{sec:notation}\\
+$\F,\ \F^*,\ \E$ & finite field, its nonzero elements, finite extension of $\F$ & \cref{sec:notation}\\
+$k,\ m,\ N$ & fold arity, number of variables, $|L_0|$; $k^m\mid N\mid|\F|-1$ & \cref{def:domains}\\
+$L_i$ & $\{x^k:x\in L_{i-1}\}$, $L_0$ a coset of the order-$N$ subgroup of $\F^*$ & \cref{def:domains}\\
+$\Omega_k$ & $\{\zeta\in\F:\zeta^k=1\}$ & \cref{def:domains}\\
+$\fib(y)$ & $\{x\in L_{i-1}:x^k=y\}$ for $y\in L_i$ & \cref{def:domains}\\
+$\rho$ & rate $k^m/N$ & \cref{thm:main}\\
+$\alpha=(\alpha_{i+1},\dots,\alpha_m)$ & multi-index at level $i$ & \cref{sec:notation}\\
+$x^\alpha$ & $x_{i+1}^{\alpha_{i+1}}\cdots x_m^{\alpha_m}$ & \cref{sec:notation}\\
+$w,\ \langle w,\alpha\rangle$ & weight vector in $\N^m$, $\sum_lw_l\alpha_l$ & \cref{sec:notation}\\
+$e_l,\ \mathbf 1$ & $l$-th unit vector of $\N^m$, $(1,\dots,1)$ & \cref{sec:notation}\\
+$q_\alpha,\ \deg_{x_l}q$ & coefficient of $x^\alpha$ in $q$, $\max\{\alpha_l:q_\alpha\ne0\}$ & \cref{sec:notation}\\
+$R$ & commutative $\F$-algebra, $R=\F$ or $R=\F[T]$ & \cref{def:poly}\\
+$R[x_i,\dots,x_m]_{<k}$ & polynomials with $\deg_{x_l}<k$ for $l\ge i$ & \cref{def:poly}\\
+$T$ & formal variable introduced by the folds & \cref{def:poly}\\
+$\F[T]_{\le e},\ \F[T]_{<t}$ & polynomials of degree $\le e$, resp.\ $<t$ & \cref{sec:notation}\\
+$\deg_wf$ & weighted degree $\max\{\langle w,\alpha\rangle:f_\alpha\ne0\}$ & \cref{def:wdeg}\\
+$\gdeg_wq$ & graded degree $\max\{a+\langle w,\alpha\rangle:q_{a,\alpha}\ne0\}$ & \cref{def:wdeg}\\
+$f^{\mathrm{top}}$ & $\sum_{\langle w,\alpha\rangle=\deg_wf}f_\alpha x^\alpha$ & \cref{prop:complete}\\
+$U^{(i)}_q,\ U_f$ & Kronecker map $q(Y,Y^k,\dots,Y^{k^{m-i-1}})$, $U_f=U^{(0)}_f$ & \cref{def:kron}\\
+$u_j,\ \Fold_c(u)$ & components of $u$, fold $\sum_jc^ju_j$ & \cref{def:fold}\\
+$\RS[\F,L,d],\ \RS[\F,L,d]^t$ & Reed--Solomon code, $t$-interleaved code & \cref{def:codes}\\
+$\Delta(u,v),\ \Delta(u,C)$ & relative Hamming distance & \cref{sec:codes}\\
+$\mu,\ \mu(A),\ M$ & weight function, $\frac1{|L|}\sum_{x\in A}\mu(x)$, common denominator & \cref{sec:notation}\\
+$\agree_\mu(u,v),\ \agree_\mu(u,C)$ & weighted agreement & \cref{def:agree}\\
+$\Gc_i^{w,D},\ C_{w,D}$ & graded codes, degree code & \cref{def:graded}\\
+$D,\ d_i,\ s$ & degree bound, cap $\min(D,(k-1)\sum_{l\le i}w_l)$, repetitions & \cref{def:protocol}\\
+$r_i,\ c_i,\ \xi_i$ & challenge, $r_iT^{w_i}$, query point at level $i$ & \cref{def:protocol}\\
+$u_i,\ g$ & prover's word at level $i$, last message & \cref{def:protocol}\\
+$\Pi_{w,D}$ & the degree test & \cref{def:protocol}\\
+$\mu^{(i)},\ \nu^{(i)}$ & query weights, fibre averages & \cref{def:weights}\\
+$\beta^+$ & least element of $\frac1N\Z$ above $\beta$ & \cref{lem:gran}\\
+$\mathrm H(\alpha_*,\Theta)$ & correlated-agreement hypothesis & \cref{hyp:ca}\\
+$\kappa,\ \alpha_0$ & integer $\ge3$, $\sqrt\rho\,(1+\frac1{2\kappa})$ & \cref{ext:bciks72}\\
+$D_Y$ & $Y$-degree bound in \cite[\S5]{BCIKS20} & \cref{ext:proof-facts}\\
+$\Theta_J,\ \Theta_U,\ \eta_{\mathrm U}$ & thresholds for $\mathrm H$ & \cref{prop:H1,prop:H2}\\
+$\varepsilon_C,\ \varepsilon_{\mathrm U}$ & soundness errors & \cref{cor:johnson,cor:ud}\\
+$\mathbf w,\ \mathbf D,\ d^{(s)}_i,\ C_{\mathbf w,\mathbf D}$ & several constraints & \cref{sec:multi}\\
+\bottomrule
+\end{longtable}}

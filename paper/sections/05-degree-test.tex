@@ -30,16 +30,16 @@ Put $d_0:=0$ and $d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
 \item For $i=1,\dots,m$: the verifier sends a uniform $r_i\in\F$; put $c_i:=r_iT^{w_i}$. The
 prover sends $u_i:L_i\to\F[T]_{\le d_i}$ (honestly $u_i=\Fold_{c_i}(u_{i-1})$). For $i=m$ the
 word $u_m$ is constant, sent as one polynomial $g\in\F[T]_{\le D}$.
-\item Repeat $s$ times: pick a uniform $x_0\in L_0$, put $x_i:=x_{i-1}^k$, and check
-$u_i(x_i)=\Fold_{c_i}(u_{i-1})(x_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on $\fib(x_i)$).
+\item Repeat $s$ times: pick a uniform $\xi_0\in L_0$, put $\xi_i:=\xi_{i-1}^k$, and check
+$u_i(\xi_i)=\Fold_{c_i}(u_{i-1})(\xi_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on $\fib(\xi_i)$).
 \end{enumerate}
 The verifier accepts iff all checks pass.
 \end{construction}
 % = D8
 
 One repetition of Step~3 reads $u_0$ at one point and then, level by level, the $k$ values of
-$u_{i-1}$ on the fibre $\fib(x_i)$; consecutive levels share one of these values, because
-$x_{i-1}\in\fib(x_i)$.
+$u_{i-1}$ on the fibre $\fib(\xi_i)$; consecutive levels share one of these values, because
+$\xi_{i-1}\in\fib(\xi_i)$.
 
 \subsection{Completeness}\label{sec:complete}
 
@@ -92,7 +92,7 @@ accepts equals $\frac1{|L_m|}\sum_{y\in L_m}\mu^{(m)}(y)$.
 % = E2
 
 The proof in \cite{BCIKS20} samples $y\in L_m$ uniformly and then a uniform element of each fibre
-downwards; sampling a uniform $x_0\in L_0$ and setting $x_i:=x_{i-1}^k$ gives the same
+downwards; sampling a uniform $\xi_0\in L_0$ and setting $\xi_i:=\xi_{i-1}^k$ gives the same
 distribution of query paths, and their induction on $i$ (p.~43) applies verbatim.
 
 \subsection{The round lemma}\label{sec:round}
@@ -158,12 +158,13 @@ $\agree_{\mu^{(m)}}(g,g)\le\alpha$, and the $s$ repetitions by $\alpha^s$.
 
 \begin{remark}[Characteristic]\label{rem:char}
 \Cref{prop:H1} inherits from \cref{ext:bciks72} the separability convention of
-\cite[\S5.2.3]{BCIKS20} (characteristic larger than their $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$);
+\cite[\S5.2.3]{BCIKS20}: the characteristic of $\F$ exceeds the bound $D_Y$ of
+\cref{ext:proof-facts}(F2);
 the general case, with inseparable factors, is treated in \cite[Appendix~C]{BCIKS20}.
 \end{remark}
 
 \begin{corollary}[Soundness at the Johnson radius]\label{cor:johnson}
-Let $\kappa\ge3$, $\rho:=k^m/N$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
+Let $\kappa\ge3$ be an integer, $\rho:=k^m/N$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
 suppose $\agree(u_0,C_{w,D})\le\alpha$. Then the test accepts with probability at most
 $\varepsilon_C+\alpha^s$, where
 \[

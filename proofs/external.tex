@@ -8,7 +8,7 @@ $\rho=d/|L|$ is the same.
 
 \begin{imported}[{[BCIKS20, Theorem 7.2]}: weighted correlated agreement over curves]\label{ext:bciks72}
 Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let
-$\mu:L\to[0,1]$ take values with common denominator $M$. Let $\kappa\ge3$ and
+$\mu:L\to[0,1]$ have common denominator $M$. Let $\kappa\ge3$ be an integer and
 $\alpha\ge\alpha_0(\rho,\kappa):=\sqrt\rho\,(1+\tfrac1{2\kappa})$. Let
 \[
 S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,\,V\Big)\ge\alpha\Big\}
@@ -40,7 +40,8 @@ Proposition 5.5 and Lemma A.1 use $S$ only through its cardinality and through
 membership $z\in S$. The size of the field enters only (i) through the bound
 $|S|\le|\F|$, used on p.~22 to find a point $x_0\in\F$ outside fewer than
 $(\kappa+\frac12)^2n$ bad values, and (ii) through the separability hypothesis (char
-$\F>D_Y$, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole field.
+$\F>D_Y$, where $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$ bounds the $Y$-degree of the interpolating
+polynomial $Q(X,Y,Z)$ of \S5, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole field.
 \end{enumerate}
 \end{remark}
 
@@ -49,7 +50,7 @@ With the weights of \cref{def:weights}, the probability that one query of
 \cref{def:protocol} accepts equals $\frac1{|L_m|}\sum_{y\in L_m}\mu^{(m)}(y)$.
 \end{imported}
 \noindent\emph{Note.} [BCIKS20] sample $y\in L_m$ uniformly and then a uniform element of
-each fibre downwards; sampling a uniform $x_0\in L_0$ and setting $x_i:=x_{i-1}^k$ gives
+each fibre downwards; sampling a uniform $\xi_0\in L_0$ and setting $\xi_i:=\xi_{i-1}^k$ gives
 the same distribution of query paths. Their proof (induction on $i$, p.~43) applies
 verbatim.
 

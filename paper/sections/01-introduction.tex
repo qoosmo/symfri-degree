@@ -1,7 +1,8 @@
 \section{Introduction}\label{sec:intro}
 
 A common way to commit to a multivariate polynomial
-$f\in\F[x_1,\dots,x_m]$ whose individual degrees are below $k$ is to commit to one
+$f\in\F[x_1,\dots,x_m]$ whose individual degrees are below $k$, written
+$f\in\F[x_1,\dots,x_m]_{<k}$, is to commit to one
 univariate polynomial with the same coefficients, its Kronecker image
 \[
 U_f(X)=f\big(X,X^{k},\dots,X^{k^{m-1}}\big),
@@ -22,21 +23,31 @@ sets $L^m$~\cite{ABN23,MZ25}, not for the univariate encoding that FRI-based sys
 
 We give such a test. It is FRI with one change: the folding challenges are symbolic. In
 round $i$ the verifier sends $r_i\in\F$ and the fold uses $r_iT^{w_i}$, where $T$ is a formal
-variable and $w$ a fixed weight vector. Since a fold of a Kronecker image substitutes the
+variable and $w=(w_1,\dots,w_m)\in\N^m$ a fixed weight vector. Write
+$f=\sum_{\alpha}f_\alpha x^\alpha$, where $\alpha=(\alpha_1,\dots,\alpha_m)$ ranges over
+$\{0,\dots,k-1\}^m$, $x^\alpha:=x_1^{\alpha_1}\cdots x_m^{\alpha_m}$ and $f_\alpha\in\F$.
+The \emph{weighted degree} of $f$ is
+\[
+\deg_wf:=\max\{\langle w,\alpha\rangle:\ f_\alpha\ne0\},\qquad
+\langle w,\alpha\rangle:=w_1\alpha_1+\dots+w_m\alpha_m,
+\]
+with $\deg_w0:=-\infty$. Since a fold of a Kronecker image substitutes the
 challenge for one variable, the honest last message is
 \[
 g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big),
 \]
-whose degree in $T$ is the weighted degree $\deg_wf$ with high probability. The verifier
+whose degree in $T$ equals $\deg_wf$ for all but a fraction at most $m(k-1)/|\F|$ of the
+challenges $(r_1,\dots,r_m)\in\F^m$. The verifier
 checks $\deg g\le D$.
 
 \paragraph{Why the univariate encoding.} A FRI-based system that commits to $f$ through
 $U_f$ already holds the word on which our test runs. Testing a degree bound on $f$ therefore
 needs neither a second commitment nor an evaluation domain of the form $L^m$, and the
 verifier keeps the structure of FRI: one fibre per level, one consistency check per fibre.
-The weighted degree $\deg_wf=\max\{\langle w,\alpha\rangle:f_\alpha\ne0\}$ covers the total
-degree ($w=(1,\dots,1)$) and the degree in a single variable ($w=e_l$) with one definition and
-one analysis.
+The weighted degree covers the total degree
+($w=(1,\dots,1)$, so $\langle w,\alpha\rangle=\alpha_1+\dots+\alpha_m$) and the degree in a
+single variable $x_l$ ($w=e_l$, the $l$-th unit vector of $\N^m$, so
+$\langle w,\alpha\rangle=\alpha_l$) with one definition and one analysis.
 
 \paragraph{Why symbolic challenges.} The classical way to measure the total degree of $f$ is
 to restrict it to a random line and read off the degree of the univariate
@@ -59,8 +70,8 @@ $L_0$ of the Kronecker images $U_f$ with $f\in\F[x_1,\dots,x_m]_{<k}$ and $\deg_
 for $C_{w,D}$ that reaches the Johnson radius.
 
 \begin{introthm}[informal]\label{thm:intro}
-Let $\F$ be a finite field, $k\ge2$, $m\ge1$, $L_0\subseteq\F^*$ a smooth domain of size
-$N$ with $k^m\mid N$, and $\rho=k^m/N$. For every $w\in\N^m$ and $D\in\N$ there is a
+Let $\F$ be a finite field, $k\ge2$, $m\ge1$, $N$ an integer with $k^m\mid N\mid|\F|-1$,
+$L_0\subseteq\F^*$ a coset of the subgroup of order $N$ of $\F^*$, and $\rho:=k^m/N$. For every $w\in\N^m$ and $D\in\N$ there is a
 public-coin IOPP $\Pi_{w,D}$ for $C_{w,D}$ with the following properties.
 \begin{itemize}
 \item \emph{Rounds and messages:} $m$ rounds; the message of round $i$ is a word on a domain
@@ -68,7 +79,8 @@ of size $N/k^i$ whose values are polynomials in $T$ of degree at most
 $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
 \item \emph{Completeness:} perfect.
 \item \emph{Soundness:} if the committed word has agreement at most $\alpha$ with
-$C_{w,D}$, where $\alpha>\sqrt\rho$, the verifier accepts with probability at most
+$C_{w,D}$ (the largest fraction of $L_0$ on which it coincides with a codeword,
+Definition~\ref{def:agree}), where $\alpha>\sqrt\rho$, the verifier accepts with probability at most
 $\varepsilon+\alpha^s$, with $\varepsilon=O\big(N^2/|\F|\big)$ for fixed $\rho$ and
 $\alpha-\sqrt\rho$, and $s$ the number of query repetitions.
 \item \emph{Query cost:} each repetition reads $k\sum_{i=1}^m(d_{i-1}+1)\le km(D+1)$ field
@@ -83,7 +95,8 @@ total degree; with $w=e_l$ and $D=b$ it certifies $\deg_{x_l}f\le b$ for any $b<
 Kronecker rate alone cannot do (\cref{sec:individual}). Several constraints can be tested in
 one run with several formal variables (\cref{rem:multi}). At $N=2^{20}$, $\rho=2^{-4}$,
 $k=4$, $m=8$, $D=6$ and $|\F|=2^{256}$, $65$ repetitions give soundness error below
-$2^{-129.9}$ against words with agreement at most $\alpha_0\approx0.25006$ with $C_{w,D}$,
+$2^{-129.9}$ against words with agreement at most $\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})\approx0.25006$
+with $C_{w,D}$, where $\kappa=2^{11}-1$ is the parameter of \cref{cor:johnson},
 that is, at distance just inside the Johnson radius. This is the number of repetitions FRI
 needs at the same distance~\cite[\S8.2]{BCIKS20}, and each repetition reads $188$ field
 elements against $32$ for FRI (\cref{sec:numbers}). After the commitment the prover performs

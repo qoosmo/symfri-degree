@@ -4,17 +4,41 @@ This section fixes the notation, the codes, and the two maps from which the test
 
 \subsection{Notation}\label{sec:notation}
 
-We write $[n]:=\{1,\dots,n\}$ and $\N:=\{0,1,2,\dots\}$, and $\F$ is a finite field; $\E$ is an
-extension field of $\F$ when one occurs. Relative to a level $i$, a tuple of exponents is
-written $\alpha=(\alpha_{i+1},\dots,\alpha_m)$ and $x^\alpha:=\prod_{l>i}x_l^{\alpha_l}$; for
-a weight $w\in\N^m$ we write $\langle w,\alpha\rangle=\sum_lw_l\alpha_l$. Polynomials are
-indexed by their coefficients $f_\alpha$, so that $f=\sum_\alpha f_\alpha x^\alpha$. The
-algebra $R$ below is either $\F$ or the ring $\F[T]$ in the formal variable $T$ that the
-folds introduce.
+Every symbol of the paper is defined in this section or at its first use; \cref{app:notation}
+lists them all.
+
+\begin{itemize}
+\item \emph{Numbers.} $\N:=\{0,1,2,\dots\}$, $\Z$ is the ring of integers, $[n]:=\{1,\dots,n\}$
+for $n\in\N$, and $\frac1a\Z:=\{z/a:\ z\in\Z\}$ for an integer $a\ge1$. We set
+$\max\emptyset:=-\infty$.
+\item \emph{Fields.} $\F$ is a finite field and $\F^*:=\F\setminus\{0\}$ its multiplicative
+group; $\E$ denotes a finite extension field of $\F$ when one occurs.
+\item \emph{Multi-indices.} For $0\le i\le m$, a multi-index at level $i$ is a tuple
+$\alpha=(\alpha_{i+1},\dots,\alpha_m)\in\N^{m-i}$, and
+$x^\alpha:=x_{i+1}^{\alpha_{i+1}}\cdots x_m^{\alpha_m}$; at level $0$,
+$\alpha=(\alpha_1,\dots,\alpha_m)$. For a \emph{weight vector} $w=(w_1,\dots,w_m)\in\N^m$,
+$\langle w,\alpha\rangle:=\sum_{l=i+1}^mw_l\alpha_l$. The vector $e_l\in\N^m$ has $1$ in
+coordinate $l$ and $0$ elsewhere, and $\mathbf 1:=(1,\dots,1)\in\N^m$.
+\item \emph{Coefficients.} Let $R$ be a commutative $\F$-algebra. Every
+$q\in R[x_{i+1},\dots,x_m]$ has a unique expansion $q=\sum_\alpha q_\alpha x^\alpha$ with
+$q_\alpha\in R$, finitely many of them nonzero; $q_\alpha$ is the \emph{coefficient} of
+$x^\alpha$, and $\deg_{x_l}q:=\max\{\alpha_l:\ q_\alpha\ne0\}$.
+\item \emph{Univariate formats.} For $e\in\N$ and $t\ge1$,
+$\F[T]_{\le e}:=\{g\in\F[T]:\deg g\le e\}$ and $\F[T]_{<t}:=\{g\in\F[T]:\deg g<t\}$, with
+$\deg0:=-\infty$.
+\item \emph{Words.} A word on a finite set $L$ with values in a set $A$ is a map $u:L\to A$;
+for a polynomial $P$, $P|_L$ is the word $x\mapsto P(x)$.
+\item \emph{Weight functions.} A weight function on $L$ is a map $\mu:L\to[0,1]$; it is not
+to be confused with a weight vector $w$. For $A\subseteq L$,
+$\mu(A):=\frac1{|L|}\sum_{x\in A}\mu(x)$. The weight function $\mu$ has \emph{common
+denominator} $M\in\N\setminus\{0\}$ if $\mu(x)\in\frac1M\Z$ for every $x\in L$.
+\end{itemize}
 
 \begin{definition}[Polynomials]\label{def:poly}
-$R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$).
-$R[x_i,\dots,x_m]_{<k}$ is the set of polynomials with $\deg_{x_l}<k$ for all $l$.
+$R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$, the ring of
+polynomials in the formal variable $T$ that the folds introduce). For $1\le i\le m+1$,
+$R[x_i,\dots,x_m]_{<k}:=\{q\in R[x_i,\dots,x_m]:\ \deg_{x_l}q<k\text{ for }i\le l\le m\}$; for
+$i=m+1$ this is $R$.
 \end{definition}
 
 \subsection{Smooth domains}\label{sec:domains}
@@ -27,11 +51,11 @@ $L_i$ has exactly $k$ preimages in $L_{i-1}$.
 $\F$ is a finite field; $k\ge 2$, $m\ge 1$ and $N$ are integers with $k^m\mid N$ and
 $N\mid |\F|-1$. $L_0\subset\F^*$ is a coset of the subgroup of order $N$, and
 $L_i:=\{x^k: x\in L_{i-1}\}$ for $1\le i\le m$, so $|L_i|=N/k^i$. The \emph{fibre} of
-$y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\mu_k$ for any
-$x_0\in\fib(y)$, where $\mu_k$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
+$y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\Omega_k$ for any
+$x_0\in\fib(y)$, where $\Omega_k:=\{\zeta\in\F:\ \zeta^k=1\}$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
 \end{definition}
 
-Every fibre is a coset of $\mu_k$, because $x^k=y$ and $x_0^k=y$ give $(x/x_0)^k=1$. The
+Every fibre is a coset of $\Omega_k$, because $x^k=y$ and $x_0^k=y$ give $(x/x_0)^k=1$. The
 condition $k\mid N\mid|\F|-1$ also makes $k$ invertible in $\F$. Both facts are used in
 \cref{lem:fold-sub}(a), where the components of Definition~\ref{def:fold} recover the
 coefficients of a polynomial.
@@ -104,10 +128,17 @@ degree is at most $D$. Both degree notions are needed: the weighted one bounds t
 the graded one bounds what an intermediate round may send.
 
 \begin{definition}[Weighted and graded degree]\label{def:wdeg}
-Let $w\in\N^m$. For $f\in\F[x_1,\dots,x_m]$,
-$\deg_w f:=\max\{\langle w,\alpha\rangle: f_\alpha\ne0\}$.
-For $q\in\F[T][x_{i+1},\dots,x_m]$, $\gdeg_w q:=\max\{a+\sum_{l>i}w_l\alpha_l\}$
-over the monomials $T^a x^\alpha$ of $q$.
+Let $w\in\N^m$. The \emph{weighted degree} of $f=\sum_\alpha f_\alpha x^\alpha\in\F[x_1,\dots,x_m]$ is
+\[
+\deg_w f:=\max\{\langle w,\alpha\rangle:\ f_\alpha\ne0\}.
+\]
+Let $0\le i\le m$. Every $q\in\F[T][x_{i+1},\dots,x_m]$ is uniquely
+$q=\sum_{a\in\N}\sum_\alpha q_{a,\alpha}T^ax^\alpha$ with $q_{a,\alpha}\in\F$, and its
+\emph{graded degree} is
+\[
+\gdeg_w q:=\max\{a+\langle w,\alpha\rangle:\ q_{a,\alpha}\ne0\}.
+\]
+Both equal $-\infty$ on the zero polynomial.
 \end{definition}
 
 \begin{definition}[Graded codes]\label{def:graded}
@@ -118,8 +149,8 @@ The \emph{graded codes} are
 and the \emph{degree code} $C_{w,D}$ is the set of $T$-free elements of $\Gc_0^{w,D}$.
 \end{definition}
 
-With $w=(1,\dots,1)$ the weighted degree is the total degree, and with $w=e_l$ it is the
-degree in $x_l$ alone. Every word of $\Gc_0^{w,D}$ is the image of a polynomial with
+With $w=\mathbf 1$ the weighted degree is the total degree, and with $w=e_l$ it is the
+degree $\deg_{x_l}f$. Every word of $\Gc_0^{w,D}$ is the image of a polynomial with
 $\deg_{x_l}<k$ for all $l$, so $C_{w,D}\subseteq\RS[\F,L_0,k^m]$ whatever $w$ and $D$ are.
 
 \subsection{Interactive oracle proofs of proximity}\label{sec:iop}
