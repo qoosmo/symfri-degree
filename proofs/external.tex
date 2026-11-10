@@ -1,0 +1,45 @@
+\section{Imported results}
+
+All results below are from Ben-Sasson, Carmon, Ishai, Kopparty, Saraf,
+\emph{Proximity Gaps for Reed--Solomon Codes}, ePrint 2020/654 (version of 3 July 2021),
+cited as [BCIKS20]. They state $\RS[\F_q,D,k]$ with \emph{dimension} $k+1$; in our
+notation this is $\RS[\F,L,d]$ with $d=k+1$, $L=D$, $n=|L|$, and the rate
+$\rho=d/|L|$ is the same.
+
+\begin{imported}[{[BCIKS20, Theorem 7.2]}: weighted correlated agreement over curves]\label{ext:bciks72}
+Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let
+$\mu:L\to[0,1]$ take values with common denominator $M$. Let $\kappa\ge3$ and
+$\alpha\ge\alpha_0(\rho,\kappa):=\sqrt\rho\,(1+\tfrac1{2\kappa})$. Let
+\[
+S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,\,V\Big)\ge\alpha\Big\}
+\]
+and suppose
+\[
+|S|>\max\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}}\,n^2\,l,\ \
+\frac{2\kappa+1}{\sqrt\rho}\,(Mn+1)\,l\Big).\tag{$\star$}
+\]
+Then there are $v_0,\dots,v_l\in V$ with
+$\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$.
+\end{imported}
+
+\begin{remark}[Two facts from the proof of \cref{ext:bciks72}]\label{ext:proof-facts}
+\leavevmode
+\begin{enumerate}
+\item[(F1)] \emph{The witnesses are arbitrary.} The proof starts from an arbitrary choice,
+for each $z\in S$, of a codeword $P_z\in V$ with
+$\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$ ([BCIKS20, p.~33, opening of \S7.1]; the
+unweighted proofs make the same choice, pp.~15 and 19). The codewords $v_j$ produced
+satisfy
+\[
+\textstyle\sum_{j}z^jv_j=P_z\qquad\text{for all }z\in S',
+\]
+for a subset $S'\subseteq S$ with $|S'|\ge(Mn+1)l$ (Proposition 5.5, eq.~(5.10), and
+the paragraph on p.~34), for \emph{those same} $P_z$.
+\item[(F2)] \emph{Only $|S|$ matters.} The proofs of Theorems 5.1, 6.2, 7.2,
+Proposition 5.5 and Lemma A.1 use $S$ only through its cardinality and through
+membership $z\in S$. The size of the field enters only (i) through the bound
+$|S|\le|\F|$, used on p.~22 to find a point $x_0\in\F$ outside fewer than
+$(\kappa+\frac12)^2n$ bad values, and (ii) through the separability hypothesis (char
+$\F>D_Y$, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole field.
+\end{enumerate}
+\end{remark}

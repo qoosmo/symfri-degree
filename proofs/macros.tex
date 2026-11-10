@@ -2,7 +2,9 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \renewcommand{\thelemma}{L\arabic{lemma}}
-\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{corollary}{Corollary}[lemma]
+\newtheorem{imported}{Theorem}
+\renewcommand{\theimported}{E\arabic{imported}}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \renewcommand{\thedefinition}{D\arabic{definition}}
@@ -19,3 +21,4 @@
 \newcommand{\Vc}{\mathcal{V}}
 \newcommand{\uses}[1]{\par\smallskip\noindent\textit{Uses:} #1.}
 \newcommand{\usedby}[1]{\quad\textit{Used by:} #1.\par}
+\AtBeginDocument{\crefname{imported}{Theorem}{Theorems}\crefname{lemma}{Lemma}{Lemmas}\crefname{corollary}{Corollary}{Corollaries}}

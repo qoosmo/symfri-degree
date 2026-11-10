@@ -1,0 +1,34 @@
+\section{Challenges from a subfield}
+
+\setcounter{lemma}{5}\begin{lemma}[Correlated agreement with subfield parameters]\label{lem:subfield}
+Let $\E\supseteq\F$ be a finite extension, $L\subseteq\F$, $V=\RS[\E,L,d]$,
+$\rho=d/|L|$, and let $u_0,\dots,u_l:L\to\E$, $\mu$, $M$, $\kappa$, $\alpha$ be as in
+\cref{ext:bciks72}. Let
+\[
+S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,\,V\Big)\ge\alpha\Big\}
+\qquad(\text{parameters in the subfield }\F)
+\]
+satisfy $(\star)$, and fix any $P_z\in V$ ($z\in S$) with
+$\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$. Then there are $v_0,\dots,v_l\in V$ and
+$S'\subseteq S$ with $|S'|>l$ such that
+\begin{enumerate}
+\item $\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$, and
+\item $\sum_jz^jv_j=P_z$ for every $z\in S'$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Apply \cref{ext:bciks72} with field $\E$ (the code's field) and with the set
+$S\subseteq\F\subseteq\E$ of good parameters. By (F2) of \cref{ext:proof-facts} its proof
+uses only $|S|$ and membership in $S$; the two places where the field enters hold over
+$\E$: $|S|\le|\F|\le|\E|$, and the characteristic of $\E$ is that of $\F$. This gives (1).
+By (F1), the $v_j$ satisfy (2) for the chosen $P_z$ on a set $S'$ with
+$|S'|\ge(Mn+1)l>l$.
+\end{proof}
+\uses{\cref{ext:bciks72,ext:proof-facts}}\usedby{\cref{cor:subcode}, L8}
+
+\begin{remark}
+The error is $|S|/|\F|$: it is measured in the field the challenges are drawn from, not in
+$\E$. This matches [BCIKS20, Remark~1.2] read in the opposite direction (code over the
+larger field, challenges from the smaller one).
+\end{remark}
