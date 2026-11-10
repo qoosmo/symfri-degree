@@ -10,7 +10,6 @@ stated for an arbitrary hypothesis $\mathrm H(\alpha_*,\Theta)$ of \cref{hyp:ca}
 \cref{cor:johnson,cor:ud} give the resulting errors.
 
 \begin{theorem}[Soundness, reduction form]\label{thm:main}
-% CHECK: alpha_* > rho added, as in L13, since the round lemma is used at each level.
 Assume $\mathrm H(\alpha_*,\Theta)$ with $\alpha_*>\rho$, let $\alpha\ge\alpha_*$, and suppose
 $\agree(u_0,C_{w,D})\le\alpha$. Then for every prover the test $\Pi_{w,D}$ accepts with
 probability at most
@@ -103,7 +102,6 @@ challenges for which the folded word becomes close, and it is the only place whe
 of \cref{sec:params} enters the estimate.
 
 \begin{lemma}[Round lemma]\label{lem:round}
-% CHECK: L13 of the brief omits the condition alpha_* > rho; item 5 of the proof needs beta_i^+ > rho and beta_i >= alpha_*. Added to the statement.
 Assume $\mathrm H(\alpha_*,\Theta)$ and $\alpha_*>\rho$. Let $1\le i\le m$, let $u:L_{i-1}\to\F[T]_{\le d_{i-1}}$,
 and let $\mu^{(i-1)}$ be a weight on $L_{i-1}$ with values in $\frac1{k^{i-1}}\Z$; let $\nu^{(i)}$
 be its fibre average (\cref{def:weights}). Put
@@ -196,8 +194,9 @@ probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
 % = C3
 
 \begin{proof}
-Use \cref{prop:H2} with $\alpha_*=\alpha$ in \cref{thm:main}, and
-$\sum_{i=1}^m|L_i|=\sum_{i=1}^mN/k^i<N$.
+Use \cref{prop:H2} with $\alpha_*=\alpha$ in \cref{thm:main}: each of the $m$ terms
+$\Theta_U(|L_i|,k^i,k-1)$ equals $(k-1)(N+1)(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho})$, since
+$k^i|L_i|=N$.
 \end{proof}
 
 \subsection{Parameters}\label{sec:numbers}
