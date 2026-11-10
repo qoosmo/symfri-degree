@@ -59,3 +59,15 @@ $x/x'\in\mu_k$.
 contradicting $\agree_{\mu^{(i-1)}}(u,\Vc_{i-1}^{w,D})\le\alpha_i$.
 \end{proof}
 \uses{\cref{def:fold,def:weights,lem:ext,cor:subcode,lem:unfold}}\usedby{\cref{thm:main}}
+
+\begin{remark}[Unique-decoding version]\label{rem:round-ud}
+Put $\alpha^{\mathrm U}_0:=\frac{1+\rho}2$ and
+$\eta_{\mathrm U}:=\min\big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\big)$. If
+$\alpha_0$ is replaced by $\alpha^{\mathrm U}_0$ in the definition of $\alpha_i$, then
+\[
+|S|\le(k-1)\,(N+1)\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big).
+\]
+Same proof, using \cref{rem:subfield71}: here $\alpha'>\alpha^{\mathrm U}_0$, so
+$\eta\ge\eta_{\mathrm U}$, and $(\star\star)$ reads $|S|>(k-1)|L_i|$ and
+$|S|\ge(k-1)(N+1)(\frac1\eta+\frac3{\sqrt\rho})$; the second condition implies the first.
+\end{remark}

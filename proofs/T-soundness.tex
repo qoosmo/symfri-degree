@@ -41,3 +41,24 @@ at most $\alpha^s$.
 Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies
 $\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=d<k$ certifies $\deg_{x_l}f\le d$.
 \end{remark}
+
+\begin{remark}[Characteristic]\label{rem:char}
+\Cref{thm:main} inherits from \cref{ext:bciks72} the separability convention of
+[BCIKS20, \S5.2.3] (characteristic larger than their $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$); the
+general case, with inseparable factors, is treated in [BCIKS20, Appendix~C] and needs no
+extra hypothesis.
+\end{remark}
+
+{\renewcommand{\thecorollary}{1.1}\begin{corollary}[Soundness in the unique-decoding regime]\label{cor:ud}
+Let $\alpha>\frac{1+\rho}2$ and suppose $\agree(u_0,C_{w,D})\le\alpha$. Then $\Pi_{w,D}$
+accepts with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
+\[
+\varepsilon_{\mathrm U}:=\frac{m(k-1)(N+1)}{|\F|}\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big),
+\qquad \eta_{\mathrm U}=\min\Big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\Big).
+\]
+\end{corollary}
+
+\begin{proof}
+The proof of \cref{thm:main} with $\alpha^{\mathrm U}_0$ in place of $\alpha_0$ and
+\cref{rem:round-ud} in place of \cref{lem:round} in Step~2.
+\end{proof}}

@@ -1,0 +1,23 @@
+\section{Completeness}
+
+\begin{proposition}[Completeness and the terminal polynomial]\label{prop:complete}
+Let $f\in\F[x_1,\dots,x_m]_{<k}$ with $\deg_wf\le D$, and let the prover be honest.
+\begin{enumerate}
+\item[(a)] Every format condition and every query check of $\Pi_{w,D}$ holds for every
+choice of challenges; the verifier accepts with probability $1$.
+\item[(b)] The final message is $g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m})$.
+\item[(c)] $\deg g\le\deg_wf$, and $\Pr_r\big[\deg g<\deg_wf\big]\le\frac{m(k-1)}{|\F|}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) $u_0=U_f|_{L_0}\in C_{w,D}$. By \cref{lem:stab}(c), each honest $u_i$ takes values of
+$T$-degree $\le d_i$, so the formats hold, and each check holds because
+$u_i=\Fold_{c_i}(u_{i-1})$ by definition.
+(b) is \cref{cor:terminal}.
+(c) The coefficient of $T^{\deg_wf}$ in $g$ is $f^{\mathrm{top}}(r)$, where
+$f^{\mathrm{top}}:=\sum_{\langle w,\alpha\rangle=\deg_wf}f_\alpha x^\alpha\ne0$. It has
+total degree $\le m(k-1)$, so it vanishes with probability $\le m(k-1)/|\F|$ by
+Schwartz--Zippel, and no larger power of $T$ occurs.
+\end{proof}
+\uses{\cref{def:protocol,lem:stab,cor:terminal}}\usedby{the paper}

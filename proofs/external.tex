@@ -52,3 +52,25 @@ With the weights of \cref{def:weights}, the probability that one query of
 each fibre downwards; sampling a uniform $x_0\in L_0$ and setting $x_i:=x_{i-1}^k$ gives
 the same distribution of query paths. Their proof (induction on $i$, p.~43) applies
 verbatim.
+
+\begin{imported}[{[BCIKS20, Theorem 7.1]}: weighted correlated agreement over curves, version I]\label{ext:bciks71}
+Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$, $u_0,\dots,u_l:L\to\F$, and $\mu:L\to[0,1]$
+with common denominator $M$. Let $\alpha\in(\sqrt\rho,1)$ and
+$\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$. With $S$ as in \cref{ext:bciks72},
+suppose
+\[
+|S|>l\,\varepsilon\,|\F|\quad\text{and}\quad|S|\ge l\,(Mn+1)\Big(\frac1\eta+\frac3{\sqrt\rho}\Big),\tag{$\star\star$}
+\]
+where $\varepsilon$ is the error of [BCIKS20, Theorem~1.2] at $\delta=1-\alpha$; in the
+unique-decoding range $\alpha>\frac{1+\rho}2$ it is $\varepsilon=n/|\F|$, so the first
+condition reads $|S|>l\,n$. Then there are $v_0,\dots,v_l\in V$ with
+$\mu(\{x:\ u_j(x)=v_j(x)\ \forall j\})\ge\alpha$.
+\end{imported}
+
+\begin{remark}[Facts F1--F2 for \cref{ext:bciks71}]\label{ext:facts71}
+The proof of \cref{ext:bciks71} is the same as that of \cref{ext:bciks72} (\S7.1 of
+[BCIKS20]): it applies Theorems~6.1/6.2 to $S$ and Lemmas~7.5--7.6 to the identity
+$\sum_jz^jv_j=P_z$ on $S'$. In the unique-decoding range, $S'=S$ (p.~34: ``$P_z$ and
+$\sum_jz^jv_j$ are both decodings of $\sum_jz^ju_j$, and the decoding is unique'').
+Hence (F1) and (F2) hold for \cref{ext:bciks71} as well.
+\end{remark}
