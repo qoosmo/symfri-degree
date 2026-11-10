@@ -1,0 +1,18 @@
+\begin{abstract}
+We give a FRI-based test of the total degree, and more generally of any weighted degree, of
+a multivariate polynomial committed through its univariate Kronecker image, the encoding
+used by FRI-based commitments to multilinear and higher-degree polynomials. The test is FRI
+with symbolic folding challenges $r_iT^{w_i}$: the oracles take values in $\F[T]$, and the
+last message is $g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m})$, whose degree is the weighted degree
+of $f$. Existing tests either certify only the individual degrees fixed by the encoding or
+work on evaluations over a product set, with $2^m$ queries per round; ours runs on the
+univariate encoding and reads at most $km(D+1)$ field elements per query for $k$-ary folding
+and degree bound $D$. Soundness holds up to the Johnson radius. The proof adapts the FRI
+analysis of Ben-Sasson, Carmon, Ishai, Kopparty and Saraf through two observations: their
+correlated-agreement theorems remain valid when the code lives over an extension of the
+challenge field, and weighted correlated agreement over curves passes to every linear
+subcode. For $N=2^{20}$, rate $2^{-4}$, eight variables of individual degree below $4$ and
+total degree at most $6$, $65$ query repetitions over a $256$-bit field give soundness error
+below $2^{-129.9}$. A Rust prototype checks completeness and the predicted behaviour on
+cheating provers.
+\end{abstract}

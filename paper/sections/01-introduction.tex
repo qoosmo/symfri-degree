@@ -1,0 +1,141 @@
+\section{Introduction}\label{sec:intro}
+
+A common way to commit to a multivariate polynomial
+$f\in\F[x_1,\dots,x_m]$ whose individual degrees are below $k$ is to commit to one
+univariate polynomial with the same coefficients, its Kronecker image
+\[
+U_f(X)=f\big(X,X^{k},\dots,X^{k^{m-1}}\big),
+\]
+and to run a Reed--Solomon proximity test such as FRI~\cite{BBHR18} on its evaluations. The
+coefficient vector of $f$ is the coefficient vector of $U_f$, the commitment is a
+Reed--Solomon codeword, and the deployed machinery for univariate polynomials applies
+unchanged. Multilinear commitment schemes built on FRI follow this route~\cite{ZCF24}, and so
+do schemes for polynomials of higher individual degree~\cite{PolyFRIM}.
+
+What such a test certifies is a statement about $U_f$: its degree is below $k^m$. Through
+the Kronecker map this means that every individual degree of $f$ is below $k$, and nothing
+more. The total degree of $f$, or a weighted combination of its degrees, does not appear in
+the degree of $U_f$; the polynomials $x_1$ and $x_1^{k-1}\cdots x_m^{k-1}$ both pass. Yet
+total-degree bounds are the classical object of multivariate low-degree
+testing~\cite{RS96}, and proximity tests for them exist only for codes evaluated on product
+sets $L^m$~\cite{ABN23,MZ25}, not for the univariate encoding that FRI-based systems use.
+
+We give such a test. It is FRI with one change: the folding challenges are symbolic. In
+round $i$ the verifier sends $r_i\in\F$ and the fold uses $r_iT^{w_i}$, where $T$ is a formal
+variable and $w$ a fixed weight vector. Since a fold of a Kronecker image substitutes the
+challenge for one variable, the honest last message is
+\[
+g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big),
+\]
+whose degree in $T$ is the weighted degree $\deg_wf$ with high probability. The verifier
+checks $\deg g\le D$.
+
+\subsection{Results}\label{sec:intro-results}
+
+For $w\in\N^m$ and $D\in\N$, the \emph{degree code} $C_{w,D}$ is the set of evaluations on
+$L_0$ of the Kronecker images $U_f$ with $f\in\F[x_1,\dots,x_m]_{<k}$ and $\deg_wf\le D$
+(Definition~\ref{def:graded}). Our main result is an interactive oracle proof of proximity
+for $C_{w,D}$ that reaches the Johnson radius.
+
+\begin{introthm}[informal]\label{thm:intro}
+Let $\F$ be a finite field, $k\ge2$, $m\ge1$, $L_0\subseteq\F^*$ a smooth domain of size
+$N$ with $k^m\mid N$, and $\rho=k^m/N$. For every $w\in\N^m$ and $D\in\N$ there is a
+public-coin IOPP $\Pi_{w,D}$ for $C_{w,D}$ with the following properties.
+\begin{itemize}
+\item \emph{Rounds and messages:} $m$ rounds; the message of round $i$ is a word on a domain
+of size $N/k^i$ whose values are polynomials in $T$ of degree at most
+$d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
+\item \emph{Completeness:} perfect.
+\item \emph{Soundness:} if the committed word has agreement at most $\alpha$ with
+$C_{w,D}$, where $\alpha>\sqrt\rho$, the verifier accepts with probability at most
+$\varepsilon+\alpha^s$, with $\varepsilon=O\big(N^2/|\F|\big)$ for fixed $\rho$ and
+$\alpha-\sqrt\rho$, and $s$ the number of query repetitions.
+\item \emph{Query cost:} each repetition reads $k\sum_{i=1}^m(d_{i-1}+1)\le km(D+1)$ field
+elements.
+\end{itemize}
+\end{introthm}
+
+The formal statement is \cref{thm:main}, with explicit constants, and \cref{cor:ud} gives a
+simpler error in the unique-decoding regime. With $w=(1,\dots,1)$ the test certifies the
+total degree; with $w=e_l$ and $D=d$ it certifies $\deg_{x_l}f\le d$ for any $d<k$, which the
+Kronecker rate alone cannot do (\cref{sec:individual}). Several constraints can be tested in
+one run with several formal variables (\cref{prop:multi}). At $N=2^{20}$, $\rho=2^{-4}$,
+$k=4$, $m=8$, $D=6$ and $|\F|=2^{256}$, $65$ repetitions give soundness error below
+$2^{-129.9}$, the same number of repetitions as FRI at these parameters, and each repetition
+reads $188$ field elements against $32$ for FRI (\cref{sec:numbers}).
+
+\subsection{Correlated agreement for subcodes}\label{sec:intro-ca}
+
+The analysis follows the proof of FRI soundness by Ben-Sasson, Carmon, Ishai, Kopparty and
+Saraf~\cite{BCIKS20}, which rests on correlated agreement over curves: if many points of a
+curve $\sum_jz^ju_j$ are close to a Reed--Solomon code, then the words $u_j$ agree with
+codewords on a common large set. Two features of our setting are not covered by that
+statement. The words take values in $\F[T]$, and the target codes are subcodes of
+Reed--Solomon codes. The first is handled by reading $\F[T]$-valued words as words over an
+extension field $\E$ while the challenges stay in $\F$; this relies on a property of the
+proofs in~\cite{BCIKS20}, that they use the set of good challenges only through its size and
+membership, which we record with page references (\cref{sec:params}). The second is handled
+by a short linear-algebra lemma.
+
+\begin{introthm}[informal; \cref{cor:subcode}]
+Weighted correlated agreement over curves whose parameter lies in $\F$ holds, with the same
+parameters, for every $\F$-linear subcode of a Reed--Solomon code over an extension of $\F$:
+the words $u_j$ agree on a common large set with codewords of the subcode.
+\end{introthm}
+
+The statement is not specific to degrees; it applies, for instance, to the constrained
+Reed--Solomon codes of WHIR~\cite{ACFY25}. It also makes our soundness theorem a reduction:
+any weighted correlated-agreement theorem for Reed--Solomon codes whose proof has the two
+properties of \cref{sec:params} transfers to the degree test at the same radius. Beyond the
+Johnson radius, correlated agreement over curves up to radius $1-\rho-\gamma$ has recently
+been claimed for prime fields~\cite{Jer26}, in an unweighted form. A weighted version would
+extend \cref{thm:main} accordingly.
+
+\begin{conjecture}\label{conj:capacity}
+For every $\gamma>0$ and $l\ge1$ there is $c=c(\gamma,l)$ such that the conclusion of
+\cref{ext:bciks72}, together with properties \textup{(F1)} and \textup{(F2)}, holds for all
+$\alpha\ge\rho+\gamma$ under the hypothesis $|S|>n^{c}$. Consequently $\Pi_{w,D}$ is sound
+for agreement $\alpha\ge\rho+\gamma$, with error $m(k-1)N^{c}/|\F|+\alpha^s$.
+\end{conjecture}
+
+\subsection{Comparison}\label{sec:intro-comparison}
+
+\Cref{tab:comparison} places the test among proximity tests for multivariate degree.
+
+\begin{table}[t]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{3.1cm}p{2.1cm}p{2.6cm}p{2.9cm}p{3.0cm}@{}}
+\hline
+ & oracle & degree certified & radius & reads per repetition\\
+\hline
+FRI on $U_f$ \cite{BBHR18,BCIKS20} & $U_f$ on $L_0$ & individual, $<k$ & Johnson & $km$ field elements\\
+PolyFRIM \cite{PolyFRIM} & coefficient vector & individual, $<k$ & unique decoding & as FRI\\
+tensor-RS IOPP \cite{ABN23} & $f$ on $L^m$ & individual & $1-\sqrt[3]{1-\lambda}$ & $2^m$ points per round\\
+Reed--Muller IOPP \cite{ABN23} & $f$ on $L^m$ & total & $1-\sqrt[3]{1-\lambda}$ & $2^m$ points per round\\
+\textbf{this work} & $U_f$ on $L_0$ & weighted, total, individual & Johnson & $\le km(D+1)$ field elements\\
+\hline
+\end{tabular}
+\caption{Proximity tests for multivariate degree. ``Radius'' is the proximity range covered
+by the stated soundness analysis, up to slack terms; $\lambda$ is the relative minimum
+distance of the code tested in~\cite{ABN23}.}
+\label{tab:comparison}
+\end{table}
+
+\begin{itemize}
+\item \emph{Augot, Bordage and Nardi}~\cite{ABN23} test individual and total degree for
+evaluations on a product set $L^m$, the natural encoding for constructions based on
+Reed--Muller codes; their total-degree folding uses two challenge vectors and balancing
+terms per round, and each round reads $2^m$ points. We test a different code: the same
+degree constraints on the univariate encoding, with $m$ rounds of $k$-ary folding.
+\item \emph{PolyFRIM}~\cite{PolyFRIM} commits to multivariate polynomials through the same
+coefficient vector and proves evaluations; the degree it certifies is the individual degree
+fixed by the encoding. Our test adds total and weighted degree bounds on that commitment.
+\item \emph{FRI} on $U_f$~\cite{BBHR18,BCIKS20} is cheaper by a factor of at most $D+1$ in
+the field elements read per query, and certifies only $\deg_{x_l}f<k$.
+\end{itemize}
+
+\paragraph{Organisation.} \Cref{sec:overview} explains the protocol and the proof.
+\Cref{sec:prelim} fixes notation, \cref{sec:tools} proves the tools, and \cref{sec:test}
+gives the protocol and its analysis. \Cref{sec:variants} treats variants,
+\cref{sec:impl} describes a prototype, and \cref{sec:conclusion} lists open problems.

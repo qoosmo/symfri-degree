@@ -1,0 +1,24 @@
+\section{Conclusion and open problems}\label{sec:conclusion}
+
+Symbolic folding challenges turn FRI on a Kronecker image into a test of the weighted
+degree of the committed multivariate polynomial. The analysis needs no new decoding
+argument: it combines the correlated-agreement theorems of~\cite{BCIKS20}, read with
+challenges from a subfield, with the fact that correlated agreement passes to linear
+subcodes. Three questions remain.
+
+\paragraph{Beyond the Johnson radius.} \Cref{conj:capacity} asks for weighted correlated
+agreement over curves near capacity, with the two properties of \cref{sec:params}. The
+unweighted statement of~\cite{Jer26} covers lines and curves over prime fields; a weighted
+form compatible with the analysis of~\cite[\S8]{BCIKS20} would give the conjecture and,
+through \cref{cor:subcode}, a degree test at the same radius.
+
+\paragraph{Round-by-round soundness.} Our analysis is the global analysis of FRI. Compilers
+from IOPs to non-interactive arguments are tightest for protocols with round-by-round
+soundness, which STIR and WHIR establish for their own folding~\cite{ACFY24,ACFY25}. Whether
+the symbolic fold admits such an analysis, with a state function adapted to the graded codes,
+is open.
+
+\paragraph{Verifier cost.} Each repetition reads up to $D+1$ field elements per point where
+FRI reads one. It is natural to ask whether the degree of $g$ can be certified with
+oracle values in $\F$, for instance by specialising $T$ at a random point after the
+commitment, without losing the soundness of \cref{thm:main}.

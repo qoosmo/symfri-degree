@@ -21,6 +21,9 @@
 \newtheorem{construction}[lemma]{Construction}
 \theoremstyle{remark}
 \newtheorem{remark}[lemma]{Remark}
+\theoremstyle{plain}
+\newtheorem{introthm}{Theorem}
+\newtheorem{conjecture}{Conjecture}
 
 \crefname{lemma}{Lemma}{Lemmas}
 \crefname{theorem}{Theorem}{Theorems}
@@ -30,6 +33,8 @@
 \crefname{definition}{Definition}{Definitions}
 \crefname{construction}{Construction}{Constructions}
 \crefname{remark}{Remark}{Remarks}
+\crefname{introthm}{Theorem}{Theorems}
+\crefname{conjecture}{Conjecture}{Conjectures}
 
 
 \title{Multivariate Degree Testing via Symbolic FRI on Kronecker Encodings}
@@ -38,15 +43,16 @@
 
 \begin{document}
 \maketitle
+\input{sections/00-abstract}
 
-% Section 1 (Introduction) is written last; the counter keeps Section 2 numbered 2.
-\setcounter{section}{1}
+\input{sections/01-introduction}
 \input{sections/02-overview}
 \input{sections/03-preliminaries}
 \input{sections/04-tools}
 \input{sections/05-degree-test}
 \input{sections/06-variants}
 \input{sections/07-implementation}
+\input{sections/08-conclusion}
 
 \printbibliography
 
