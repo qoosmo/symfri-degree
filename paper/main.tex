@@ -5,6 +5,8 @@
 \addbibresource{refs.bib}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[capitalise]{cleveref}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 \input{macros}
 \emergencystretch=2.5em
 
@@ -37,10 +39,9 @@
 \begin{document}
 \maketitle
 
-% Sections 1 and 2 of the paper are written after the proofs and are not
-% drafted here; the section counter is set so that the drafted sections keep
-% their intended numbers 3 to 7.
-\setcounter{section}{2}
+% Section 1 (Introduction) is written last; the counter keeps Section 2 numbered 2.
+\setcounter{section}{1}
+\input{sections/02-overview}
 \input{sections/03-preliminaries}
 \input{sections/04-tools}
 \input{sections/05-degree-test}

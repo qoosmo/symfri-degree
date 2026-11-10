@@ -1,0 +1,120 @@
+\section{Technical overview}\label{sec:overview}
+
+\subsection{From a univariate oracle to a multivariate degree}\label{sec:ov-idea}
+
+The prover commits to $f\in\F[x_1,\dots,x_m]_{<k}$ through the evaluations of its
+Kronecker image $U_f(X)=f(X,X^k,\dots,X^{k^{m-1}})$ on a smooth domain $L_0$. FRI run on
+this word certifies proximity to $\RS[\F,L_0,k^m]$, and by \cref{lem:kron} this says only
+that every individual degree of $f$ is below $k$. The total degree is invisible to it: the
+monomial $x_1^{k-1}\cdots x_m^{k-1}$ and the linear polynomial $x_1$ both have Kronecker
+images of degree below $k^m$.
+
+FRI nevertheless comes close to seeing $f$. A $k$-ary fold with a scalar challenge $r_i$
+replaces the variable $x_i$ by $r_i$ (\cref{lem:fold-sub}): the folded word is the Kronecker
+image of $f(r_1,\dots,r_i,x_{i+1},\dots,x_m)$, and after $m$ rounds the last value is
+$f(r_1,\dots,r_m)$. For multilinear $f$ and $k=2$ this is the observation behind
+BaseFold~\cite{ZCF24}. A single field element, however, carries no information about the
+degree of $f$.
+
+Our protocol keeps the substitution and makes the challenge symbolic. In round $i$ the
+verifier sends $r_i\in\F$, and the fold uses the challenge $r_iT^{w_i}$, where $T$ is a formal
+variable and $w\in\N^m$ is a fixed weight vector:
+\[
+x_i\ \longmapsto\ r_iT^{w_i}\quad(i=1,\dots,m),\qquad
+g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big)=\sum_\alpha f_\alpha\,r^\alpha\,T^{\langle w,\alpha\rangle}.
+\]
+The last message is the polynomial $g$, and its degree is the weighted degree $\deg_wf$
+unless the top part of $f$ vanishes at $r$, which happens with probability at most
+$m(k-1)/|\F|$ (\cref{prop:complete}). The verifier checks $\deg g\le D$. With
+$w=(1,\dots,1)$ this tests the total degree; with $w=e_l$ it tests the degree in $x_l$.
+
+The price is in the messages. The intermediate oracles take values in $\F[T]$, and an honest
+value at level $i$ has degree at most $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$
+(\cref{lem:stab}). For $w=(1,\dots,1)$ a value is a vector of at most $D+1$ field elements,
+and the verifier performs the same fibre computations as in FRI, with coefficients in $\F[T]$
+instead of $\F$. \Cref{fig:chain} shows the polynomial behind each oracle.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[node distance=0.55cm,>=stealth,every node/.style={font=\small}]
+\node (a) {$L_0:\quad f(x_1,x_2,\dots,x_m)$};
+\node (b) [below=of a] {$L_1:\quad f(r_1T^{w_1},x_2,\dots,x_m)$};
+\node (c) [below=of b] {$\vdots$};
+\node (d) [below=of c] {$L_{m-1}:\quad f(r_1T^{w_1},\dots,r_{m-1}T^{w_{m-1}},x_m)$};
+\node (e) [below=of d] {$g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m}),\quad \text{check }\deg g\le D$};
+\draw[->] (a) -- node[right]{\scriptsize$\Fold_{r_1T^{w_1}}$} (b);
+\draw[->] (b) -- (c);
+\draw[->] (c) -- (d);
+\draw[->] (d) -- node[right]{\scriptsize$\Fold_{r_mT^{w_m}}$} (e);
+\end{tikzpicture}
+\caption{The honest oracles. The word on $L_i$ is the Kronecker image of the polynomial shown,
+evaluated on $L_i$; its values are polynomials in $T$ of degree at most $d_i$.}
+\label{fig:chain}
+\end{figure}
+
+\subsection{What has to be proved}\label{sec:ov-target}
+
+Completeness follows from the fact that a fold is a substitution; the one point that needs
+care is the $T$-degree cap, which \cref{lem:stab}(c) provides. Soundness asks for more than
+FRI's. The verifier must reject, with high probability, any committed word that is far from
+the subcode $C_{w,D}\subseteq\RS[\F,L_0,k^m]$ of Kronecker images of polynomials with
+$\deg_wf\le D$. Along the way, the honest words belong to the graded codes
+$\Vc_i^{w,D}$ (Definition~\ref{def:graded}): their values lie in $\F[T]$, and only the words
+coming from a polynomial of graded degree at most $D$ are allowed.
+
+The soundness analysis of FRI by Ben-Sasson, Carmon, Ishai, Kopparty and
+Saraf~\cite[\S8]{BCIKS20} reaches the Johnson radius, and we follow it. It applies to words
+with values in $\F$ and to Reed--Solomon codes, and both assumptions fail here: our words take
+values in $\F[T]$, and our codes are proper subcodes. We remove each obstacle with one
+observation, and neither requires a new decoding argument.
+
+\subsection{Two observations}\label{sec:ov-ideas}
+
+\paragraph{Polynomial values as extension-field values.} Fix $t$ larger than every
+$T$-degree that occurs, and identify $\F[T]_{<t}$ with a degree-$t$ extension $\E$ of $\F$
+through an $\F$-basis. A word with values in $\F[T]_{<t}$ whose coefficients are
+Reed--Solomon codewords becomes a Reed--Solomon codeword over $\E$ on the same domain, and the
+identification preserves agreement and $\F$-linear combinations (\cref{lem:ext}). One round
+of folding is then a curve
+\[
+\Fold_{rT^{w_i}}(u)=\sum_{j<k}r^j\,\big(T^{w_ij}u_j\big)
+\]
+with coefficients over $\E$ and parameter $r\in\F$. The theorems of~\cite{BCIKS20} draw the
+parameter from the field of the code, and their Remark~1.2 allows a larger parameter field,
+not a smaller one. Their proofs, however, use the set of good parameters only through its size
+and through membership in it (\cref{ext:proof-facts}, with page references), so they apply
+as they stand, with the error measured in $|\F|$ (\cref{lem:subfield}). This is the step of
+the paper that rests on a reading of a proof rather than on a stated theorem, and
+\cref{sec:params} records it in detail.
+
+\paragraph{Correlated agreement passes to linear subcodes.} Let $W$ be an $\F$-linear
+subcode. For each good parameter $r$ we choose the nearby codeword $P_r$ inside $W$. The
+proof of~\cite{BCIKS20} produces codewords $v_0,\dots,v_l$ with $\sum_jr^jv_j=P_r$ for more
+than $l$ values of $r$ (\cref{ext:proof-facts}, (F1)). Choosing $l+1$ of them,
+\[
+\begin{pmatrix}P_{r_0}\\ \vdots\\ P_{r_l}\end{pmatrix}
+=\big(r_a^{\,j}\big)_{0\le a,j\le l}
+\begin{pmatrix}v_0\\ \vdots\\ v_l\end{pmatrix},
+\]
+and the Vandermonde matrix is invertible over $\F$, so each $v_j$ is an $\F$-linear
+combination of the $P_r$ and lies in $W$. Weighted correlated agreement over curves is
+therefore inherited by every $\F$-linear subcode, with the same parameters
+(\cref{cor:subcode}).
+
+\paragraph{Assembly.} In the round lemma (\cref{lem:round}) the two observations give
+codewords $v_j$ of the graded code that agree with the curve coefficients $T^{w_ij}u_j$ on a
+set of large weight. Agreement on a large set forces each $v_j$ to be divisible by
+$T^{w_ij}$, and unfolding (\cref{lem:unfold}) turns the quotients into a word of the
+previous graded code that agrees with the previous oracle on all fibres above that set. The
+proof of \cref{thm:main} is then the weight argument of~\cite[Lemma~8.2]{BCIKS20}, run along
+the chain $\Vc_0^{w,D},\dots,\Vc_m^{w,D}$. The last code consists of the constant words with
+value in $\F[T]_{\le D}$, which is exactly what the verifier checks on $g$.
+
+\subsection{Scope}\label{sec:ov-scope}
+
+\Cref{cor:subcode} uses nothing about degrees: it applies to any $\F$-linear subcode, for
+instance to the constrained Reed--Solomon codes of WHIR~\cite{ACFY25}. Our soundness theorem
+is accordingly a reduction. It needs weighted correlated agreement over curves for
+Reed--Solomon codes, with the two properties of the proof recorded in \cref{sec:params};
+any such theorem beyond the Johnson radius would carry over to the degree test without
+change.
