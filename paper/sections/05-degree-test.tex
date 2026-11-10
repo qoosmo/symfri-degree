@@ -147,9 +147,11 @@ $\Vc_{i-1}^{w,D}$. For $y\in A$ and $x\in\fib(y)$,
 \[
 u(x)=\sum_{j<k}x^ju_j(y)=\sum_{j<k}x^jp_j(y)=h(x),
 \]
-where the first equality is the inversion of Definition~\ref{def:fold}:
-$\sum_jx^ju_j(y)=\frac1k\sum_{x'\in\fib(y)}u(x')\sum_{j<k}(x/x')^j=u(x)$, since
-$x/x'\in\mu_k$.
+where the first equality is the inversion of Definition~\ref{def:fold}, namely
+\[
+\sum_{j<k}x^ju_j(y)=\frac1k\sum_{x'\in\fib(y)}u(x')\sum_{j<k}(x/x')^j=u(x),
+\]
+since $x/x'\in\mu_k$.
 
 \emph{Step 5 (contradiction).} Hence
 \[
@@ -198,7 +200,9 @@ $(k-1)(N+1)$.
 $\agree_{\mu^{(i)}}(u_i,v)\le\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),v)$, because
 $\mu^{(i)}\le\nu^{(i)}$ and $\mu^{(i)}$ vanishes where $u_i\ne\Fold_{c_i}(u_{i-1})$. Outside
 $B_i$ this gives
-$\agree_{\mu^{(i)}}(u_i,\Vc_i^{w,D})\le\max\big(\agree_{\mu^{(i-1)}}(u_{i-1},\Vc_{i-1}^{w,D}),\alpha_0\big)$,
+\[
+\agree_{\mu^{(i)}}\big(u_i,\Vc_i^{w,D}\big)\le\max\Big(\agree_{\mu^{(i-1)}}\big(u_{i-1},\Vc_{i-1}^{w,D}\big),\ \alpha_0\Big),
+\]
 and by induction with Step~1, $\agree_{\mu^{(m)}}(u_m,\Vc_m^{w,D})\le\alpha$.
 
 \emph{Step 4 (end).} $\Vc_m^{w,D}$ is the set of constant words with value in
