@@ -60,7 +60,7 @@ care is the $T$-degree cap, which \cref{lem:stab}(c) provides. Soundness asks fo
 FRI's. The verifier must reject, with high probability, any committed word that is far from
 the subcode $C_{w,D}\subseteq\RS[\F,L_0,k^m]$ of Kronecker images of polynomials with
 $\deg_wf\le D$. Along the way, the honest words belong to the graded codes
-$\Vc_i^{w,D}$ (Definition~\ref{def:graded}): their values lie in $\F[T]$, and only the words
+$\Gc_i^{w,D}$ (Definition~\ref{def:graded}): their values lie in $\F[T]$, and only the words
 coming from a polynomial of graded degree at most $D$ are allowed.
 
 The soundness analysis of FRI by Ben-Sasson, Carmon, Ishai, Kopparty and
@@ -84,7 +84,7 @@ with coefficients over $\E$ and parameter $r\in\F$. The theorems of~\cite{BCIKS2
 parameter from the field of the code, and their Remark~1.2 allows a larger parameter field,
 not a smaller one. Their proofs, however, use the set of good parameters only through its size
 and through membership in it (\cref{ext:proof-facts}, with page references), so they apply
-as they stand, with the error measured in $|\F|$ (\cref{lem:subfield}). Of the two facts we use about these proofs, one is a consequence of a stated proposition
+as they stand, with the error measured in $|\F|$ (\cref{prop:H1}). Of the two facts we use about these proofs, one is a consequence of a stated proposition
 of~\cite{BCIKS20}, and the other is a reading of the proofs: it is the step of the paper that
 does not rest on a stated theorem, and \cref{sec:params} records it with the places where it
 can be checked.
@@ -101,7 +101,7 @@ than $l$ values of $r$ (\cref{ext:proof-facts}, (F1)). Choosing $l+1$ of them,
 and the Vandermonde matrix is invertible over $\F$, so each $v_j$ is an $\F$-linear
 combination of the $P_r$ and lies in $W$. Weighted correlated agreement over curves is
 therefore inherited by every $\F$-linear subcode, with the same parameters
-(\cref{cor:subcode}).
+(\cref{cor:share}).
 
 \paragraph{Assembly.} In the round lemma (\cref{lem:round}) the two observations give
 codewords $v_j$ of the graded code that agree with the curve coefficients $T^{w_ij}u_j$ on a
@@ -109,12 +109,12 @@ set of large weight. Agreement on a large set forces each $v_j$ to be divisible 
 $T^{w_ij}$, and unfolding (\cref{lem:unfold}) turns the quotients into a word of the
 previous graded code that agrees with the previous oracle on all fibres above that set. The
 proof of \cref{thm:main} is then the weight argument of~\cite[Lemma~8.2]{BCIKS20}, run along
-the chain $\Vc_0^{w,D},\dots,\Vc_m^{w,D}$. The last code consists of the constant words with
+the chain $\Gc_0^{w,D},\dots,\Gc_m^{w,D}$. The last code consists of the constant words with
 value in $\F[T]_{\le D}$, which is exactly what the verifier checks on $g$.
 
 \subsection{Scope}\label{sec:ov-scope}
 
-\Cref{cor:subcode} uses nothing about degrees: it applies to any $\F$-linear subcode, for
+\Cref{cor:share} uses nothing about degrees: it applies to any $\F$-linear subcode, for
 instance to the constrained Reed--Solomon codes of WHIR~\cite{ACFY25}. Our soundness theorem
 is accordingly a reduction. It needs weighted correlated agreement over curves for
 Reed--Solomon codes, with the two properties of the proof recorded in \cref{sec:params};

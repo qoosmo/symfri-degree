@@ -1,19 +1,20 @@
 \section{Tools}\label{sec:tools}
 
-This section collects what the analysis of \cref{sec:test} uses: the Kronecker map
-and the fact that a fold is a substitution, the graded codes produced by the rounds, the
-identification of an interleaved code with a code over an extension field, and the
-correlated-agreement theorem of \cite{BCIKS20}, with the two facts about its proof that
-allow challenges from a subfield.
+This section collects what the analysis of \cref{sec:test} uses: the Kronecker map and the fact
+that a fold is a substitution, the graded codes produced by the rounds, the identification of an
+interleaved code with a code over an extension field, the agreement invariants of the weights, the
+correlated-agreement theorem of \cite{BCIKS20}, and the one hypothesis under which the analysis is
+carried out.
 
 \subsection{The Kronecker map and the fold}\label{sec:kron}
 
-The words exchanged in the protocol are evaluations of Kronecker images of polynomials
-whose individual degrees are below $k$. \Cref{lem:kron} records that the image determines
-the polynomial and \cref{lem:inj} that its evaluation on $L_i$ does as well.
+The words exchanged in the protocol are evaluations of Kronecker images of polynomials whose
+individual degrees are below $k$. \Cref{lem:kron} records that the image determines the
+polynomial, \cref{lem:inj} that its evaluation on $L_i$ does as well, and \cref{lem:fold-sub}
+that folding the image is substituting into the polynomial.
 
 \begin{lemma}[Kronecker map]\label{lem:kron}
-The map $g\mapsto U^{(i)}_g$ is an $R$-linear bijection
+The map $q\mapsto U^{(i)}_q$ is an $R$-linear bijection
 \[
 R[x_{i+1},\dots,x_m]_{<k}\longrightarrow R[Y]_{<k^{m-i}},
 \]
@@ -22,193 +23,264 @@ sending $x^\alpha$ to $Y^{n(\alpha)}$ with $n(\alpha):=\sum_{l>i}\alpha_l\,k^{\,
 % = L1
 
 \begin{proof}
-Substitution is $R$-linear and sends $x^\alpha$ to $Y^{n(\alpha)}$. Since
-$0\le\alpha_l<k$, the integers $\alpha_{i+1},\dots,\alpha_m$ are the base-$k$ digits of
-$n(\alpha)$, so $\alpha\mapsto n(\alpha)$ is a bijection
-$\{0,\dots,k-1\}^{m-i}\to\{0,\dots,k^{m-i}-1\}$. A basis is sent to a basis.
+Substitution is $R$-linear and sends $x^\alpha$ to $Y^{n(\alpha)}$. Since $0\le\alpha_l<k$, the
+integers $\alpha_{i+1},\dots,\alpha_m$ are the base-$k$ digits of $n(\alpha)$, so
+$\alpha\mapsto n(\alpha)$ is a bijection onto $\{0,\dots,k^{m-i}-1\}$. A basis is sent to a basis.
 \end{proof}
 
 \begin{lemma}[Evaluation is injective]\label{lem:inj}
-Let $R=\F[T]$ and $0\le i\le m$. The map
-$g\mapsto U^{(i)}_g\big|_{L_i}$ on $R[x_{i+1},\dots,x_m]_{<k}$ is injective.
+Let $R=\F[T]$ and $0\le i\le m$. The map $q\mapsto U^{(i)}_q\big|_{L_i}$ on
+$R[x_{i+1},\dots,x_m]_{<k}$ is injective.
 \end{lemma}
-% = L1'
+% = L2
 
 \begin{proof}
-Write $U^{(i)}_g=\sum_a T^a P_a(Y)$ with $P_a\in\F[Y]_{<k^{m-i}}$ (\cref{lem:kron}).
-If $U^{(i)}_g$ vanishes on $L_i$, then each $P_a$ vanishes on $L_i$. Since
-$|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, each $P_a=0$, so $U^{(i)}_g=0$ and $g=0$ by
-\cref{lem:kron}.
+Write $U^{(i)}_q=\sum_aT^aP_a(Y)$ with $P_a\in\F[Y]_{<k^{m-i}}$ (\cref{lem:kron}). If
+$U^{(i)}_q$ vanishes on $L_i$, then each $P_a$ vanishes on $L_i$. Since
+$|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, each $P_a=0$, so $U^{(i)}_q=0$ and $q=0$ by \cref{lem:kron}.
 \end{proof}
 
-The next lemma explains the protocol. Folding the Kronecker image of $g$ with a
-challenge $c$ gives the Kronecker image of $g$ with its first remaining variable replaced
-by $c$. Round $i$ therefore eliminates $x_i$, and after $m$ rounds only the constant
-$f(c_1,\dots,c_m)$ is left.
+The next lemma explains the protocol. Folding the Kronecker image of $q$ with a challenge $c$
+gives the Kronecker image of $q$ with its first remaining variable replaced by $c$. Round $i$
+therefore eliminates $x_i$, and after $m$ rounds only the constant $f(c_1,\dots,c_m)$ is left.
+Item~(c) records the converse, which the analysis of a cheating prover needs.
 
 \begin{lemma}[Fold equals substitution]\label{lem:fold-sub}
 \leavevmode
 \begin{enumerate}
 \item[(a)] \emph{Components of a polynomial.} If $P(Y)=\sum_{j<k}Y^jP_j(Y^k)$ with
 $P_j\in R[Y]_{<k^{m-i}}$, then the components of $u:=P|_{L_{i-1}}$ are $u_j=P_j|_{L_i}$.
-\item[(b)] \emph{Fold.} If $g\in R[x_i,\dots,x_m]_{<k}$ and $u:=U^{(i-1)}_g|_{L_{i-1}}$,
-then for every $c\in R$
+\item[(b)] \emph{Fold.} If $q\in R[x_i,\dots,x_m]_{<k}$ and $u:=U^{(i-1)}_q|_{L_{i-1}}$, then for
+every $c\in R$
 \[
-\Fold_c(u)=U^{(i)}_{g(c,\,x_{i+1},\dots,x_m)}\Big|_{L_i}.
+\Fold_c(u)=U^{(i)}_{q(c,\,x_{i+1},\dots,x_m)}\Big|_{L_i}.
 \]
-\end{enumerate}
-\end{lemma}
-% = L2
-
-\begin{proof}
-(a) Fix $y\in L_i$ and $x_0\in\fib(y)$. Then
-\[
-\sum_{x\in\fib(y)}x^{-j}P(x)=\sum_{j'<k}P_{j'}(y)\,x_0^{\,j'-j}\sum_{\zeta\in\mu_k}\zeta^{\,j'-j}=k\,P_j(y),
-\]
-since the inner sum is $k$ if $j'=j$ and $0$ otherwise ($|j'-j|<k$). Divide by $k$,
-which is invertible because $k\mid N\mid|\F|-1$.
-
-(b) Write $g=\sum_{j<k}x_i^j g_j(x_{i+1},\dots,x_m)$. By Definition~\ref{def:kron},
-$U^{(i-1)}_g(Y)=\sum_j Y^j\,U^{(i)}_{g_j}(Y^k)$, so by (a) $u_j=U^{(i)}_{g_j}|_{L_i}$.
-Hence $\Fold_c(u)=\sum_j c^j\,U^{(i)}_{g_j}|_{L_i}=U^{(i)}_{\sum_j c^jg_j}|_{L_i}$ by
-\cref{lem:kron}, and $\sum_j c^jg_j=g(c,x_{i+1},\dots,x_m)$.
-\end{proof}
-
-\begin{corollary}[Honest terminal]\label{cor:terminal}
-Let $R=\F[T]$, $f\in\F[x_1,\dots,x_m]_{<k}$, $w\in\N^m$, $r\in\F^m$ and
-$c_i:=r_iT^{w_i}$. Then
-$\Fold_{c_m}\circ\cdots\circ\Fold_{c_1}\big(U_f|_{L_0}\big)$ is the constant
-\[
-g(T):=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big).
-\]
-\end{corollary}
-% = Cor. L2.1
-
-\begin{proof}
-Induction on $i$ with \cref{lem:fold-sub}(b); at $i=m$, $U^{(m)}$ is the identity.
-\end{proof}
-
-\subsection{Graded codes}\label{sec:graded}
-
-The $i$-th message of the protocol carries two bounds on its Kronecker preimage: the
-individual degrees stay below $k$, and the weighted degree in the remaining variables
-stays below $D$. The set of words satisfying both is
-\[
-\Vc_i^{w,D}:=\big\{\,U^{(i)}_g\big|_{L_i}\ :\ g\in\F[T][x_{i+1},\dots,x_m]_{<k},\ \gdeg_w g\le D\,\big\},
-\]
-and $C_{w,D}$ is the set of $T$-free elements of $\Vc_0^{w,D}$. \Cref{lem:stab} says a
-fold sends a graded code into the next one, and \cref{lem:unfold} reconstructs a word of
-the previous one from $k$ words of the next that carry the right powers of $T$.
-
-\begin{lemma}[Stability]\label{lem:stab}
-Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $r\in\F$ and $c:=rT^{w_i}$.
-\begin{enumerate}
-\item[(a)] If $g\in\F[T][x_i,\dots,x_m]_{<k}$ and $\gdeg_w g\le D$, then
-$g(c,x_{i+1},\dots,x_m)\in\F[T][x_{i+1},\dots,x_m]_{<k}$ and its graded degree is $\le D$.
-\item[(b)] $\Fold_c\big(\Vc_{i-1}^{w,D}\big)\subseteq\Vc_i^{w,D}$.
-\item[(c)] For $c_l:=r_lT^{w_l}$ ($1\le l\le i$),
-$\Fold_{c_i}\circ\cdots\circ\Fold_{c_1}\big(C_{w,D}\big)$ consists of words of $\Vc_i^{w,D}$ whose
-values have $T$-degree at most
-\[
-d_i:=\min\Big(D,\ (k-1)\sum_{l\le i}w_l\Big).
-\]
+\item[(c)] \emph{Inversion.} For every $u:L_{i-1}\to R$ and $x\in L_{i-1}$,
+$u(x)=\sum_{j<k}x^j\,u_j(x^k)$.
 \end{enumerate}
 \end{lemma}
 % = L3
 
 \begin{proof}
-(a) The substitution maps the monomial $T^a x_i^{\,j}x^\beta$ (with $\beta$ on
-$x_{i+1},\dots,x_m$) to $r^j\,T^{a+w_ij}x^\beta$. The exponents of $x_{i+1},\dots,x_m$ are
-unchanged, hence $<k$, and the graded degree $a+w_ij+\sum_{l>i}w_l\beta_l$ is unchanged,
-hence $\le D$. A sum of such terms has graded degree $\le D$.
+(a) Fix $y\in L_i$ and $x_0\in\fib(y)$; then
+$\sum_{x\in\fib(y)}x^{-j}P(x)=\sum_{j'<k}P_{j'}(y)\,x_0^{\,j'-j}\sum_{\zeta\in\mu_k}\zeta^{\,j'-j}=k\,P_j(y)$,
+the inner sum being $k$ for $j'=j$ and $0$ otherwise, and $k$ is invertible since
+$k\mid N\mid|\F|-1$.
 
-(b) Combine (a) with \cref{lem:fold-sub}(b).
+(b) Write $q=\sum_{j<k}x_i^jq_j$; by \cref{def:kron} $U^{(i-1)}_q(Y)=\sum_jY^jU^{(i)}_{q_j}(Y^k)$,
+so $u_j=U^{(i)}_{q_j}|_{L_i}$ by (a) and
+$\Fold_c(u)=\sum_jc^jU^{(i)}_{q_j}|_{L_i}=U^{(i)}_{\sum_jc^jq_j}|_{L_i}$.
 
-(c) Start from a $T$-free $f$ with $\deg_w f\le D$. By \cref{lem:fold-sub}(b) applied
-$i$ times, the result is $U^{(i)}_{g}$ with $g:=f(c_1,\dots,c_i,x_{i+1},\dots,x_m)$, which lies
-in $\Vc_i^{w,D}$ by (a). A monomial $x^\alpha$ of $f$ contributes the $T$-exponent
-$\sum_{l\le i}w_l\alpha_l\le(k-1)\sum_{l\le i}w_l$, and this exponent is at most the graded
-degree, hence $\le D$.
+(c) Put $y:=x^k$; then
+$\sum_{j<k}x^ju_j(y)=\frac1k\sum_{x'\in\fib(y)}u(x')\sum_{j<k}(x/x')^j=u(x)$, since
+$x/x'\in\mu_k$ and the inner sum is $k$ for $x'=x$ and $0$ otherwise.
 \end{proof}
 
-\begin{lemma}[Unfolding]\label{lem:unfold}
-Let $1\le i\le m$, $w\in\N^m$, $D\in\N$. Let $v_0,\dots,v_{k-1}\in\Vc_i^{w,D}$ and
-$p_0,\dots,p_{k-1}:L_i\to\F[T]$ satisfy
+\begin{corollary}[Honest terminal]\label{cor:terminal}
+Let $R=\F[T]$, $f\in\F[x_1,\dots,x_m]_{<k}$, $w\in\N^m$, $r\in\F^m$ and $c_i:=r_iT^{w_i}$. Then
+$\Fold_{c_m}\circ\cdots\circ\Fold_{c_1}\big(U_f|_{L_0}\big)$ is the constant
+$g(T):=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big)$.
+\end{corollary}
+% = Cor. L3.1
+
+\begin{proof}
+Induction on $i$ with \cref{lem:fold-sub}(b); at $i=m$, $U^{(m)}$ is the identity.
+\end{proof}
+
+For $k=2$ the two roots in $\fib(y)$ are $x$ and $-x$, so \cref{def:fold} reads
 \[
-v_j(y)=T^{w_ij}\,p_j(y)\qquad\text{for all }y\in L_i,\ 0\le j<k .
+\Fold_c(u)(y)=\frac{u(x)+u(-x)}{2}+c\,\frac{u(x)-u(-x)}{2x},
 \]
-Define $h:L_{i-1}\to\F[T]$ by $h(x):=\sum_{j<k}x^j\,p_j(x^k)$. Then
-$h\in\Vc_{i-1}^{w,D}$, and the components of $h$ (Definition~\ref{def:fold}) are $h_j=p_j$.
+the value being independent of which of the two points is called $x$; this is the fold of FRI
+\cite{BBHR18}.
+
+\subsection{Graded codes}\label{sec:graded}
+
+The $i$-th message of the protocol carries two bounds on its Kronecker preimage: the individual
+degrees stay below $k$, and the weighted degree in the remaining variables stays below $D$. The
+set of words satisfying both is
+\[
+\Gc_i^{w,D}:=\big\{\,U^{(i)}_q\big|_{L_i}\ :\ q\in\F[T][x_{i+1},\dots,x_m]_{<k},\ \gdeg_w q\le D\,\big\},
+\]
+and $C_{w,D}$ is the set of $T$-free elements of $\Gc_0^{w,D}$. \Cref{lem:stab} says a fold sends
+a graded code into the next one, \cref{lem:div} says a word of a graded code that is divisible by
+a power of $T$ on enough points is divisible by it everywhere, and \cref{lem:unfold} reconstructs
+a word of the previous graded code from $k$ words of the next.
+
+\begin{lemma}[Stability]\label{lem:stab}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $r\in\F$ and $c:=rT^{w_i}$.
+\begin{enumerate}
+\item[(a)] If $q\in\F[T][x_i,\dots,x_m]_{<k}$ and $\gdeg_w q\le D$, then
+$q(c,x_{i+1},\dots,x_m)\in\F[T][x_{i+1},\dots,x_m]_{<k}$ and its graded degree is $\le D$.
+\item[(b)] $\Fold_c\big(\Gc_{i-1}^{w,D}\big)\subseteq\Gc_i^{w,D}$.
+\item[(c)] For $c_l:=r_lT^{w_l}$ ($1\le l\le i$), $\Fold_{c_i}\circ\cdots\circ\Fold_{c_1}\big(C_{w,D}\big)$
+consists of words of $\Gc_i^{w,D}$ whose values have $T$-degree at most
+$d_i:=\min\big(D,\ (k-1)\sum_{l\le i}w_l\big)$.
+\end{enumerate}
 \end{lemma}
 % = L4
 
 \begin{proof}
-Write $v_j=U^{(i)}_{g_j}|_{L_i}$ with $\gdeg_w g_j\le D$, and expand
-$g_j=\sum_a T^a g_{j,a}(x_{i+1},\dots,x_m)$.
+(a) The substitution maps the monomial $T^ax_i^{\,j}x^\beta$ to $r^jT^{a+w_ij}x^\beta$. The
+exponents of $x_{i+1},\dots,x_m$ are unchanged, hence $<k$, and the graded degree
+$a+w_ij+\sum_{l>i}w_l\beta_l$ is unchanged, hence $\le D$.
 
-\emph{Step 1: $T^{w_ij}$ divides $g_j$.} For $a<w_ij$, the $T^a$-coefficient of $v_j$ is
-$U^{(i)}_{g_{j,a}}|_{L_i}$, and it vanishes because every value of $v_j$ is divisible by
-$T^{w_ij}$. By \cref{lem:inj}, $g_{j,a}=0$. Hence $g_j=T^{w_ij}g'_j$ with
-$\gdeg_w g'_j\le D-w_ij$.
+(b) Combine (a) with \cref{lem:fold-sub}(b).
 
-\emph{Step 2: $p_j$ is a codeword.} Since $\F[T]$ is a domain, cancelling $T^{w_ij}$
-pointwise gives $p_j=U^{(i)}_{g'_j}|_{L_i}$.
-
-\emph{Step 3: reassemble.} Put $G:=\sum_{j<k}x_i^{\,j}g'_j\in\F[T][x_i,\dots,x_m]_{<k}$. A
-monomial $x_i^{\,j}T^ax^\beta$ of $G$ has graded degree $w_ij+a+\sum_{l>i}w_l\beta_l\le
-w_ij+(D-w_ij)=D$. By Definition~\ref{def:kron},
-$U^{(i-1)}_G(Y)=\sum_jY^jU^{(i)}_{g'_j}(Y^k)$, so $h=U^{(i-1)}_G|_{L_{i-1}}\in\Vc_{i-1}^{w,D}$,
-and $h_j=p_j$ by \cref{lem:fold-sub}(a).
+(c) By \cref{lem:fold-sub}(b) applied $i$ times the result is $U^{(i)}_q$ with
+$q=f(c_1,\dots,c_i,x_{i+1},\dots,x_m)$, which lies in $\Gc_i^{w,D}$ by (a). A monomial $x^\alpha$
+of $f$ contributes the $T$-exponent $\sum_{l\le i}w_l\alpha_l\le(k-1)\sum_{l\le i}w_l$, and this
+exponent is at most the graded degree, hence $\le D$.
 \end{proof}
 
-Unfolding is the converse of stability. Stability pushes a word of $\Vc_{i-1}^{w,D}$
-forward by substitution; \cref{lem:unfold} rebuilds a word of $\Vc_{i-1}^{w,D}$ from $k$
-words of $\Vc_i^{w,D}$, and the hypothesis that $v_j$ is divisible by $T^{w_ij}$ is
-exactly what a fold produces.
-
-\subsection{Interleaved codes as extension-field codes}\label{sec:interleaved}
-
-The round lemma is proved for a word whose $k$ components are the coordinates of an
-interleaved code. \Cref{lem:ext} identifies that code with a Reed--Solomon code over an
-extension field, in a way that preserves the agreement quantities we measure.
-
-\begin{lemma}[Interleaved code $=$ extension-field code]\label{lem:ext}
-Let $\E\supseteq\F$ be an extension of degree $t$, $e_0,\dots,e_{t-1}$ an $\F$-basis of
-$\E$, and $\varphi:\F^t\to\E$, $a\mapsto\sum_s a_se_s$, applied pointwise to words on
-$L\subseteq\F$. Then:
-\begin{enumerate}
-\item $\varphi$ is an $\F$-linear bijection $\RS[\F,L,d]^t\to\RS[\E,L,d]$;
-\item $\varphi$ preserves agreement sets $\{x:u(x)=v(x)\}$, hence $\Delta$ and
-$\agree_\mu$, for any two words;
-\item $\varphi\big(\sum_j z_ju_j\big)=\sum_j z_j\,\varphi(u_j)$ for $z_0,\dots,z_l\in\F$.
-\end{enumerate}
+\begin{lemma}[Divisibility]\label{lem:div}
+Let $1\le i\le m$, $e\in\N$, $v\in\Gc_i^{w,D}$ and $A\subseteq L_i$ with $|A|\ge k^{m-i}$. If
+$T^e$ divides $v(y)$ for every $y\in A$, then $v=T^ep$ on $L_i$ for some $p\in\Gc_i^{w,D-e}$;
+for $e>D$, $v=0$.
 \end{lemma}
 % = L5
 
 \begin{proof}
-(1) $P\in\E[X]_{<d}$ decomposes uniquely as $P=\sum_s e_sP_s$ with
-$P_s\in\F[X]_{<d}$ (expand each coefficient in the basis), and for $x\in L\subseteq\F$,
-$P(x)=\sum_s e_sP_s(x)=\varphi\big((P_s(x))_s\big)$.
+Write $v=U^{(i)}_q|_{L_i}$ with $\gdeg_w q\le D$ and $q=\sum_aT^aq_a$. For $a<e$, the
+$T^a$-coefficient of $v$ is $U^{(i)}_{q_a}|_{L_i}$, a codeword of $\RS[\F,L_i,k^{m-i}]$ that
+vanishes on $A$; since $|A|\ge k^{m-i}>\deg U^{(i)}_{q_a}$, it is $0$, so $q_a=0$ by
+\cref{lem:inj}. Hence $q=T^eQ$ with $\gdeg_w Q\le D-e$, and $v=T^ep$ for
+$p:=U^{(i)}_Q|_{L_i}\in\Gc_i^{w,D-e}$. If $e>D$ then $q=0$.
+\end{proof}
+
+\begin{lemma}[Unfolding]\label{lem:unfold}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$. Let $v_0,\dots,v_{k-1}\in\Gc_i^{w,D}$ and
+$p_0,\dots,p_{k-1}:L_i\to\F[T]$ satisfy $v_j(y)=T^{w_ij}p_j(y)$ for all $y\in L_i$ and
+$0\le j<k$. Define $h:L_{i-1}\to\F[T]$ by $h(x):=\sum_{j<k}x^jp_j(x^k)$. Then
+$h\in\Gc_{i-1}^{w,D}$, and the components of $h$ (\cref{def:fold}) are $h_j=p_j$.
+\end{lemma}
+% = L6
+
+\begin{proof}
+Write $v_j=T^{w_ij}p_j$ on $L_i$; by \cref{lem:div} with $A=L_i$, \cref{lem:inj} gives
+$v_j=U^{(i)}_{q'_j}|_{L_i}$ with $p_j=U^{(i)}_{q'_j}|_{L_i}$ and $\gdeg_w q'_j\le D-w_ij$. Put
+$Q:=\sum_{j<k}x_i^{\,j}q'_j$. A monomial $x_i^{\,j}T^ax^\beta$ of $Q$ has graded degree
+$w_ij+a+\sum_{l>i}w_l\beta_l\le w_ij+(D-w_ij)=D$, so $Q$ has graded degree $\le D$, and by
+\cref{def:kron} $h=U^{(i-1)}_Q|_{L_{i-1}}\in\Gc_{i-1}^{w,D}$. Its components are $p_j$ by
+\cref{lem:fold-sub}(a).
+\end{proof}
+
+Unfolding is the converse of stability: stability pushes a word of $\Gc_{i-1}^{w,D}$ forward by
+substitution, and \cref{lem:unfold} rebuilds a word of $\Gc_{i-1}^{w,D}$ from $k$ words of
+$\Gc_i^{w,D}$, the hypothesis that $v_j$ is divisible by $T^{w_ij}$ being exactly what a fold
+produces.
+
+\subsection{Interleaved codes as extension-field codes}\label{sec:interleaved}
+
+The round lemma is proved for a word whose $k$ components are the coordinates of an interleaved
+code. \Cref{lem:ext} identifies that code with a Reed--Solomon code over an extension field, in a
+way that preserves the agreement quantities we measure.
+
+\begin{lemma}[Interleaved code $=$ extension-field code]\label{lem:ext}
+Let $\E\supseteq\F$ be an extension of degree $t$, $e_0,\dots,e_{t-1}$ an $\F$-basis of $\E$, and
+$\varphi:\F^t\to\E$, $a\mapsto\sum_sa_se_s$, applied pointwise to words on $L\subseteq\F$. Then:
+\begin{enumerate}
+\item $\varphi$ is an $\F$-linear bijection $\RS[\F,L,d]^t\to\RS[\E,L,d]$;
+\item $\varphi$ preserves agreement sets $\{x:u(x)=v(x)\}$, hence $\Delta$ and $\agree_\mu$, for
+any two words;
+\item $\varphi\big(\sum_jz_ju_j\big)=\sum_jz_j\,\varphi(u_j)$ for $z_0,\dots,z_l\in\F$.
+\end{enumerate}
+\end{lemma}
+% = L7
+
+\begin{proof}
+(1) $P\in\E[X]_{<d}$ decomposes uniquely as $P=\sum_se_sP_s$ with $P_s\in\F[X]_{<d}$, and for
+$x\in L\subseteq\F$, $P(x)=\sum_se_sP_s(x)=\varphi\big((P_s(x))_s\big)$.
 (2) $\varphi$ is injective, so $u(x)=v(x)\iff\varphi(u(x))=\varphi(v(x))$.
 (3) $\varphi$ is $\F$-linear.
 \end{proof}
 
-Item (3) is the only place in the proofs where the curve parameter has to lie in $\F$
-rather than in $\E$; \cref{lem:subfield} uses it.
+Item~(3) is the only place in the proofs where the curve parameter has to lie in $\F$ rather than
+in $\E$; \cref{cor:share} uses it.
+
+\subsection{Agreement invariants}\label{sec:invariants}
+
+The analysis tracks agreement with the weights of \cref{def:weights}. Four elementary facts are
+needed: agreements take values on a lattice (\cref{lem:gran}), agreement lifts from a set of fibre
+points to the fibres themselves (\cref{lem:lift}), the two notions of agreement coincide at the
+start (\cref{lem:start}), and one round cannot increase agreement (\cref{lem:no-increase}).
+
+\begin{lemma}[Granularity]\label{lem:gran}
+Let $\mu:L_i\to\frac1{k^i}\Z\cap[0,1]$. Then $\agree_\mu(u,v)\in\frac1N\Z$ for all words $u,v$ on
+$L_i$. Hence, for $\beta\in\mathbb R$ and $\beta^+:=\min\{x\in\frac1N\Z:\ x>\beta\}$, one has
+$\agree_\mu(u,C)>\beta$ if and only if $\agree_\mu(u,C)\ge\beta^+$, for every set $C$ of words on
+$L_i$.
+\end{lemma}
+% = L9
+
+\begin{proof}
+Each $\mu(x)$ equals $m_x/k^i$ with $m_x\in\Z$, so
+\[
+\agree_\mu(u,v)=\frac1{|L_i|}\sum_{x:\,u(x)=v(x)}\frac{m_x}{k^i}=\frac1N\sum_{x:\,u(x)=v(x)}m_x,
+\]
+using $k^i|L_i|=N$. The value lies in $\frac1N\Z$, and the equivalence is the definition of
+$\beta^+$ on that lattice.
+\end{proof}
+
+\begin{lemma}[Lifting]\label{lem:lift}
+Let $\mu^{(i-1)}$ be a weight on $L_{i-1}$ and $\nu^{(i)}$ its fibre average
+(\cref{def:weights}). If $u,h:L_{i-1}\to R$ agree on $\fib(y)$ for every $y\in A\subseteq L_i$,
+then
+\[
+\agree_{\mu^{(i-1)}}(u,h)\ \ge\ \nu^{(i)}(A):=\frac1{|L_i|}\sum_{y\in A}\nu^{(i)}(y).
+\]
+\end{lemma}
+% = L10
+
+\begin{proof}
+The set of $x\in L_{i-1}$ on which $u$ and $h$ agree contains the union of the fibres $\fib(y)$,
+$y\in A$, and these are disjoint. Hence
+$\agree_{\mu^{(i-1)}}(u,h)\ge\frac1{|L_{i-1}|}\sum_{y\in A}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)$, and
+$\frac1{|L_{i-1}|}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)=\frac1{|L_i|}\nu^{(i)}(y)$ by
+\cref{def:weights} and $|L_{i-1}|=k|L_i|$.
+\end{proof}
+
+\begin{lemma}[Start]\label{lem:start}
+For every $u_0:L_0\to\F$, $\agree\big(u_0,\Gc_0^{w,D}\big)=\agree\big(u_0,C_{w,D}\big)$.
+\end{lemma}
+% = L11
+
+\begin{proof}
+Both sides are maxima over words and $C_{w,D}\subseteq\Gc_0^{w,D}$, so it suffices that every
+$v\in\Gc_0^{w,D}$ has an element of $C_{w,D}$ agreeing with it wherever $u_0$ does. Let
+$v=U^{(0)}_q|_{L_0}$ and let $q_0$ be the $T^0$-coefficient of $q$; then
+$U^{(0)}_{q_0}|_{L_0}\in C_{w,D}$ and $U^{(0)}_q=U^{(0)}_{q_0}$ wherever the value is $T$-free, in
+particular wherever it equals $u_0(x)\in\F$.
+\end{proof}
+
+\begin{lemma}[No increase]\label{lem:no-increase}
+Let $1\le i\le m$ and let $\mu^{(i)},\nu^{(i)}$ be the weights of \cref{def:weights} for a
+transcript. For every set $C$ of words on $L_i$,
+\[
+\agree_{\mu^{(i)}}\big(u_i,C\big)\ \le\ \agree_{\nu^{(i)}}\big(\Fold_{c_i}(u_{i-1}),C\big).
+\]
+\end{lemma}
+% = L12
+
+\begin{proof}
+By \cref{def:weights}, $\mu^{(i)}(y)=\nu^{(i)}(y)$ where $u_i(y)=\Fold_{c_i}(u_{i-1})(y)$ and
+$\mu^{(i)}(y)=0$ elsewhere. Hence for every word $w$ on $L_i$ the set $\{y:u_i(y)=w\}$ meets
+$\{y:\mu^{(i)}(y)>0\}$ inside $\{y:\Fold_{c_i}(u_{i-1})(y)=w\}$, where $\mu^{(i)}=\nu^{(i)}$; so
+$\agree_{\mu^{(i)}}(u_i,w)\le\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),w)$. Taking the maximum over
+$w\in C$ gives the claim.
+\end{proof}
 
 \subsection{Correlated agreement, imported}\label{sec:imported}
 
-{\sloppy
-We import the correlated-agreement theorem of Ben-Sasson, Carmon, Ishai, Kopparty and
-Saraf \cite{BCIKS20} in the two forms the analysis uses; a third imported statement,
-about the query phase, is in \cref{sec:weights}. That paper states its codes
-as $\RS[\F_q,D,k]$ with dimension $k+1$; in our notation this is $\RS[\F,L,d]$ with
-$d=k+1$, $L=D$, $n=|L|$ and the same rate $\rho=d/|L|$. We translate once, here, and
-use our notation throughout.\par}
+We import the correlated-agreement theorem of Ben-Sasson, Carmon, Ishai, Kopparty and Saraf
+\cite{BCIKS20} in the two forms the analysis uses; a third imported statement, about the query
+phase, is in \cref{sec:weights}. That paper states its codes as $\RS[\F_q,D,k]$ with dimension
+$k+1$; in our notation this is $\RS[\F,L,d]$ with $d=k+1$, $L=D$, $n=|L|$ and the same rate
+$\rho=d/|L|$. We translate once, here, and use our notation throughout.
 
 \begin{importedthm}[{\cite[Theorem 7.2]{BCIKS20}: weighted correlated agreement over curves}]\label{ext:bciks72}
-Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let
-$\mu:L\to[0,1]$ take values with common denominator $M$. Let $\kappa\ge3$ and
+Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let $\mu:L\to[0,1]$
+take values with common denominator $M$. Let $\kappa\ge3$ and
 $\alpha\ge\alpha_0(\rho,\kappa):=\sqrt\rho\,(1+\tfrac1{2\kappa})$. Let
 \[
 S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,\,V\Big)\ge\alpha\Big\}
@@ -224,137 +296,149 @@ $\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$.
 % = E1
 
 \begin{importedthm}[{\cite[Theorem 7.1]{BCIKS20}: weighted correlated agreement over curves, version I}]\label{ext:bciks71}
-Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$, $u_0,\dots,u_l:L\to\F$, and $\mu:L\to[0,1]$
-with common denominator $M$. Let $\alpha\in(\sqrt\rho,1)$ and
-$\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$. With $S$ as in Theorem~\ref{ext:bciks72},
-suppose
+Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$, $u_0,\dots,u_l:L\to\F$, and $\mu:L\to[0,1]$ with
+common denominator $M$. Let $\alpha\in(\sqrt\rho,1)$ and $\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$.
+With $S$ as in \cref{ext:bciks72}, suppose
 \[
 |S|>l\,\varepsilon\,|\F|\quad\text{and}\quad|S|\ge l\,(Mn+1)\Big(\frac1\eta+\frac3{\sqrt\rho}\Big),\tag{$\star\star$}
 \]
-where $\varepsilon$ is the error of \cite[Theorem 1.2]{BCIKS20} at $\delta=1-\alpha$; in the
-unique-decoding range $\alpha>\frac{1+\rho}2$ it is $\varepsilon=n/|\F|$, so the first
-condition reads $|S|>l\,n$. Then there are $v_0,\dots,v_l\in V$ with
+where $\varepsilon$ is the error of [\cite{BCIKS20}, Theorem 1.2] at $\delta=1-\alpha$; in the
+unique-decoding range $\alpha>\frac{1+\rho}2$ it is $\varepsilon=n/|\F|$, so the first condition
+reads $|S|>l\,n$. Then there are $v_0,\dots,v_l\in V$ with
 $\mu(\{x:\ u_j(x)=v_j(x)\ \forall j\})\ge\alpha$.
 \end{importedthm}
 % = E3
 
-\subsection{The parameter set}\label{sec:params}
+\subsection{The hypothesis}\label{sec:params}
 
-The two theorems above are stated for challenges drawn from the field of the code. The
-proofs use the set of good parameters more weakly than that, and we record the two
-properties before relying on them.
+The proofs of \cref{ext:bciks72,ext:bciks71} use the set of good parameters more weakly than the
+statements suggest, and in a way that lets the code live over an extension of the field the
+challenges are drawn from. We record the two facts, then state as a hypothesis the consequence the
+analysis needs; \cref{prop:H1,prop:H2} discharge the hypothesis in the two regimes.
 
-\begin{remark}[Two facts about the proofs of Theorems~\ref{ext:bciks72} and~\ref{ext:bciks71}]\label{ext:proof-facts}
-The correlated-agreement theorems of \cite{BCIKS20} use the set $S$ of good parameters
-only through its cardinality and through membership $z\in S$, and the codewords they
-produce satisfy the curve identity for the witnesses chosen when $S$ is formed.
+\begin{remark}[Two facts about the proofs of \cref{ext:bciks72,ext:bciks71}]\label{ext:proof-facts}
+The correlated-agreement theorems of \cite{BCIKS20} use the set $S$ of good parameters only
+through its cardinality and through membership $z\in S$, and the codewords they produce satisfy
+the curve identity for the witnesses chosen when $S$ is formed.
 \begin{enumerate}
-\item[(F1)] \emph{The witnesses are arbitrary.} The proof starts from an arbitrary choice,
-for each $z\in S$, of a codeword $P_z\in V$ with
-$\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$ (\cite{BCIKS20}, p.~33, opening of \S7.1; the
-unweighted proofs make the same choice, pp.~15 and 19). The codewords $v_j$ produced
-satisfy
+\item[(F1)] \emph{The witnesses are arbitrary.} The proof starts from an arbitrary choice, for
+each $z\in S$, of a codeword $P_z\in V$ with $\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$
+(\cite{BCIKS20}, p.~33, opening of \S7.1; the unweighted proofs make the same choice, pp.~15 and
+19). The codewords $v_j$ produced satisfy
 \[
 \textstyle\sum_{j}z^jv_j=P_z\qquad\text{for all }z\in S',
 \]
-for a subset $S'\subseteq S$ with $|S'|\ge(Mn+1)l$ (Proposition 5.5, eq.~(5.10), and
-the paragraph on p.~34), for \emph{those same} $P_z$. In the unique-decoding range
-$S'=S$, because $P_z$ and $\sum_jz^jv_j$ are both decodings of $\sum_jz^ju_j$ and the
-decoding is unique (p.~34).
-\item[(F2)] \emph{Only $|S|$ and membership are used.} The proofs of Theorems 5.1, 6.2
-and 7.2 of~\cite{BCIKS20}, of their Proposition 5.5 and of their Lemma A.1 use $S$ only through its cardinality and
-through membership $z\in S$. The size of the field enters only (i) through the bound
-$|S|\le|\F|$, used on p.~22 to find a point $x_0\in\F$ outside fewer than
-$(\kappa+\frac12)^2n$ bad values, and (ii) through the separability hypothesis (characteristic
-larger than $D_Y$, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole
-field.
+for a subset $S'\subseteq S$ with $|S'|\ge(Mn+1)l$ (Proposition 5.5, eq.~(5.10), and the
+paragraph on p.~34), for \emph{those same} $P_z$. In the unique-decoding range $S'=S$, because
+$P_z$ and $\sum_jz^jv_j$ are both decodings of $\sum_jz^ju_j$ and the decoding is unique (p.~34).
+\item[(F2)] \emph{Only $|S|$ and membership are used.} The proofs of Theorems 5.1, 6.2 and 7.2, of
+Proposition 5.5 and of Lemma A.1 use $S$ only through its cardinality and through membership
+$z\in S$. The size of the field enters only (i) through the bound $|S|\le|\F|$, used on p.~22 to
+find a point $x_0\in\F$ outside fewer than $(\kappa+\frac12)^2n$ bad values, and (ii) through the
+separability hypothesis (characteristic larger than $D_Y$, or Appendix~C) of \S5.2.3. No step
+requires $S$ to range over the whole field.
 \end{enumerate}
-The two facts have different status. (F1) is a consequence of a stated result,
-\cite[Proposition 5.5, eq.~(5.10)]{BCIKS20}, together with the paragraph of p.~34 that
-transfers it to the weighted setting. (F2) is a statement about which quantities the proofs
-use, and it is stated nowhere in~\cite{BCIKS20}. It can be checked at two places: the choice
-of $x_0$ on p.~22, which is the only step that compares $|S|$ with the size of the field,
-and the separability hypothesis of \S5.2.3, which depends on the characteristic only.
 \end{remark}
 
-The consequence we need is that the code may live over an extension of the field the
-challenges are drawn from.
-
-\begin{lemma}[Correlated agreement with subfield parameters]\label{lem:subfield}
-Let $\E\supseteq\F$ be a finite extension, $L\subseteq\F$, $V=\RS[\E,L,d]$,
-$\rho=d/|L|$, and let $u_0,\dots,u_l:L\to\E$, $\mu$, $M$, $\kappa$, $\alpha$ be as in
-Theorem~\ref{ext:bciks72}. Let
+\begin{definition}[The hypothesis $\mathrm H(\alpha_*,\Theta)$]\label{hyp:ca}
+Let $\alpha_*\in(0,1]$ and $\Theta:\N^3\to\N$. The assertion $\mathrm H(\alpha_*,\Theta)$ is the
+following. For every finite field $\E\supseteq\F$, every $L\subseteq\F$ with $|L|=n$, every
+$V=\RS[\E,L,d]$ of rate $\rho=d/n$, all words $u_0,\dots,u_l:L\to\E$, every weight $\mu$ whose
+values have denominator $M$, every $\alpha\ge\alpha_*$, and every choice of witnesses $P_z\in V$
+with $\agree_\mu\big(\sum_{j\le l}z^ju_j,P_z\big)\ge\alpha$ for the elements $z$ of a set
+$S\subseteq\F$: if $|S|>\Theta(n,M,l)$, then there are $v_0,\dots,v_l\in V$ with
 \[
-S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l} z^ju_j,\,V\Big)\ge\alpha\Big\}
-\qquad(\text{parameters in the subfield }\F)
+\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha
+\quad\text{and}\quad
+\textstyle\sum_{j\le l}z^jv_j=P_z\ \text{ for more than }l\text{ values }z\in S .
 \]
-satisfy $(\star)$, and fix any $P_z\in V$ ($z\in S$) with
-$\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$. Then there are $v_0,\dots,v_l\in V$ and
-$S'\subseteq S$ with $|S'|>l$ such that
-\begin{enumerate}
-\item $\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$, and
-\item $\sum_jz^jv_j=P_z$ for every $z\in S'$.
-\end{enumerate}
-\end{lemma}
-% = L6
+\end{definition}
+% = (H)
+
+\begin{proposition}[The hypothesis at the Johnson radius]\label{prop:H1}
+Let $\kappa\ge3$ and $\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$. Then
+$\mathrm H(\alpha_0,\Theta_J)$ holds for
+\[
+\Theta_J(n,M,l):=l\,\max\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}}\,n^2,\ \
+\frac{2\kappa+1}{\sqrt\rho}\,(Mn+1)\Big).
+\]
+\end{proposition}
+% = P-H1
 
 \begin{proof}
-Apply Theorem~\ref{ext:bciks72} with field $\E$ (the code's field) and with the set
-$S\subseteq\F\subseteq\E$ of good parameters. By (F2) above its proof
-uses only $|S|$ and membership in $S$; the two places where the field enters hold over
-$\E$: $|S|\le|\F|\le|\E|$, and the characteristic of $\E$ is that of $\F$. This gives (1).
-By (F1), the $v_j$ satisfy (2) for the chosen $P_z$ on a set $S'$ with
-$|S'|\ge(Mn+1)l>l$.
+Let $\E,L,d,V,u_j,\mu,M,\alpha\ge\alpha_0,S,P_z$ be as in \cref{hyp:ca}, with
+$|S|>\Theta_J(n,M,l)$. By (F2) of \cref{ext:proof-facts} the proof of \cref{ext:bciks72} uses $S$
+only through $|S|$ and membership in it, and both places where the field enters hold over $\E$,
+since $|S|\le|\F|\le|\E|$ and $\E$ has the characteristic of $\F$; so its conclusion holds for the
+field $\E$ and the set $S$, giving $v_0,\dots,v_l\in V$ with the stated agreement. By (F1) these
+$v_j$ satisfy $\sum_jz^jv_j=P_z$ for the given witnesses on more than $l$ values of $z$.
 \end{proof}
 
-The error is $|S|/|\F|$: it is measured in the field the challenges are drawn from, not
-in $\E$. This is \cite[Remark~1.2]{BCIKS20} read in the opposite direction, with the code
-over the larger field and the challenges from the smaller one.
+\begin{proposition}[The hypothesis in the unique-decoding regime]\label{prop:H2}
+Put $\eta_{\mathrm U}:=\min\big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\big)$. For every
+$\alpha_*>\frac{1+\rho}2$, $\mathrm H(\alpha_*,\Theta_U)$ holds for
+\[
+\Theta_U(n,M,l):=l\,(Mn+1)\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big).
+\]
+\end{proposition}
+% = P-H2
 
-\begin{remark}[Version with Theorem~\ref{ext:bciks71}]\label{rem:subfield71}
-\Cref{lem:subfield} and Corollary~\ref{cor:subcode} hold verbatim with Theorem~\ref{ext:bciks71} in place of
-Theorem~\ref{ext:bciks72}, hypothesis $(\star\star)$ in place of $(\star)$ and any
-$\alpha\in(\sqrt\rho,1)$, by the same proof.
-\end{remark}
+\begin{proof}
+Let $\alpha\ge\alpha_*>\frac{1+\rho}2$ and $|S|>\Theta_U(n,M,l)$, and put
+$\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$. Since
+$\alpha-\sqrt\rho>\frac{1+\rho}2-\sqrt\rho=\frac{(1-\sqrt\rho)^2}2$ we have $\eta\ge\eta_{\mathrm U}$,
+so $|S|>l(Mn+1)(\frac1\eta+\frac3{\sqrt\rho})$; also $\alpha>\frac{1+\rho}2$ gives
+$\varepsilon=n/|\F|$ in $(\star\star)$, and $(Mn+1)(\frac1\eta+\frac3{\sqrt\rho})>n$. So
+\cref{ext:bciks71} applies, with the same transposition to $\E$ as in \cref{prop:H1}, and (F1)
+supplies the curve identity for the chosen witnesses on more than $l$ values of $z$.
+\end{proof}
+
+The error is measured in the field the challenges are drawn from, not in $\E$: this is
+\cite[Remark~1.2]{BCIKS20} read in the opposite direction, with the code over the larger field and
+the challenges from the smaller one.
 
 \subsection{The subcode lemma}\label{sec:subcode}
 
-The last tool converts an identity that holds for every parameter in a large set into the
-statement that each of the $k$ coefficient words itself lies in a subspace. This is what
-lets the round lemma run against $C_{w,D}$, which is not a Reed--Solomon code.
+The last tool converts an identity that holds for every parameter in a large set into the statement
+that each coefficient word lies in a subspace. Together with the hypothesis it gives correlated
+agreement for subcodes.
 
 \begin{lemma}[Subcode lemma]\label{lem:subcode}
-Let $\E\supseteq\F$, let $V$ be an $\E$-linear code and $W\subseteq V$ an
-$\F$-linear subspace. Let $v_0,\dots,v_l\in V$ and $S'\subseteq\F$ with $|S'|>l$. If
+Let $\E\supseteq\F$, let $V$ be an $\E$-linear code and $W\subseteq V$ an $\F$-linear subspace.
+Let $v_0,\dots,v_l\in V$ and $S'\subseteq\F$ with $|S'|>l$. If
 \[
 \textstyle\sum_{j\le l}z^jv_j\in W\qquad\text{for every }z\in S',
 \]
 then $v_j\in W$ for every $j$.
 \end{lemma}
-% = L7
+% = L8
 
 \begin{proof}
-Pick distinct $z_0,\dots,z_l\in S'$ and put $P_a:=\sum_jz_a^jv_j\in W$. The Vandermonde
-matrix $A:=(z_a^{\,j})_{a,j}\in\F^{(l+1)\times(l+1)}$ is invertible, so
-$v_j=\sum_a(A^{-1})_{j,a}P_a$ with coefficients $(A^{-1})_{j,a}\in\F$. Since $W$ is
-$\F$-linear, $v_j\in W$.
+Pick distinct $z_0,\dots,z_l\in S'$ and put $P_a:=\sum_jz_a^jv_j\in W$. The Vandermonde matrix
+$A:=(z_a^{\,j})_{a,j}\in\F^{(l+1)\times(l+1)}$ is invertible, so $v_j=\sum_a(A^{-1})_{j,a}P_a$
+with coefficients $(A^{-1})_{j,a}\in\F$. Since $W$ is $\F$-linear, $v_j\in W$.
 \end{proof}
 
-\begin{corollary}[Correlated agreement for linear subcodes]\label{cor:subcode}
-In the setting of \cref{lem:subfield}, let $W\subseteq V$ be an $\F$-linear subspace, and
-assume that for every $z\in S$ some $P_z\in W$ satisfies
-$\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$. Then there are $v_0,\dots,v_l\in W$ with
-$\mu\big(\{x:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$.
+\begin{corollary}[Correlated agreement for subcodes]\label{cor:share}
+Assume $\mathrm H(\alpha_*,\Theta)$. Let $\E\supseteq\F$, $L\subseteq\F$ with $|L|=n$,
+$V=\RS[\E,L,d]$ of rate $\rho=d/n$, $u_0,\dots,u_l:L\to\E$, and let $\mu$ have denominator $M$.
+Let $W\subseteq V$ be an $\F$-linear subspace, let $\alpha\ge\alpha_*$, and let
+\[
+S:=\Big\{z\in\F:\ \exists P_z\in W\ \text{with}\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,P_z\Big)\ge\alpha\Big\}
+\]
+satisfy $|S|>\Theta(n,M,l)$. Then there are $v_0,\dots,v_l\in W$ with
+$\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$.
 \end{corollary}
-% = Cor. L7.1
+% = C1
 
 \begin{proof}
-Apply \cref{lem:subfield} with these $P_z\in W$: it gives $v_j\in V$ with (1), and
-$\sum_jz^jv_j=P_z\in W$ for all $z\in S'$, $|S'|>l$. Then $v_j\in W$ by \cref{lem:subcode}.
+Fix $P_z\in W$ for $z\in S$ as in the definition of $S$, and apply \cref{hyp:ca}: it gives
+$v_0,\dots,v_l\in V$ with the stated agreement and $\sum_jz^jv_j=P_z$ for more than $l$ values
+$z\in S$. Those sums lie in $W$, so $v_j\in W$ by \cref{lem:subcode}.
 \end{proof}
 
-Corollary~\ref{cor:subcode} says that weighted correlated agreement over curves is inherited by
-every $\F$-linear subcode, with the same parameters, as long as the curve parameter is
-drawn from $\F$. Nothing in it is specific to degree constraints, so it applies equally to
-subcodes defined by linear constraints, such as the constrained Reed--Solomon codes of
+\Cref{cor:share} says that weighted correlated agreement over curves is inherited by every
+$\F$-linear subcode, with the same parameters and under the same hypothesis, as long as the curve
+parameter is drawn from $\F$. Nothing in it is specific to degree constraints, so it applies
+equally to subcodes defined by linear constraints, such as the constrained Reed--Solomon codes of
 WHIR \cite{ACFY25}, and to the code $C_{w,D}$ of the degree test.

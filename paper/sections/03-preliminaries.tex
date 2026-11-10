@@ -70,11 +70,11 @@ first map is a bijection because the exponents of a monomial are the base-$k$ di
 image's exponent.
 
 \begin{definition}[Kronecker map]\label{def:kron}
-For $0\le i\le m$ and $g\in R[x_{i+1},\dots,x_m]_{<k}$,
+For $0\le i\le m$ and $q\in R[x_{i+1},\dots,x_m]_{<k}$,
 \[
-U^{(i)}_g(Y):=g\big(Y,Y^{k},\dots,Y^{k^{m-i-1}}\big)\in R[Y],\qquad U_f:=U^{(0)}_f .
+U^{(i)}_q(Y):=q\big(Y,Y^{k},\dots,Y^{k^{m-i-1}}\big)\in R[Y],\qquad U_f:=U^{(0)}_f .
 \]
-For $i=m$, $g$ is a constant and $U^{(m)}_g=g$.
+For $i=m$, $q$ is a constant and $U^{(m)}_q=q$.
 \end{definition}
 
 The fold acts on a word on $L_{i-1}$ by averaging its values on a fibre against the powers
@@ -106,20 +106,20 @@ the graded one bounds what an intermediate round may send.
 \begin{definition}[Weighted and graded degree]\label{def:wdeg}
 Let $w\in\N^m$. For $f\in\F[x_1,\dots,x_m]$,
 $\deg_w f:=\max\{\langle w,\alpha\rangle: f_\alpha\ne0\}$.
-For $g\in\F[T][x_{i+1},\dots,x_m]$, $\gdeg_w g:=\max\{a+\sum_{l>i}w_l\alpha_l\}$
-over the monomials $T^a x^\alpha$ of $g$.
+For $q\in\F[T][x_{i+1},\dots,x_m]$, $\gdeg_w q:=\max\{a+\sum_{l>i}w_l\alpha_l\}$
+over the monomials $T^a x^\alpha$ of $q$.
 \end{definition}
 
 \begin{definition}[Graded codes]\label{def:graded}
 The \emph{graded codes} are
 \[
-\Vc_i^{w,D}:=\big\{\,U^{(i)}_g\big|_{L_i}\ :\ g\in\F[T][x_{i+1},\dots,x_m]_{<k},\ \gdeg_w g\le D\,\big\},
+\Gc_i^{w,D}:=\big\{\,U^{(i)}_q\big|_{L_i}\ :\ q\in\F[T][x_{i+1},\dots,x_m]_{<k},\ \gdeg_w q\le D\,\big\},
 \]
-and the \emph{degree code} $C_{w,D}$ is the set of $T$-free elements of $\Vc_0^{w,D}$.
+and the \emph{degree code} $C_{w,D}$ is the set of $T$-free elements of $\Gc_0^{w,D}$.
 \end{definition}
 
 With $w=(1,\dots,1)$ the weighted degree is the total degree, and with $w=e_l$ it is the
-degree in $x_l$ alone. Every word of $\Vc_0^{w,D}$ is the image of a polynomial with
+degree in $x_l$ alone. Every word of $\Gc_0^{w,D}$ is the image of a polynomial with
 $\deg_{x_l}<k$ for all $l$, so $C_{w,D}\subseteq\RS[\F,L_0,k^m]$ whatever $w$ and $D$ are.
 
 \subsection{Interactive oracle proofs of proximity}\label{sec:iop}

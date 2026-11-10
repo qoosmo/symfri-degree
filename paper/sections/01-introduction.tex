@@ -55,11 +55,12 @@ elements.
 \end{itemize}
 \end{introthm}
 
-The formal statement is \cref{thm:main}, with explicit constants, and \cref{cor:ud} gives a
-simpler error in the unique-decoding regime. With $w=(1,\dots,1)$ the test certifies the
+The formal statement is \cref{thm:main}, a reduction to the hypothesis of \cref{sec:params};
+\cref{cor:johnson} gives the explicit constants at the Johnson radius and \cref{cor:ud} a simpler
+error in the unique-decoding regime. With $w=(1,\dots,1)$ the test certifies the
 total degree; with $w=e_l$ and $D=b$ it certifies $\deg_{x_l}f\le b$ for any $b<k$, which the
 Kronecker rate alone cannot do (\cref{sec:individual}). Several constraints can be tested in
-one run with several formal variables (\cref{prop:multi}). At $N=2^{20}$, $\rho=2^{-4}$,
+one run with several formal variables (\cref{rem:multi}). At $N=2^{20}$, $\rho=2^{-4}$,
 $k=4$, $m=8$, $D=6$ and $|\F|=2^{256}$, $65$ repetitions give soundness error below
 $2^{-129.9}$ against words with agreement at most $\alpha_0\approx0.25006$ with $C_{w,D}$,
 that is, at distance just inside the Johnson radius. This is the number of repetitions FRI
@@ -80,7 +81,7 @@ proofs in~\cite{BCIKS20}, that they use the set of good challenges only through 
 membership, which we record with page references (\cref{sec:params}). The second is handled
 by a short linear-algebra lemma.
 
-\begin{introthm}[informal; \cref{cor:subcode}]
+\begin{introthm}[informal; \cref{cor:share}]
 Weighted correlated agreement over curves whose parameter lies in $\F$ holds, with the same
 parameters, for every $\F$-linear subcode of a Reed--Solomon code over an extension of $\F$:
 the words $u_j$ agree on a common large set with codewords of the subcode.
@@ -88,28 +89,21 @@ the words $u_j$ agree on a common large set with codewords of the subcode.
 
 The statement is not specific to degrees; it applies, for instance, to the constrained
 Reed--Solomon codes of WHIR~\cite{ACFY25}. It also makes our soundness theorem a reduction:
-any weighted correlated-agreement theorem for Reed--Solomon codes of the form of
-\cref{lem:subfield} transfers to the degree test at the same radius. The weighted form is
+any weighted correlated-agreement theorem for Reed--Solomon codes that discharges the
+hypothesis \cref{hyp:ca} transfers to the degree test at the same radius. The weighted form is
 needed because the analysis of FRI that we follow~\cite[\S8]{BCIKS20} is weighted. Beyond the
 Johnson radius, correlated agreement over curves up to radius $1-\rho-\gamma$ has recently
 been claimed for prime fields~\cite{Jer26}, in an unweighted form. A weighted version, stated
 as follows, would extend \cref{thm:main} accordingly.
 
 \begin{conjecture}\label{conj:capacity}
-For every $\gamma>0$ and $l\ge1$ there is $c=c(\gamma,l)$ such that the following holds. Let
-$\E\supseteq\F$ be finite fields, $L\subseteq\F$ with $|L|=n$, $V=\RS[\E,L,d]$ with
-$\rho=d/n$, let $u_0,\dots,u_l:L\to\E$, and let $\mu:L\to[0,1]$ take values with common
-denominator $M$. Let $\alpha\ge\rho+\gamma$, let
-$S:=\{z\in\F:\ \agree_\mu(\sum_jz^ju_j,V)\ge\alpha\}$, and fix for each $z\in S$ a codeword
-$P_z\in V$ with $\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$. If $|S|>(Mn)^{c}$, then there are
-$v_0,\dots,v_l\in V$ with $\mu(\{x:\ u_j(x)=v_j(x)\ \forall j\})\ge\alpha$ and
-$\sum_jz^jv_j=P_z$ for more than $l$ values $z\in S$.
+For every $\gamma>0$ and $l\ge1$ there is $c=c(\gamma,l)$ such that
+$\mathrm H(\rho+\gamma,\Theta)$ holds for $\Theta(n,M,l):=l\,(Mn+1)^c$.
 \end{conjecture}
 
-For $\alpha\ge\alpha_0$ the conclusion is \cref{lem:subfield}, which is what
-\cref{thm:main} uses. If \cref{conj:capacity} holds, the proof of \cref{thm:main} applies
-verbatim and $\Pi_{w,D}$ is sound for agreement $\alpha\ge\rho+\gamma$, with error at most
-$m(k-1)N^{c}/|\F|+\alpha^s$.
+For $\alpha\ge\alpha_0$ the hypothesis is \cref{prop:H1}, which is what \cref{cor:johnson}
+uses. If \cref{conj:capacity} holds, \cref{thm:main} applies verbatim and $\Pi_{w,D}$ is sound
+for agreement $\alpha\ge\rho+\gamma$, with error at most $m(k-1)(N+1)^{c}/|\F|+\alpha^s$.
 
 \subsection{Comparison}\label{sec:intro-comparison}
 
