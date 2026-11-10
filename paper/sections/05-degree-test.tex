@@ -1,0 +1,280 @@
+\section{The degree test}\label{sec:test}
+
+\subsection{Statement and construction}\label{sec:statement}
+
+We state the guarantee first, in the form in which the rest of the paper uses it, and give
+the protocol afterwards. Throughout, $\kappa\ge3$, $\rho:=k^m/N$ and
+$\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$; the weights $w\in\N^m$ fix the linear
+combination of the degrees that the test certifies and $D$ bounds it.
+
+% CHECK: agreement without a weight function is written \agree(u_0,C_{w,D}) here and in
+% Corollary 1.1, but D7 (def:agree) defines only the weighted quantity \agree_\mu.
+% The unweighted convention (\mu\equiv1) needs a line in Section 3.
+{\renewcommand{\thelemma}{1}
+\begin{theorem}[Soundness up to the Johnson radius]\label{thm:main}
+Let $\kappa\ge3$, $\rho:=k^m/N$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
+suppose $\agree(u_0,C_{w,D})\le\alpha$. Then for every prover, $\Pi_{w,D}$ accepts with
+probability at most $\varepsilon_C+\alpha^s$, where
+\[
+\varepsilon_C:=\frac1{|\F|}\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7\,N^2}{3(k+1)\rho^{3/2}}
++m(k-1)\frac{(2\kappa+1)(N+1)}{\sqrt\rho}\Big).
+\]
+\end{theorem}}
+
+The protocol has $m$ folding rounds and $s$ repetitions of the query phase. The bounds on
+the format are part of the definition: a word $u_i$ is accepted only if all its values lie
+in $\F[T]_{\le d_i}$, and the last message only if $\deg g\le D$.
+
+\begin{construction}[Degree test $\Pi_{w,D}$]\label{def:protocol}
+Parameters: $\F,k,m,N,L_0,\dots,L_m$ as in Definition~\ref{def:domains}; $w\in\N^m$; $D\in\N$;
+$s\ge1$. Put $d_0:=0$ and $d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
+\begin{enumerate}
+\item The prover sends $u_0:L_0\to\F$ (honestly $u_0=U_f|_{L_0}$).
+\item For $i=1,\dots,m$: the verifier sends a uniform $r_i\in\F$; put $c_i:=r_iT^{w_i}$.
+The prover sends $u_i:L_i\to\F[T]_{\le d_i}$ (honestly $u_i=\Fold_{c_i}(u_{i-1})$).
+For $i=m$ the word $u_m$ is constant, sent as one polynomial $g\in\F[T]_{\le D}$.
+\item Repeat $s$ times: pick a uniform $x_0\in L_0$, put $x_i:=x_{i-1}^k$, and check
+$u_i(x_i)=\Fold_{c_i}(u_{i-1})(x_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on
+$\fib(x_i)$).
+\end{enumerate}
+The verifier accepts iff all checks pass.
+\end{construction}
+% = D8
+
+One repetition of Step~3 reads $u_0$ at one point and then, level by level, the $k$ values
+of $u_{i-1}$ on the fibre $\fib(x_i)$; consecutive levels share one of these values,
+because $x_{i-1}\in\fib(x_i)$.
+
+\subsection{Completeness}\label{sec:complete}
+
+An honest prover of a polynomial with $\deg_wf\le D$ passes every check for every choice
+of challenges, and its last message is the polynomial whose degree is the quantity under
+test.
+
+\begin{proposition}[Completeness and the terminal polynomial]\label{prop:complete}
+Let $f\in\F[x_1,\dots,x_m]_{<k}$ with $\deg_wf\le D$, and let the prover be honest.
+\begin{enumerate}
+\item[(a)] Every format condition and every query check of $\Pi_{w,D}$ holds for every
+choice of challenges; the verifier accepts with probability $1$.
+\item[(b)] The final message is $g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m})$.
+\item[(c)] $\deg g\le\deg_wf$, and $\Pr_r\big[\deg g<\deg_wf\big]\le\frac{m(k-1)}{|\F|}$.
+\end{enumerate}
+\end{proposition}
+% = P1
+
+\begin{proof}
+(a) $u_0=U_f|_{L_0}\in C_{w,D}$. By \cref{lem:stab}(c), each honest $u_i$ takes values of
+$T$-degree $\le d_i$, so the formats hold, and each check holds because
+$u_i=\Fold_{c_i}(u_{i-1})$ by definition.
+(b) is Corollary~\ref{cor:terminal}.
+(c) The coefficient of $T^{\deg_wf}$ in $g$ is $f^{\mathrm{top}}(r)$, where
+$f^{\mathrm{top}}:=\sum_{\langle w,\alpha\rangle=\deg_wf}f_\alpha x^\alpha\ne0$. It has
+total degree $\le m(k-1)$, so it vanishes with probability $\le m(k-1)/|\F|$ by
+Schwartz--Zippel, and no larger power of $T$ occurs.
+\end{proof}
+
+\subsection{Query weights}\label{sec:weights}
+
+The analysis attaches a weight to each point of $L_i$, measuring the mass of query paths
+that reach that point and still agree with the code. The weights are defined backwards
+along the transcript.
+
+\begin{definition}[Query weights, after {\cite[\S8.2.1]{BCIKS20}}]\label{def:weights}
+For a transcript, define $\mu^{(0)}\equiv1$ on $L_0$ and, for $1\le i\le m$ and
+$y\in L_i$,
+\[
+\nu^{(i)}(y):=\frac1k\sum_{x\in\fib(y)}\mu^{(i-1)}(x),\qquad
+\mu^{(i)}(y):=\begin{cases}\nu^{(i)}(y)&\text{if }u_i(y)=\Fold_{c_i}(u_{i-1})(y),\\0&\text{otherwise.}\end{cases}
+\]
+The values of $\mu^{(i)},\nu^{(i)}$ are multiples of $1/k^i$, and $k^i|L_i|=N$; hence
+every $\mu^{(i)}$- or $\nu^{(i)}$-agreement on $L_i$ is a multiple of $1/N$.
+\end{definition}
+% = D9
+
+By Theorem~\ref{ext:claim85} the probability that one repetition of Step~3 accepts equals the
+total weight $\frac1{|L_m|}\sum_{y}\mu^{(m)}(y)$, so the last sentence of
+Definition~\ref{def:weights} also fixes the granularity of the acceptance probability.
+
+\subsection{The round lemma}\label{sec:round}
+
+Fix a round and a word that is far from the graded code. The lemma bounds the number of
+challenges for which the folded word becomes close; it is the only place where the
+correlated agreement of \cref{sec:imported} enters the estimate.
+
+\begin{lemma}[Round lemma]\label{lem:round}
+Fix $1\le i\le m$, a word $u:L_{i-1}\to\F[T]_{\le d_{i-1}}$ and a weight
+$\mu^{(i-1)}$ on $L_{i-1}$ with values in $\frac1{k^{i-1}}\mathbb Z$; let $\nu^{(i)}$ be its
+fibre average (Definition~\ref{def:weights}). Put
+\[
+\alpha_i:=\max\Big(\agree_{\mu^{(i-1)}}\big(u,\Vc_{i-1}^{w,D}\big),\ \alpha_0\Big),\qquad
+S:=\Big\{r\in\F:\ \agree_{\nu^{(i)}}\big(\Fold_{rT^{w_i}}(u),\Vc_i^{w,D}\big)>\alpha_i\Big\}.
+\]
+Then
+\[
+|S|\le(k-1)\max\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}}\,|L_i|^2,\ \
+\frac{2\kappa+1}{\sqrt\rho}\,(N+1)\Big).
+\]
+\end{lemma}
+% = L8
+
+\begin{proof}
+Assume the contrary.
+
+\emph{Step 1 (the fold is a curve).} With $u_j$ the components of $u$ and
+$W_j:=T^{w_ij}u_j$, Definition~\ref{def:fold} gives $\Fold_{rT^{w_i}}(u)=\sum_{j<k}r^jW_j$. Every
+$W_j$ takes values in $\F[T]_{<t}$, $t:=1+\max\big(D,\,d_{i-1}+w_i(k-1)\big)$, and so does
+every word of $\Vc_i^{w,D}$.
+
+\emph{Step 2 (correlated agreement inside the graded code).} Agreements here are
+multiples of $1/N$; let $\alpha'$ be the least multiple of $1/N$ with $\alpha'>\alpha_i$, so
+that $S$ is the set where the agreement is $\ge\alpha'$, and $\alpha'\ge\alpha_0$. For each
+$r\in S$ fix $P_r\in\Vc_i^{w,D}$ with $\agree_{\nu^{(i)}}(\sum_jr^jW_j,P_r)\ge\alpha'$.
+Transport everything by the map $\varphi$ of \cref{lem:ext} (degree-$t$ extension $\E$):
+$V:=\varphi\big(\RS[\F,L_i,k^{m-i}]^t\big)=\RS[\E,L_i,k^{m-i}]$ and
+$W:=\varphi(\Vc_i^{w,D})$, an $\F$-linear subspace of $V$; $\varphi$ preserves agreements and
+$\F$-linear combinations. Apply Corollary~\ref{cor:subcode} with $l=k-1$, $n=|L_i|$,
+$M=k^i$ (so $Mn=N$): there are $v_0,\dots,v_{k-1}\in\Vc_i^{w,D}$ and a set
+$A:=\{y\in L_i:\ W_j(y)=v_j(y)\ \forall j\}$ with $\nu^{(i)}(A)\ge\alpha'$.
+
+\emph{Step 3 (divisibility).} Since $\nu^{(i)}\le1$,
+$|A|\ge\nu^{(i)}(A)\,|L_i|\ge\alpha'|L_i|>\rho|L_i|=k^{m-i}$. For $a<w_ij$, the
+$T^a$-coefficient of $v_j$ is a codeword of $\RS[\F,L_i,k^{m-i}]$ that vanishes on $A$
+(because $W_j$ is divisible by $T^{w_ij}$), hence it is $0$. So $v_j=T^{w_ij}p_j$
+pointwise, and on $A$ we get $u_j=p_j$ (cancel $T^{w_ij}$ in the domain $\F[T]$).
+
+\emph{Step 4 (unfold).} By \cref{lem:unfold}, $h(x):=\sum_jx^jp_j(x^k)$ lies in
+$\Vc_{i-1}^{w,D}$. For $y\in A$ and $x\in\fib(y)$,
+\[
+u(x)=\sum_{j<k}x^ju_j(y)=\sum_{j<k}x^jp_j(y)=h(x),
+\]
+where the first equality is the inversion of Definition~\ref{def:fold}:
+$\sum_jx^ju_j(y)=\frac1k\sum_{x'\in\fib(y)}u(x')\sum_{j<k}(x/x')^j=u(x)$, since
+$x/x'\in\mu_k$.
+
+\emph{Step 5 (contradiction).} Hence
+\[
+\agree_{\mu^{(i-1)}}(u,h)\ \ge\ \frac1{|L_{i-1}|}\sum_{y\in A}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)
+=\frac1{|L_i|}\sum_{y\in A}\nu^{(i)}(y)=\nu^{(i)}(A)\ \ge\ \alpha'\ >\ \alpha_i ,
+\]
+contradicting $\agree_{\mu^{(i-1)}}(u,\Vc_{i-1}^{w,D})\le\alpha_i$.
+\end{proof}
+
+\begin{remark}[Unique-decoding version]\label{rem:round-ud}
+Put $\alpha^{\mathrm U}_0:=\frac{1+\rho}2$ and
+$\eta_{\mathrm U}:=\min\big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\big)$. If
+$\alpha_0$ is replaced by $\alpha^{\mathrm U}_0$ in the definition of $\alpha_i$, then
+\[
+|S|\le(k-1)\,(N+1)\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big).
+\]
+Same proof, with Theorem~\ref{ext:bciks71} in place of Theorem~\ref{ext:bciks72}: here $\alpha'>\alpha^{\mathrm U}_0$, so
+$\eta\ge\eta_{\mathrm U}$, and $(\star\star)$ reads $|S|>(k-1)|L_i|$ and
+$|S|\ge(k-1)(N+1)(\frac1\eta+\frac3{\sqrt\rho})$; the second condition implies the first.
+\end{remark}
+
+\subsection{Proof of Theorem~1}\label{sec:proof-main}
+
+The proof collects the rounds in which the challenge is bad and then counts the
+probability that a query survives all of them.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+\emph{Step 1 (start).} $\agree(u_0,\Vc_0^{w,D})=\agree(u_0,C_{w,D})$: if $u_0$ agrees with
+$U_g|_{L_0}\in\Vc_0^{w,D}$ at $x$, then, $u_0$ being $T$-free, it agrees there with the
+$T^0$-part $U_{g_0}|_{L_0}$, and $U_{g_0}|_{L_0}\in C_{w,D}$.
+
+\emph{Step 2 (bad events).} Let $B_i$ be the event $r_i\in S_i$, with $S_i$ the set of
+\cref{lem:round} for $u:=u_{i-1}$ and $\mu^{(i-1)}$; both are fixed before $r_i$ is
+drawn. By \cref{lem:round},
+\[
+\sum_{i=1}^{m}\Pr[B_i]\ \le\ \frac1{|\F|}\sum_{i=1}^{m}(k-1)\max\Big(A\,|L_i|^2,\ B\,(N+1)\Big),
+\qquad
+A:=\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}},\quad B:=\frac{2\kappa+1}{\sqrt\rho},
+\]
+and the sum is at most $\varepsilon_C|\F|$: for the first term,
+$\sum_{i\ge1}(k-1)|L_i|^2=(k-1)N^2\sum_{i\ge1}k^{-2i}=\frac{N^2}{k+1}$ because
+$(k-1)/(k^2-1)=1/(k+1)$; for the second, each of the $m$ summands contributes
+$(k-1)(N+1)$.
+
+\emph{Step 3 (no increase).} For every codeword $v$ on $L_i$,
+$\agree_{\mu^{(i)}}(u_i,v)\le\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),v)$, because
+$\mu^{(i)}\le\nu^{(i)}$ and $\mu^{(i)}$ vanishes where $u_i\ne\Fold_{c_i}(u_{i-1})$. Outside
+$B_i$ this gives
+$\agree_{\mu^{(i)}}(u_i,\Vc_i^{w,D})\le\max\big(\agree_{\mu^{(i-1)}}(u_{i-1},\Vc_{i-1}^{w,D}),\alpha_0\big)$,
+and by induction with Step~1, $\agree_{\mu^{(m)}}(u_m,\Vc_m^{w,D})\le\alpha$.
+
+\emph{Step 4 (end).} $\Vc_m^{w,D}$ is the set of constant words with value in
+$\F[T]_{\le D}$, and $u_m=g$ is one of them. Hence
+$\frac1{|L_m|}\sum_y\mu^{(m)}(y)=\agree_{\mu^{(m)}}(u_m,u_m)\le\alpha$, which by
+Theorem~\ref{ext:claim85} is the probability that one query accepts. The $s$ queries are
+independent given the transcript, so outside $\bigcup_iB_i$ all accept with probability at
+most $\alpha^s$.
+\end{proof}
+
+\begin{remark}[Characteristic]\label{rem:char}
+Theorem~\ref{thm:main} inherits from Theorem~\ref{ext:bciks72} the separability convention of
+\cite[\S5.2.3]{BCIKS20} (characteristic larger than their
+$D_Y<\frac{2\kappa+1}{2\sqrt\rho}$); the general case, with inseparable factors, is treated
+in \cite[Appendix~C]{BCIKS20} and needs no extra hypothesis.
+\end{remark}
+
+\begin{remark}[Individual degrees]
+Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies
+$\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=d<k$ certifies $\deg_{x_l}f\le d$.
+\end{remark}
+
+{\renewcommand{\thelemma}{1.1}
+\begin{corollary}[Soundness in the unique-decoding regime]\label{cor:ud}
+Let $\alpha>\frac{1+\rho}2$ and suppose $\agree(u_0,C_{w,D})\le\alpha$. Then $\Pi_{w,D}$
+accepts with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
+\[
+\varepsilon_{\mathrm U}:=\frac{m(k-1)(N+1)}{|\F|}\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big),
+\qquad \eta_{\mathrm U}=\min\Big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\Big).
+\]
+\end{corollary}}
+% = Cor. 1.1
+
+\begin{proof}[Proof of Corollary~\ref{cor:ud}]
+The proof of Theorem~\ref{thm:main} with $\alpha^{\mathrm U}_0$ in place of $\alpha_0$ and
+the bound of the remark after Lemma~\ref{lem:round} in place of Lemma~\ref{lem:round} in Step~2.
+\end{proof}
+
+\subsection{Parameters}\label{sec:numbers}
+
+We instantiate Theorem~\ref{thm:main} at a concrete point. Take $N=2^{20}$, $k=4$, $m=8$,
+$w=(1,\dots,1)$ and $D=6$, so $\rho=k^m/N=2^{16-20}=2^{-4}$; take $|\F|=2^{256}$, which
+satisfies $N\mid|\F|-1$, and $\kappa=2^{11}-1$. Theorem~1 bounds the error by
+$\varepsilon_C+\alpha^s$ with $\alpha\ge\alpha_0$, and the bound is smallest at
+$\alpha=\alpha_0$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{6.4cm}lr@{}}
+\hline
+quantity & value & $\log_2$ \\
+\hline
+$\kappa+\tfrac12$ & $2047.5$ & $11.0$ \\
+$(\kappa+\tfrac12)^7$ & $1.509\cdot10^{23}$ & $77.0$ \\
+$N^2/(3(k+1)\rho^{3/2})$ & $4.691\cdot10^{12}$ & $42.1$ \\
+first summand of $\varepsilon_C$ & $7.077\cdot10^{35}$ & $119.1$ \\
+second summand of $\varepsilon_C$ & $4.122\cdot10^{11}$ & $38.6$ \\
+$\varepsilon_C$ & $6.112\cdot10^{-42}$ & $-136.9$ \\
+$\alpha_0$ & $0.2500611$ & $-2.0$ \\
+$\alpha_0^{65}$ & $1.047\cdot10^{-39}$ & $-130.0$ \\
+\hline
+\end{tabular}
+\end{center}
+
+The second summand is $m(k-1)(2\kappa+1)(N+1)/\sqrt\rho=24\cdot4095\cdot4\cdot(2^{20}+1)$,
+and the first is $(1+\frac1{2\kappa})^7\kappa^7=(\kappa+\frac12)^7$ times
+$N^2/(3(k+1)\rho^{3/2})=2^{46}/15$. With $s=65$ repetitions,
+\[
+\varepsilon_C+\alpha^s\le 2^{-136.9}+2^{-130.0}<2^{-129.9}.
+\]
+The query term dominates: the exponent is set by $s\log_2\alpha_0$, and each additional
+repetition lowers it by $2.0$.
+
+At the same instance Corollary~1.1 covers the smaller radius. Here
+$\eta_{\mathrm U}=\min\{0.125,\,0.0125\}=0.0125$, so $1/\eta_{\mathrm U}+3/\sqrt\rho=92$ and
+\[
+\varepsilon_{\mathrm U}=\frac{24\cdot(2^{20}+1)\cdot92}{2^{256}}=2^{-224.9}
+\]
+for every $\alpha>\frac{1+\rho}2=0.625$, that is, up to distance $0.375$.

@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[backend=bibtex,style=alphabetic,maxbibnames=99]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[capitalise]{cleveref}
+\input{macros}
+\emergencystretch=1.5em
+
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{importedthm}[lemma]{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{construction}[lemma]{Construction}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{importedthm}{Theorem}{Theorems}
+\crefname{definition}{Definition}{Definitions}
+\crefname{construction}{Construction}{Constructions}
+
+\title{Multivariate Degree Testing via Symbolic FRI on Kronecker Encodings}
+\author{A.~Mkhida}
+\date{Working draft}
+
+\begin{document}
+\maketitle
+
+% Sections 1 and 2 of the paper are written after the proofs and are not
+% drafted here. Section 3 is a stub holding the shared definitions; the
+% section counter is set so that the stub is Section 3 and the drafted
+% sections are Sections 4 and 5.
+\setcounter{section}{2}
+\input{sections/03-preliminaries-stub}
+\input{sections/04-tools}
+\input{sections/05-degree-test}
+
+\printbibliography
+
+\end{document}
