@@ -53,10 +53,11 @@ $f',\ \hat f$ & multilinear form of a bivariate $f$; $\hat f=U_{f'}$, $\hat f(Z)
 $w^X,\ w^Y$ & $(1,2,\dots,2^{\tau-1},0,\dots,0)$ and $(0,\dots,0,1,2,\dots,2^{\tau-1})$ in $\N^{2\tau}$ & \cref{def:avss}\\
 $V_t$ & $\{f\in\F[X,Y]:\ \deg_Xf\le t,\ \deg_Yf\le t\}$ & \cref{def:avss}\\
 $u_f,\ u_e,\ \delta_0$ & committed words of $\hat f$ and $\hat e$, distance bound & \cref{def:avss}\\
-$e,\ h,\ u_h$ & mask uniform in $V_t$, $h=f+\alpha e$, $u_h=u_f+\alpha u_e$ & \cref{con:avss-mask}\\
-$\alpha,\ \alpha_*$ & challenge of the masked test; also the agreement bound of \cref{thm:main} & \cref{con:avss-mask}\\
-$n$ & number of parties, $n=3t+1$ & \cref{sec:avss}\\
-$p,\ q$ & corrupted parties and queries in the threshold $t=p+2q$ of FRISS & \cref{sec:avss}\\
-$y_i,\ P_A$ & $f(x_i,0)$ and its interpolant through a set $A$ of $t+1$ parties & \cref{rem:avss-threshold}\\
+$e,\ h,\ u_h$ & mask (honestly uniform in $V_t$), $h=f+\theta e$, $u_h=u_f+\theta u_e$ & \cref{con:avss-mask}\\
+$\theta$ & challenge of the masked test & \cref{con:avss-mask}\\
+$n$ & number of parties, $n=3t+1$ (in \cref{ext:bciks72,ext:bciks71,hyp:ca}: $n=|L|$) & \cref{sec:avss}\\
+$c$ & number of corrupted parties; threshold $t=c+2s$ of FRISS & \cref{sec:avss}\\
+$\sigma$ & the secret $f(z,0)$ at the prescribed point $z$ & \cref{sec:avss}\\
+$\omega_i,\ \sigma_i,\ P_A$ & point of party $i$, $f(\omega_i,0)$, interpolant through a set $A$ of $t+1$ parties & \cref{rem:avss-threshold}\\
 \bottomrule
 \end{longtable}}

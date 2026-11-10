@@ -117,11 +117,10 @@ An asynchronous verifiable secret sharing scheme distributes a secret among $n$ 
 the honest ones can reconstruct it later, and it is the sharing layer of distributed key
 generation~\cite{Bingo23}. Schemes built on a bivariate polynomial commit to an
 $f\in\F[X,Y]$ of degree at most $t$ in each variable, fix $n=3t+1$ parties, and reconstruct the
-secret $s:=f(z,0)$ at a prescribed point $z$ from $t+1$ interpolated values of $f(X,0)$.
+secret $\sigma:=f(z,0)$ at a prescribed point $z$ from $t+1$ interpolated values of $f(X,0)$.
 FRISS~\cite{PolyFRIM} does so with the polynomial commitment
-scheme of~\cite{PolyFRIM} and sets $t=p+2q$, where $p$ is the number of corrupted parties and
-$q$ the number of queries of the commitment (the repetition number $s$ of \cref{def:protocol}
-when the two counts agree), counting the $2q$ evaluations that the commitment
+scheme of~\cite{PolyFRIM} and sets $t=c+2s$, where $c$ is the number of corrupted parties and
+$s$ the number of queries of the commitment (which \cref{con:avss-mask} takes as the repetition number $s$ of \cref{def:protocol}), counting the $2s$ evaluations that the commitment
 leaks~\cite[App.~D]{PolyFRIM}.
 
 What the commitment certifies is the box, not $V_t$: PolyFRIM reads the coefficient vector of
@@ -157,7 +156,7 @@ whose coefficient vector is the one committed in~\cite[\S3.3]{PolyFRIM}. The wei
 w^X:=(1,2,\dots,2^{\tau-1},0,\dots,0),\qquad
 w^Y:=(0,\dots,0,1,2,\dots,2^{\tau-1})\in\N^{2\tau},
 \]
-and $V_t:=\{f\in\F[X,Y]:\ \deg_Xf\le t,\ \deg_Yf\le t\}$ is the box of the degree bound.
+and $V_t:=\{f\in\F[X,Y]:\ \deg_Xf\le t,\ \deg_Yf\le t\}$ is the space allowed by the threshold.
 Finally $u_f,u_e:L_0\to\F$ are the committed words, honestly $u_f=\hat f|_{L_0}$ and
 $u_e=\hat e|_{L_0}$, and $\delta_0\in[0,1]$ bounds their distance to these words.
 \end{definition}
@@ -196,19 +195,19 @@ $\deg_Xf(X,0)>t$; for instance $f=X^{t+1}$, which lies in the box when $t+1\le2^
 dealer's messages and proofs are those of an honest dealer for this $f$, and the opening check
 binds only $\deg_Xf,\deg_Yf<2^\tau$~\cite[Def.~2.3, App.~B, App.~D]{PolyFRIM}, so every check
 of FRISS~\cite[Alg.~2--4]{PolyFRIM} passes. The Rec\_strong value of party $i$ is
-$y_i:=f(x_i,0)$, at distinct points $x_i$. For a set $A$ of $t+1$ parties let $P_A\in\F[X]$ be
-the interpolant of $\{(x_i,y_i):\ i\in A\}$, of degree at most $t$, and put $s:=f(z,0)$ for the
+$\sigma_i:=f(\omega_i,0)$, at distinct points $\omega_i\in\F$. For a set $A$ of $t+1$ parties let $P_A\in\F[X]$ be
+the interpolant of $\{(\omega_i,\sigma_i):\ i\in A\}$, of degree at most $t$, and put $\sigma:=f(z,0)$ for the
 prescribed point $z$. Then one of two cases occurs.
 \begin{enumerate}
 \item $P_A\ne P_B$ for some two sets $A,B$ of $t+1$ parties. Then $P_A-P_B$ is a nonzero
 polynomial of degree at most $t$, so $P_A(z)\ne P_B(z)$ for every $z$ outside a set of at most
 $t$ elements: the parties may output different secrets.
-\item $P_A=P$ for every $A$. Then $P$ agrees with $f(\cdot,0)$ on every $x_i$, while
+\item $P_A=P$ for every $A$. Then $P$ agrees with $f(\cdot,0)$ on every $\omega_i$, while
 $P\ne f(\cdot,0)$ because $\deg f(\cdot,0)>t\ge\deg P$; hence $f(\cdot,0)-P$ is a nonzero
-polynomial of degree at most $2^\tau-1$, and $P(z)\ne s$ for every $z$ outside its set of at
+polynomial of degree at most $2^\tau-1$, and $P(z)\ne\sigma$ for every $z$ outside its set of at
 most $2^\tau-1$ roots: every party outputs a secret other than $s$.
 \end{enumerate}
-The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(x_i,Y)$
+The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(\omega_i,Y)$
 interpolated from $t+1$ valid Echo values~\cite[Alg.~3, step 16]{PolyFRIM}.
 \end{remark}
 % = rem:avss-threshold
@@ -221,32 +220,32 @@ dealer committed outside $V_t$.
 \begin{construction}[Masked degree test]\label{con:avss-mask}
 Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, as in \cref{def:avss}. The dealer samples $e$
 uniformly from $V_t$ and commits to $\hat e$ with salted Merkle leaves, the leaf of $x$ hashing
-$x$, $\hat e(x)$ and an independent uniform salt. The verifier sends $\alpha\in\F$. Put
-$h:=f+\alpha e$ and $u_h:=u_f+\alpha u_e$. The two parties run $\Pi_{w^X,t}$ (\cref{def:protocol})
+$x$, $\hat e(x)$ and an independent uniform salt. The verifier sends $\theta\in\F$. Put
+$h:=f+\theta e$ and $u_h:=u_f+\theta u_e$. The two parties run $\Pi_{w^X,t}$ (\cref{def:protocol})
 with $k=2$, $m=2\tau$, $D=t$ and $u_0:=u_h$, the verifier reading $u_h(x)$ by opening $u_f(x)$
-and $u_e(x)$; the query points $\xi_0$ of the $s$ repetitions are chosen among the positions at
-which the commitment already opens $\hat f$.
+and $u_e(x)$; the $s$ repetitions use as query points $\xi_0$ the $s$ query positions
+at which the commitment already opens $\hat f$, in order, so that $s$ equals the number of queries of the commitment and each $\xi_0$ is uniform on $L_0$.
 \end{construction}\par}
 % = D11
 
 \begin{lemma}[One bad challenge]\label{lem:avss-bad}
-Let $f\in\F[X,Y]$, $e\in V_t$, and $\deg_Xf>t$. Then $\deg_X(f+\alpha e)\le t$ for at most one
-$\alpha\in\F$.
+Let $f\in\F[X,Y]$, $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$, and $\deg_Xf>t$. Then $\deg_X(f+\theta e)\le t$ for at most one
+$\theta\in\F$.
 \end{lemma}
 % = L15
 
 \begin{proof}
 \begin{enumerate}
-\item Assume $\deg_X(f+\alpha e)\le t$ and $\deg_X(f+\alpha'e)\le t$ for some $\alpha\ne\alpha'$.
-\item Then $(\alpha-\alpha')e=(f+\alpha e)-(f+\alpha'e)$ has $\deg_X\le t$, and
-$\alpha-\alpha'\ne0$, so $\deg_Xe\le t$.
-\item Hence $\deg_Xf=\deg_X\big((f+\alpha e)-\alpha e\big)\le t$, contradicting the hypothesis.
+\item Assume $\deg_X(f+\theta e)\le t$ and $\deg_X(f+\theta'e)\le t$ for some $\theta\ne\theta'$.
+\item Then $(\theta-\theta')e=(f+\theta e)-(f+\theta'e)$ has $\deg_X\le t$, and
+$\theta-\theta'\ne0$, so $\deg_Xe\le t$.
+\item Hence $\deg_Xf=\deg_X\big((f+\theta e)-\theta e\big)\le t$, contradicting the hypothesis.
 \end{enumerate}
 \end{proof}
 
 \begin{lemma}[Distance to the degree code]\label{lem:avss-dist}
-Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in V_t$, $\alpha\in\F$, put
-$h:=f+\alpha e$ and $u_h:=u_f+\alpha u_e$, and assume $\Delta(u_f,\hat f|_{L_0})\le\delta_0$ and
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$, $\theta\in\F$, put
+$h:=f+\theta e$ and $u_h:=u_f+\theta u_e$, and assume $\Delta(u_f,\hat f|_{L_0})\le\delta_0$ and
 $\Delta(u_e,\hat e|_{L_0})\le\delta_0$. If $\deg_Xh>t$, then
 $\agree(u_h,C_{w^X,t})\le\rho+2\delta_0$.
 \end{lemma}
@@ -255,7 +254,7 @@ $\agree(u_h,C_{w^X,t})\le\rho+2\delta_0$.
 \begin{proof}
 \begin{enumerate}
 \item Outside the union of the two disagreement sets, of size at most $2\delta_0N$, one has
-$u_h(x)=u_f(x)+\alpha u_e(x)=\hat f(x)+\alpha\hat e(x)=\hat h(x)$; hence
+$u_h(x)=u_f(x)+\theta u_e(x)=\hat f(x)+\theta\hat e(x)=\hat h(x)$; hence
 $\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
 \item Let $c=U_q|_{L_0}\in C_{w^X,t}$, so $q\in\F[x_1,\dots,x_{2\tau}]_{<2}$ and
 $\deg_{w^X}q\le t<\deg_Xh=\deg_{w^X}h'$ by \cref{lem:avss-bits}; then $q\ne h'$, and
@@ -270,8 +269,9 @@ $c\in C_{w^X,t}$ gives $\agree(u_h,C_{w^X,t})\le\rho+2\delta_0$.
 \end{proof}
 
 \begin{proposition}[Soundness]\label{prop:avss-sound}
-Let $\tau,t,u_f,u_e,\delta_0$ be as in \cref{def:avss}, let $\delta_0\le(1-\rho)/4$, and let
-$f$ satisfy $\deg_Xf>t$. Then for every
+Let $\tau,t,u_f,u_e,\delta_0$ be as in \cref{def:avss}, let $\delta_0\le(1-\rho)/4$, let
+$f,e\in\F[X,Y]$ have $\deg_Xf,\deg_Xe,\deg_Yf,\deg_Ye<2^\tau$, where $e$ is the mask committed by the
+dealer (not necessarily in $V_t$), and let $\deg_Xf>t$. Then for every
 $\alpha_*>(1+\rho)/2$ the masked test \cref{con:avss-mask}, run with $w=w^X$, $k=2$, $m=2\tau$
 and $D=t$, accepts with probability at most
 \[
@@ -283,7 +283,7 @@ where $\varepsilon_{\mathrm U}$ is the error of \cref{cor:ud} for these paramete
 
 \begin{proof}
 \begin{enumerate}
-\item By \cref{lem:avss-bad} the set $B$ of $\alpha\in\F$ with $\deg_X(f+\alpha e)\le t$ has at
+\item By \cref{lem:avss-bad} the set $B$ of $\theta\in\F$ with $\deg_X(f+\theta e)\le t$ has at
 most one element, so $\Pr[B]\le1/|\F|$.
 \item Outside $B$ one has $\deg_Xh>t$, and \cref{lem:avss-dist} gives
 $\agree(u_h,C_{w^X,t})\le\rho+2\delta_0\le\rho+\frac{1-\rho}2=\frac{1+\rho}2<\alpha_*$.
@@ -294,11 +294,11 @@ probability by $\varepsilon_{\mathrm U}+\alpha_*^s$.
 \end{enumerate}
 \end{proof}
 
-At the parameters of~\cite[\S5]{PolyFRIM}, $\rho=1/8$ and $s=q=34$, so the first inequality of
+At the parameters of~\cite[\S5]{PolyFRIM}, $\rho=1/8$ and $s=34$, so the first inequality of
 step 2 requires $\delta_0\le\frac{7}{32}$ and the query term is
 $\big(\frac{1+\rho}2\big)^{34}=(9/16)^{34}=2^{-28.2}$, the same query term as in
 \cite[Thm.~3.1]{PolyFRIM}. The radius is that of unique decoding, so the bound is weaker than
-the one of \cref{thm:main} at the Johnson radius, where the same $34$ repetitions give the
+the one of \cref{thm:main} at the Johnson radius. There, if $\delta_0\le(\alpha_0-\rho)/2\approx0.114$, \cref{lem:avss-dist} gives $\agree(u_h,C_{w^X,t})\le\alpha_0$ and the same $34$ repetitions give the
 query term $\alpha_0^{34}$ with $\alpha_0=\sqrt\rho\,(1+\frac1{2\kappa})\approx0.3536$ at
 $\rho=1/8$, that is $2^{-51.0}$ (\cref{sec:numbers}).
 
@@ -306,13 +306,13 @@ The mask costs nothing in secrecy: it is a one-time pad, and the values it needs
 committed polynomial are the ones FRISS already gives away.
 
 \begin{lemma}[Secrecy]\label{lem:avss-secret}
-Let $f\in V_t$ and $\alpha\in\F^*$, and let $e$ be uniform on $V_t$, independent of $f$, of
-$\alpha$ and of the randomness of the commitment. Then
+Let $f\in V_t$ and $\theta\in\F^*$, and let $e$ be uniform on $V_t$, independent of $f$, of
+$\theta$ and of the randomness of the commitment. Then
 \begin{enumerate}
-\item[(a)] $h=f+\alpha e$ is uniform on $V_t$ and independent of $f$ and $\alpha$;
-\item[(b)] every message of the masked test is a function of $h$, $\alpha$, the challenges
+\item[(a)] $h=f+\theta e$ is uniform on $V_t$ and independent of $f$ and $\theta$;
+\item[(b)] every message of the masked test is a function of $h$, $\theta$, the challenges
 $r_1,\dots,r_m$ and the query positions;
-\item[(c)] given $\alpha$, the challenges, the positions and the values of $\hat f$ at those
+\item[(c)] given $\theta$, the challenges, the positions and the values of $\hat f$ at those
 positions, a simulator produces a transcript distributed exactly as the honest one.
 \end{enumerate}
 \end{lemma}
@@ -320,18 +320,18 @@ positions, a simulator produces a transcript distributed exactly as the honest o
 
 \begin{proof}
 \begin{enumerate}
-\item The map $e\mapsto f+\alpha e$ is a bijection of $V_t$, being a translation by $f$ and a
-scaling by $\alpha\ne0$; so $h$ is uniform on $V_t$, and as a function of the uniform $e$ it is
-independent of $f$ and of $\alpha$. This is (a).
+\item The map $e\mapsto f+\theta e$ is a bijection of $V_t$, being a translation by $f$ and a
+scaling by $\theta\ne0$; so $h$ is uniform on $V_t$, and as a function of the uniform $e$ it is
+independent of $f$ and of $\theta$. This is (a).
 \item The dealer's messages are $u_h$, its folds on the queried fibres and $g$, which
 \cref{def:protocol} determines by $h$ and $r_1,\dots,r_m$; the openings at a queried position $x$
-are $\hat h(x)=\hat f(x)+\alpha\hat e(x)$, so opening $\hat e$ reveals
-$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\alpha$ and requires $\hat f$ only at the positions.
+are $\hat h(x)=\hat f(x)+\theta\hat e(x)$, so opening $\hat e$ reveals
+$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\theta$ and requires $\hat f$ only at the positions.
 This is (b).
 \item Simulator: sample $h$ uniform on $V_t$, output the transcript of step 2 and the
 $\hat e$-openings of step 3; the leaves that are not opened are hidden by the salts of
 \cref{con:avss-mask}. This is (c).
-\item The case $\alpha=0$ has probability $1/|\F|$ and is the only one in which step 1 fails.
+\item The case $\theta=0$ has probability $1/|\F|$ and is the only one in which step 1 fails.
 \end{enumerate}
 \end{proof}
 
@@ -339,7 +339,7 @@ $\hat e$-openings of step 3; the leaves that are not opened are hidden by the sa
 If the query points of the masked test cannot be chosen among the positions of the commitment,
 then each of the $s$ repetitions opens $u_f$ at the $k=2$ points of a fibre, so the test leaks
 $2s$ further evaluations of $\hat f$, and the threshold of~\cite[\S4, App.~D]{PolyFRIM} becomes
-$t=p+2q+2s$.
+$t=c+4s$.
 \end{remark}
 % = rem:avss-leak
 
@@ -348,7 +348,7 @@ Let $w=w^X$, $D=t$, $k=2$, $m=2\tau$, and let $d_i=\min\big(D,(k-1)\sum_{l\le i}
 the caps of \cref{def:protocol}. Then $d_i=\min(t,2^i-1)$ for $i\le\tau$ and $d_i=t$ for
 $i>\tau$, and one repetition of the masked test reads
 \[
-2\sum_{i=1}^{2\tau}(d_{i-1}+1)=2\big(2^\tau-1+\tau(t+1)\big)\le2\big(2^\tau+\tau(t+1)\big)
+2\sum_{i=1}^{2\tau}(d_{i-1}+1)\le2\big(2^\tau-1+\tau(t+1)\big)<2\big(2^\tau+\tau(t+1)\big)
 \]
 field elements, which for $\tau=\lceil\log_2(t+1)\rceil$ is at most
 $2(t+1)\big(3+\log_2(t+1)\big)$, hence $O(t\log t)$.
@@ -361,17 +361,17 @@ $2(t+1)\big(3+\log_2(t+1)\big)$, hence $O(t\log t)$.
 $i>\tau$ the sum is $2^\tau-1$; since $t\le2^\tau-1$, this gives $d_i=\min(t,2^i-1)$ and
 $d_i=t$ respectively.
 \item Splitting the sum at $\tau$,
-$\sum_{i=1}^{2\tau}(d_{i-1}+1)=\sum_{i=0}^{\tau-1}2^i+\sum_{i=\tau}^{2\tau-1}(t+1)
-=2^\tau-1+\tau(t+1)$.
+since $d_j+1=\min(t+1,2^j)\le2^j$ for $j<\tau$,
+$\sum_{i=1}^{2\tau}(d_{i-1}+1)\le\sum_{j=0}^{\tau-1}2^j+\sum_{j=\tau}^{2\tau-1}(t+1)=2^\tau-1+\tau(t+1)$, with equality if $2^{\tau-1}\le t+1$.
 \item The query cost of the protocol is $k\sum_{i=1}^m(d_{i-1}+1)$, twice the sum of step 2,
-which gives the stated equality and inequality.
+which gives the stated inequalities.
 \item If $\tau=\lceil\log_2(t+1)\rceil$, then $2^\tau<2(t+1)$ and $\tau\le1+\log_2(t+1)$, so the
 count is less than $2(t+1)\big(3+\log_2(t+1)\big)$.
 \end{enumerate}
 \end{proof}
 
-With $s=q$ repetitions, $t=\Theta(n)$ and $q$ fixed, the added cost is $O(n\log n)$ per party,
-inside the per-party cost $O(n\log^2n)$ of~\cite[\S4]{PolyFRIM}; at $t=200$, $\tau=8$, $q=34$, a
+With $s$ repetitions, $t=\Theta(n)$ and $s$ fixed, the added cost is $O(n\log n)$ per party,
+inside the per-party cost $O(n\log^2n)$ of~\cite[\S4]{PolyFRIM}; at $t=200$, $\tau=8$, $s=34$, a
 party reads $34\cdot3726\approx1.3\cdot10^{5}$ field elements in the masked test.
 
 \paragraph{The other variable.} With $X$ the low variable, the constraint on $Y$ needs no second

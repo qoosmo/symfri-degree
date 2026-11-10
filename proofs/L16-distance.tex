@@ -1,8 +1,8 @@
 \section{Distance of the masked word}
 
 \begin{lemma}[Distance to the degree code]\label{lem:avss-dist}
-Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in V_t$, let $\alpha\in\F$, put
-$h:=f+\alpha e$ and $u_h:=u_f+\alpha u_e$, and assume
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$, let $\theta\in\F$, put
+$h:=f+\theta e$ and $u_h:=u_f+\theta u_e$, and assume
 $\Delta(u_f,\hat f|_{L_0})\le\delta_0$ and $\Delta(u_e,\hat e|_{L_0})\le\delta_0$. If
 $\deg_Xh>t$, then
 \[
@@ -12,7 +12,7 @@ $\deg_Xh>t$, then
 
 \begin{proof}\begin{enumerate}
 \item Outside the union of the two disagreement sets, of size at most $2\delta_0N$, one has
-$u_h(x)=u_f(x)+\alpha u_e(x)=\hat f(x)+\alpha\hat e(x)=\hat h(x)$; hence
+$u_h(x)=u_f(x)+\theta u_e(x)=\hat f(x)+\theta\hat e(x)=\hat h(x)$; hence
 $\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
 \item Let $c=U_q|_{L_0}\in C_{w^X,t}$, so $q\in\F[x_1,\dots,x_{2\tau}]_{<2}$ and
 $\deg_{w^X}q\le t<\deg_Xh=\deg_{w^X}h'$ by \cref{lem:avss-bits}; then $q\ne h'$, and

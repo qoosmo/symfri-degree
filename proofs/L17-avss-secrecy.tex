@@ -1,30 +1,30 @@
 \section{Secrecy of the masked degree test}
 
 \begin{lemma}[Secrecy]\label{lem:avss-secret}
-Let $f\in V_t$ and $\alpha\in\F^{*}$, and let $e$ be uniform on $V_t$, independent of $f$, of
-$\alpha$ and of the randomness of the PCS. Then
+Let $f\in V_t$ and $\theta\in\F^{*}$, and let $e$ be uniform on $V_t$, independent of $f$, of
+$\theta$ and of the randomness of the PCS. Then
 \begin{enumerate}
-\item[(a)] $h=f+\alpha e$ is uniform on $V_t$ and independent of $f$ and $\alpha$;
+\item[(a)] $h=f+\theta e$ is uniform on $V_t$ and independent of $f$ and $\theta$;
 \item[(b)] every message of the masked test \cref{con:avss-mask} is a function of $h$,
-$\alpha$, the challenges $r_1,\dots,r_m$ and the query positions;
-\item[(c)] given $\alpha$, the challenges, the positions and the values of $\hat f$ at
+$\theta$, the challenges $r_1,\dots,r_m$ and the query positions;
+\item[(c)] given $\theta$, the challenges, the positions and the values of $\hat f$ at
 those positions, a simulator produces a transcript distributed exactly as the honest one.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}\begin{enumerate}
-\item The map $e\mapsto f+\alpha e$ is a bijection of $V_t$, being a translation by $f$ and a
-scaling by $\alpha\ne0$; so $h$ is uniform on $V_t$, and as a function of the uniform $e$ it is
-independent of $f$ and of $\alpha$. This is (a).
+\item The map $e\mapsto f+\theta e$ is a bijection of $V_t$, being a translation by $f$ and a
+scaling by $\theta\ne0$; so $h$ is uniform on $V_t$, and as a function of the uniform $e$ it is
+independent of $f$ and of $\theta$. This is (a).
 \item The messages of the dealer are $u_h$, its folds on the queried fibres and $g$, which
 \cref{def:protocol} determines by $h$ and $r_1,\dots,r_m$; the openings at a queried position $x$
-are $\hat h(x)=\hat f(x)+\alpha\hat e(x)$, so opening $\hat e$ reveals
-$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\alpha$ and requires $\hat f$ only at the positions.
+are $\hat h(x)=\hat f(x)+\theta\hat e(x)$, so opening $\hat e$ reveals
+$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\theta$ and requires $\hat f$ only at the positions.
 This is (b).
 \item Simulator: sample $h$ uniform on $V_t$, output the transcript of step 2 and the
 $\hat e$-openings of step 3; the leaves that are not opened are hidden by the salts of
 \cref{con:avss-mask}. This is (c).
-\item The case $\alpha=0$ has probability $1/|\F|$ and is the only one in which step 1 fails.
+\item The case $\theta=0$ has probability $1/|\F|$ and is the only one in which step 1 fails.
 \end{enumerate}\end{proof}
 \uses{\cref{def:avss,con:avss-mask,def:protocol}}\usedby{the paper}
 
@@ -32,6 +32,6 @@ $\hat e$-openings of step 3; the leaves that are not opened are hidden by the sa
 If the query points of the masked test cannot be chosen among the positions of the commitment,
 then each of the $s$ repetitions opens $u_f$ at the $k=2$ points of a fibre, so the test leaks
 $2s$ further evaluations of $\hat f$, and the threshold of {[PolyFRIM, \S4, App.~D]} becomes
-$t=p+2q+2s$.
+$t=c+4s$.
 \end{remark}
 \uses{\cref{con:avss-mask}}\usedby{the paper}

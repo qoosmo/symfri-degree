@@ -6,7 +6,7 @@ Let $w=w^X$, $D=t$, $k=2$, $m=2\tau$, and let $d_i=\min\big(D,(k-1)\sum_{l\le i}
 the caps of \cref{def:protocol}. Then $d_i=\min(t,2^i-1)$ for $i\le\tau$ and $d_i=t$ for
 $i>\tau$, and one repetition of the masked test \cref{con:avss-mask} reads
 \[
-2\sum_{i=1}^{2\tau}(d_{i-1}+1)=2\big(2^\tau-1+\tau(t+1)\big)\le2\big(2^\tau+\tau(t+1)\big)
+2\sum_{i=1}^{2\tau}(d_{i-1}+1)\le2\big(2^\tau-1+\tau(t+1)\big)<2\big(2^\tau+\tau(t+1)\big)
 \]
 field elements. With $\tau=\lceil\log_2(t+1)\rceil$ this is at most
 $2(t+1)\big(3+\log_2(t+1)\big)$, hence $O(t\log t)$; over $s$ repetitions the total is
@@ -19,10 +19,10 @@ per-party cost $O(n\log^2n)$ of {[PolyFRIM, \S4]}.
 $i>\tau$ the sum is $2^\tau-1$; since $t\le2^\tau-1$, this gives $d_i=\min(t,2^i-1)$ and
 $d_i=t$ respectively.
 \item Splitting the sum at $\tau$,
-$\sum_{i=1}^{2\tau}(d_{i-1}+1)=\sum_{i=0}^{\tau-1}2^i+\sum_{i=\tau}^{2\tau-1}(t+1)
-=2^\tau-1+\tau(t+1)$.
+since $d_j+1=\min(t+1,2^j)\le2^j$ for $j<\tau$,
+$\sum_{i=1}^{2\tau}(d_{i-1}+1)\le\sum_{j=0}^{\tau-1}2^j+\sum_{j=\tau}^{2\tau-1}(t+1)=2^\tau-1+\tau(t+1)$, with equality if $2^{\tau-1}\le t+1$.
 \item The query cost of \cref{thm:reduction}'s protocol is $k\sum_{i=1}^m(d_{i-1}+1)$, which is
-twice the sum of step 2, giving the stated equality and inequality.
+twice the sum of step 2, giving the stated inequalities.
 \item If $\tau=\lceil\log_2(t+1)\rceil$, then $2^\tau<2(t+1)$ and $\tau\le1+\log_2(t+1)$, so the
 count is less than $2(t+1)\big(2+1+\log_2(t+1)\big)$.
 \item Multiplying by $s$ and using $t=\Theta(n)$ and $s=O(1)$ gives $O(n\log n)\subseteq
