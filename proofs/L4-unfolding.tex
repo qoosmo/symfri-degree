@@ -1,0 +1,36 @@
+\section{Unfolding}
+
+\setcounter{lemma}{3}\begin{lemma}[Unfolding]\label{lem:unfold}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$. Let $v_0,\dots,v_{k-1}\in\Vc_i^{w,D}$ and
+$p_0,\dots,p_{k-1}:L_i\to\F[T]$ satisfy
+\[
+v_j(y)=T^{w_ij}\,p_j(y)\qquad\text{for all }y\in L_i,\ 0\le j<k .
+\]
+Define $h:L_{i-1}\to\F[T]$ by $h(x):=\sum_{j<k}x^j\,p_j(x^k)$. Then
+$h\in\Vc_{i-1}^{w,D}$, and the components of $h$ (\cref{def:fold}) are $h_j=p_j$.
+\end{lemma}
+
+\begin{proof}
+Write $v_j=U^{(i)}_{g_j}|_{L_i}$ with $\gdeg_w g_j\le D$, and expand
+$g_j=\sum_a T^a g_{j,a}(x_{i+1},\dots,x_m)$.
+
+\emph{Step 1: $T^{w_ij}$ divides $g_j$.} For $a<w_ij$, the $T^a$-coefficient of $v_j$ is
+$U^{(i)}_{g_{j,a}}|_{L_i}$, and it vanishes because every value of $v_j$ is divisible by
+$T^{w_ij}$. By \cref{lem:inj}, $g_{j,a}=0$. Hence $g_j=T^{w_ij}g'_j$ with
+$\gdeg_w g'_j\le D-w_ij$.
+
+\emph{Step 2: $p_j$ is a codeword.} Since $\F[T]$ is a domain, cancelling $T^{w_ij}$
+pointwise gives $p_j=U^{(i)}_{g'_j}|_{L_i}$.
+
+\emph{Step 3: reassemble.} Put $G:=\sum_{j<k}x_i^{\,j}g'_j\in\F[T][x_i,\dots,x_m]_{<k}$. A
+monomial $x_i^{\,j}T^ax^\beta$ of $G$ has graded degree $w_ij+a+\sum_{l>i}w_l\beta_l\le
+w_ij+(D-w_ij)=D$. By \cref{def:kron},
+$U^{(i-1)}_G(Y)=\sum_jY^jU^{(i)}_{g'_j}(Y^k)$, so $h=U^{(i-1)}_G|_{L_{i-1}}\in\Vc_{i-1}^{w,D}$,
+and $h_j=p_j$ by \cref{lem:fold-sub}(a).
+\end{proof}
+\uses{\cref{def:kron,def:codes,lem:inj,lem:fold-sub}}\usedby{L8}
+
+\begin{remark}
+Steps 1--3 are exactly the ``divisibility by $T^j$'' and ``unfolding'' steps of the
+round lemma, isolated here so that L8 only assembles them.
+\end{remark}

@@ -1,6 +1,6 @@
 \section{Kronecker map}
 
-\begin{lemma}[Kronecker map]\label{lem:kron}
+\setcounter{lemma}{0}\begin{lemma}[Kronecker map]\label{lem:kron}
 The map $g\mapsto U^{(i)}_g$ is an $R$-linear bijection
 \[
 R[x_{i+1},\dots,x_m]_{<k}\longrightarrow R[Y]_{<k^{m-i}},
@@ -15,3 +15,16 @@ $n(\alpha)$, so $\alpha\mapsto n(\alpha)$ is a bijection
 $\{0,\dots,k-1\}^{m-i}\to\{0,\dots,k^{m-i}-1\}$. A basis is sent to a basis.
 \end{proof}
 \uses{\cref{def:kron}}\usedby{\cref{lem:fold-sub}}
+
+{\renewcommand{\thelemma}{L1$'$}\begin{lemma}[Evaluation is injective]\label{lem:inj}
+Let $R=\F[T]$ and $0\le i\le m$. The map
+$g\mapsto U^{(i)}_g\big|_{L_i}$ on $R[x_{i+1},\dots,x_m]_{<k}$ is injective.
+\end{lemma}
+
+\begin{proof}
+Write $U^{(i)}_g=\sum_a T^a P_a(Y)$ with $P_a\in\F[Y]_{<k^{m-i}}$ (\cref{lem:kron}).
+If $U^{(i)}_g$ vanishes on $L_i$, then each $P_a$ vanishes on $L_i$. Since
+$|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, each $P_a=0$, so $U^{(i)}_g=0$ and $g=0$ by
+\cref{lem:kron}.
+\end{proof}}
+\uses{\cref{def:domains,lem:kron}}\usedby{\cref{lem:unfold}}
