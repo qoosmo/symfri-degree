@@ -52,10 +52,8 @@ degrees.
 The price is paid in the size of the messages: a value of $u_i$ is now an element of
 $\prod_s\F[T_s]_{\le d^{(s)}_i}$, that is, a vector of $\prod_s(d^{(s)}_i+1)$ field elements,
 and the analysis of \cref{lem:round} runs with the bound $t$ above in place of
-$1+\max(D,d_{i-1}+w_i(k-1))$. For $k=4$, $m=4$ and $p=2$, with $w^{(1)}=(1,1,1,1)$,
-$D_1=6$ and $w^{(2)}=e_1$, $D_2=2$, one run proves the two constraints, and a value of
-$u_i$ carries $12$ field elements at level $1$ and $21$ at levels $2$ to $4$; two separate
-runs carry $4+3=7$ and $7+3=10$ field elements per point at the same levels.
+$1+\max(D,d_{i-1}+w_i(k-1))$. \Cref{sec:costs} compares this with separate runs on a
+concrete instance.
 
 \subsection{Separate runs}\label{sec:separate}
 
@@ -69,3 +67,44 @@ separate runs only certify closeness to each $C_{w^{(s)},D_s}$, possibly through
 codewords of the list; \cref{rem:multi} is then the right tool.
 \end{remark}
 % = rem:separate
+
+\subsection{Costs on an instance}\label{sec:costs}
+
+We take the instance of \cref{sec:numbers}: $N=2^{20}$, $k=4$, $m=8$, so $|L_i|=2^{20-2i}$,
+and two constraints, $\deg_{\mathrm{tot}}f\le6$ ($w^{(1)}=(1,\dots,1)$, $D_1=6$) and
+$\deg_{x_1}f\le2$ ($w^{(2)}=e_1$, $D_2=2$). The caps are $d^{(1)}=(3,6,6,\dots,6)$ and
+$d^{(2)}=(2,2,\dots,2)$ at levels $1,\dots,8$. \Cref{tab:costs} counts field elements; the
+committed word $u_0$, common to all columns, is not counted in the proof length.
+
+\begin{table}[ht]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{4.2cm}p{2.9cm}p{3.2cm}p{2.4cm}@{}}
+\hline
+ & one run, $T_1,T_2$ & two separate runs & FRI only\\
+\hline
+value size at levels $1$; $\ge2$ & $12$; $21$ & $4+3$; $7+3$ & $1$; $1$\\
+proof length (oracles $u_1,\dots,u_7$) & $4\,980\,288$ & $1\,660\,096+1\,048\,512$ & $349\,504$\\
+last message & $21$ & $7+3$ & $1$\\
+reads per repetition & $556$ & $188+88=276$ & $32$\\
+certifies, up to Johnson & both constraints, one codeword & each constraint separately & $\deg_{x_l}<4$\\
+certifies, below unique decoding & both constraints & both constraints & $\deg_{x_l}<4$\\
+\hline
+\end{tabular}
+\caption{Costs of testing $\deg_{\mathrm{tot}}f\le6$ and $\deg_{x_1}f\le2$ at $N=2^{20}$,
+$k=4$, $m=8$. Reads per repetition are $k\sum_{i=1}^m s_{i-1}$, where $s_i$ is the value size
+at level $i$ and $s_0=1$.}
+\label{tab:costs}
+\end{table}
+
+One run costs about twice as much as the two separate runs here, because the value sizes
+multiply instead of adding. The gap grows with the number of constraints. Bounding every
+individual degree by $b=2$ needs $m=8$ weights $e_1,\dots,e_8$: in one run the value size at
+level $i$ is $3^i$, up to $6561$ at the last level, and a repetition reads
+$4\sum_{i=1}^{8}3^{i-1}=13\,120$ field elements; eight separate runs read
+$\sum_{l=1}^{8}4\,(l+3(8-l))=480$ field elements in total.
+
+The choice therefore depends on the proximity regime. Below the unique-decoding radius,
+separate runs certify the intersection (\cref{rem:separate}) and are cheaper. Beyond it, only
+one run with several formal variables certifies that a single polynomial satisfies all the
+constraints, at the cost shown in \cref{tab:costs}.

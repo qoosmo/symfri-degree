@@ -30,6 +30,27 @@ g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big),
 whose degree in $T$ is the weighted degree $\deg_wf$ with high probability. The verifier
 checks $\deg g\le D$.
 
+\paragraph{Why the univariate encoding.} A FRI-based system that commits to $f$ through
+$U_f$ already holds the word on which our test runs. Testing a degree bound on $f$ therefore
+needs neither a second commitment nor an evaluation domain of the form $L^m$, and the
+verifier keeps the structure of FRI: one fibre per level, one consistency check per fibre.
+The weighted degree $\deg_wf=\max\{\langle w,\alpha\rangle:f_\alpha\ne0\}$ covers the total
+degree ($w=(1,\dots,1)$) and the degree in a single variable ($w=e_l$) with one definition and
+one analysis.
+
+\paragraph{Why symbolic challenges.} The classical way to measure the total degree of $f$ is
+to restrict it to a random line and read off the degree of the univariate
+restriction~\cite{RS96}. On a Kronecker commitment this would require evaluations of $f$ at
+arbitrary points of $\F^m$, that is, opening proofs on top of the proximity test. The symbolic
+fold produces such a restriction without any opening: $g(T)$ is the restriction of $f$ to the
+curve $T\mapsto(r_1T^{w_1},\dots,r_mT^{w_m})$, and it is the last message of the protocol.
+
+\paragraph{What it costs.} The oracles are $D+1$ times larger than those of FRI at most, and a
+query reads at most $D+1$ times more field elements: a value at level $i$ is a polynomial in
+$T$ of degree at most $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$. The number of rounds, the
+number of query repetitions for a given soundness, and the shape of the verifier are those of
+FRI.
+
 \subsection{Results}\label{sec:intro-results}
 
 For $w\in\N^m$ and $D\in\N$, the \emph{degree code} $C_{w,D}$ is the set of evaluations on
