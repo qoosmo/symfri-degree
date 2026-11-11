@@ -68,9 +68,9 @@ $\Gc_i^{w,D}$ (Definition~\ref{def:graded}): their values lie in $\F[T]$, and on
 coming from a polynomial of graded degree at most $D$ are allowed.
 
 The soundness analysis of FRI by Ben-Sasson, Carmon, Ishai, Kopparty and
-Saraf~\cite[\S8]{BCIKS20} reaches the Johnson radius, and we follow it. It applies to words
-with values in $\F$ and to Reed--Solomon codes, and both assumptions fail here: our words take
-values in $\F[T]$, and our codes are proper subcodes. We remove each obstacle with one
+Saraf~\cite[\S8]{BCIKS20} reaches the Johnson radius, and we follow it. That analysis
+applies to words with values in $\F$ and to Reed--Solomon codes. Both assumptions fail here: our
+words take values in $\F[T]$, and our codes are proper subcodes. We remove each obstacle with one
 observation, and neither requires a new decoding argument.
 
 \subsection{Two observations}\label{sec:ov-ideas}
@@ -88,10 +88,9 @@ with coefficients over $\E$ and parameter $r\in\F$. The theorems of~\cite{BCIKS2
 parameter from the field of the code, and their Remark~1.2 allows a larger parameter field,
 not a smaller one. Their proofs, however, use the set of good parameters only through its size
 and through membership in it (\cref{ext:proof-facts}, with page references), so they apply
-as they stand, with the error measured in $|\F|$ (\cref{prop:H1}). Of the two facts we use about these proofs, one is a consequence of a stated proposition
-of~\cite{BCIKS20}, and the other is a reading of the proofs: it is the step of the paper that
-does not rest on a stated theorem, and \cref{sec:params} records it with the places where it
-can be checked.
+as they stand, with the error measured in $|\F|$ (\cref{prop:H1}). Of the two facts we use about these proofs, one follows from a proposition stated
+in~\cite{BCIKS20}. The other is a property of their proofs rather than of a stated theorem, and
+\cref{sec:params} records it with the pages on which it can be checked.
 
 \paragraph{Correlated agreement passes to linear subcodes.} Let $W$ be an $\F$-linear
 subcode. For each good parameter $r$ we choose the nearby codeword $P_r$ inside $W$. The
@@ -122,5 +121,4 @@ value in $\F[T]_{\le D}$, which is exactly what the verifier checks on $g$.
 instance to the constrained Reed--Solomon codes of WHIR~\cite{ACFY25}. Our soundness theorem
 is accordingly a reduction. It needs weighted correlated agreement over curves for
 Reed--Solomon codes, with the two properties of the proof recorded in \cref{sec:params};
-any such theorem beyond the Johnson radius would carry over to the degree test without
-change.
+any such theorem beyond the Johnson radius would carry over to the degree test unchanged.

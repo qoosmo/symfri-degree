@@ -13,10 +13,10 @@ Reed--Solomon codeword, and the deployed machinery for univariate polynomials ap
 unchanged. Multilinear commitment schemes built on FRI follow this route~\cite{ZCF24}, and so
 do schemes for polynomials of higher individual degree~\cite{PolyFRIM}.
 
-What such a test certifies is a statement about $U_f$: its degree is below $k^m$. Through
-the Kronecker map this means that every individual degree of $f$ is below $k$, and nothing
-more. The total degree of $f$, or a weighted combination of its degrees, does not appear in
-the degree of $U_f$; the polynomials $x_1$ and $x_1^{k-1}\cdots x_m^{k-1}$ both pass the degree test on $U_f$. Yet
+What such a test certifies is a statement about $U_f$: its degree is below $k^m$, which
+through the Kronecker map says that every individual degree of $f$ is below $k$. The total
+degree of $f$, or a weighted combination of its degrees, does not appear in the degree of
+$U_f$; the polynomials $x_1$ and $x_1^{k-1}\cdots x_m^{k-1}$ both pass the degree test on $U_f$. Yet
 total-degree bounds are the classical object of multivariate low-degree
 testing~\cite{RS96}, and proximity tests for them exist only for codes evaluated on product
 sets $L^m$~\cite{ABN23,MZ25}, not for the univariate encoding that FRI-based systems use.
@@ -37,8 +37,7 @@ challenge for one variable, the honest last message is
 g(T)=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big),
 \]
 whose degree in $T$ equals $\deg_wf$ for all but a fraction at most $m(k-1)/|\F|$ of the
-challenges $(r_1,\dots,r_m)\in\F^m$. The verifier
-checks $\deg g\le D$.
+challenges $(r_1,\dots,r_m)\in\F^m$. The verifier has only to check $\deg g\le D$.
 
 \paragraph{Why the univariate encoding.} A FRI-based system that commits to $f$ through
 $U_f$ already holds the word on which our test runs. Testing a degree bound on $f$ therefore
@@ -56,7 +55,7 @@ arbitrary points of $\F^m$, that is, opening proofs on top of the proximity test
 fold produces such a restriction without any opening: $g(T)$ is the restriction of $f$ to the
 curve $T\mapsto(r_1T^{w_1},\dots,r_mT^{w_m})$, and it is the last message of the protocol.
 
-\paragraph{What it costs.} The oracles are $D+1$ times larger than those of FRI at most, and a
+\paragraph{What it costs.} The oracles are at most $D+1$ times larger than those of FRI, and a
 query reads at most $D+1$ times more field elements: a value at level $i$ is a polynomial in
 $T$ of degree at most $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$. The number of rounds, the
 number of query repetitions for a given soundness, and the shape of the verifier are those of
@@ -95,14 +94,14 @@ total degree; with $w=e_l$ and $D=b$ it certifies $\deg_{x_l}f\le b$ for any $b<
 Kronecker rate alone cannot do (\cref{sec:individual}). Several constraints can be tested in
 one run with several formal variables (\cref{rem:multi}). At $N=2^{20}$, $\rho=2^{-4}$,
 $k=4$, $m=8$, $D=6$ and $|\F|=2^{256}$, $65$ repetitions give soundness error below
-$2^{-129.9}$ against words with agreement at most $\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})\approx0.25006$
-with $C_{w,D}$, where $\kappa=2^{11}-1$ is the parameter of \cref{cor:johnson},
-that is, at distance just inside the Johnson radius. This is the number of repetitions FRI
+$2^{-129.9}$ against words whose agreement with $C_{w,D}$ is at most
+$\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})\approx0.25006$, where $\kappa=2^{11}-1$ is the parameter
+of \cref{cor:johnson}. That is a distance just inside the Johnson radius. This is the number of repetitions FRI
 needs at the same distance~\cite[\S8.2]{BCIKS20}, and each repetition reads $188$ field
 elements against $32$ for FRI (\cref{sec:numbers}). After the commitment the prover performs
 $O(k^2(D+1)N/(k-1))$ field operations with direct interpolation on each fibre. The test also
 fixes the thresholds of a FRI-based verifiable secret sharing scheme, whose sharing polynomial
-is bound only by the box of its commitment (\cref{sec:avss}).
+is bounded only by the box of its commitment (\cref{sec:avss}).
 
 \subsection{Correlated agreement for subcodes}\label{sec:intro-ca}
 

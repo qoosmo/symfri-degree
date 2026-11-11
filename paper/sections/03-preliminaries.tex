@@ -43,9 +43,9 @@ $i=m+1$ this is $R$.
 
 \subsection{Smooth domains}\label{sec:domains}
 
-The test runs on a chain of multiplicative cosets whose lengths decrease by the fold arity
-$k$; smoothness makes each member of the chain a coset of a cyclic group, so that a point of
-$L_i$ has exactly $k$ preimages in $L_{i-1}$.
+The test runs on a chain of multiplicative cosets whose lengths are divided by the fold arity
+$k$ at each step. Smoothness makes every member of the chain a coset of a cyclic group, so a
+point of $L_i$ has exactly $k$ preimages in $L_{i-1}$.
 
 \begin{definition}[Field and domains]\label{def:domains}
 $\F$ is a finite field; $k\ge 2$, $m\ge 1$ and $N$ are integers with $k^m\mid N$ and
@@ -62,8 +62,8 @@ coefficients of a polynomial.
 
 \subsection{Codes and agreement}\label{sec:codes}
 
-Both codes we need are evaluation codes on a set $L\subseteq\F$: the Reed--Solomon code of
-degree below $d$, and its interleaving, whose symbols are $t$-tuples. Values of oracle words
+Both codes are evaluation codes on a set $L\subseteq\F$: the Reed--Solomon code of degree
+below $d$, and its interleaving, whose symbols are $t$-tuples. Values of oracle words
 are sometimes polynomials in $T$ of degree below $t$; we read such a value as a vector of
 $t$ coefficients.
 
@@ -75,8 +75,8 @@ $\F[T]_{<t}$ with $\F^t$ through coefficients.
 
 Distance is relative Hamming distance: for words $u,v$ on a finite set $L$,
 $\Delta(u,v):=\frac1{|L|}|\{x\in L:u(x)\ne v(x)\}|$, and for a set $C$ of words on $L$,
-$\Delta(u,C):=\min_{v\in C}\Delta(u,v)$. The analysis measures closeness with weights, and
-the same definition covers the unweighted case.
+$\Delta(u,C):=\min_{v\in C}\Delta(u,v)$. The analysis measures closeness with weights, and the
+definition below covers the unweighted case too.
 
 {\sloppy
 \begin{definition}[Weighted agreement]\label{def:agree}
@@ -159,9 +159,9 @@ An interactive oracle proof of proximity (IOPP) for a code $C$ is a public-coin 
 between a prover and a verifier in which each message of the prover is an oracle: the
 verifier may read single entries of it, at a cost charged per entry, and the prover may be
 unbounded. Completeness asks that an honest prover make the verifier accept with probability
-$1$ when the input word lies in $C$. Soundness asks for a bound $\varepsilon(\delta)$ such
-that no prover makes the verifier accept with probability above $\varepsilon(\delta)$ when
-the input word is $\delta$-far from $C$. The number of entries read is the query complexity,
+$1$ when the input word lies in $C$. Soundness asks for an error $\varepsilon(\delta)$: no
+prover may make the verifier accept with probability above $\varepsilon(\delta)$ when the input
+word is $\delta$-far from $C$. The number of entries read is the query complexity,
 the number of exchanges is the round complexity, and the model is the one of
 \cite{BCS16,RRR16}.
 

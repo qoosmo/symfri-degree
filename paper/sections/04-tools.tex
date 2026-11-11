@@ -1,8 +1,9 @@
 \section{Tools}\label{sec:tools}
 
-This section collects what the analysis of \cref{sec:test} uses: the Kronecker map and the fact
-that a fold is a substitution, the graded codes produced by the rounds, the identification of an
-interleaved code with a code over an extension field, the agreement invariants of the weights, the
+This section collects what the analysis of \cref{sec:test} uses. The first three tools describe
+the objects the protocol moves: the Kronecker map and the fact that a fold is a substitution, the
+graded codes produced by the rounds, and the identification of an interleaved code with a code over
+an extension field. The last three are the agreement invariants of the weights, the
 correlated-agreement theorem of \cite{BCIKS20}, and the one hypothesis under which the analysis is
 carried out.
 
@@ -167,8 +168,8 @@ $w_ij+a+\sum_{l>i}w_l\beta_l\le w_ij+(D-w_ij)=D$, so $Q$ has graded degree $\le 
 
 Unfolding is the converse of stability: stability pushes a word of $\Gc_{i-1}^{w,D}$ forward by
 substitution, and \cref{lem:unfold} rebuilds a word of $\Gc_{i-1}^{w,D}$ from $k$ words of
-$\Gc_i^{w,D}$, the hypothesis that $v_j$ is divisible by $T^{w_ij}$ being exactly what a fold
-produces.
+$\Gc_i^{w,D}$. The hypothesis it needs, that $v_j$ is divisible by $T^{w_ij}$, is exactly what a
+fold produces.
 
 \subsection{Interleaved codes as extension-field codes}\label{sec:interleaved}
 
@@ -200,10 +201,11 @@ in $\E$; \cref{cor:share} uses it.
 
 \subsection{Agreement invariants}\label{sec:invariants}
 
-The analysis tracks agreement with the weights of \cref{def:weights}. Four elementary facts are
-needed: agreements take values on a lattice (\cref{lem:gran}), agreement lifts from a set of fibre
-points to the fibres themselves (\cref{lem:lift}), the two notions of agreement coincide at the
-start (\cref{lem:start}), and one round cannot increase agreement (\cref{lem:no-increase}).
+The analysis tracks agreement with the weights of \cref{def:weights}, and it needs four
+elementary facts: lattice-valued agreements (\cref{lem:gran}), the lifting of agreement from a set
+of fibre points to the fibres themselves (\cref{lem:lift}), the coincidence of the two notions of
+agreement at the start (\cref{lem:start}), and the impossibility of increasing agreement in one
+round (\cref{lem:no-increase}).
 
 \begin{lemma}[Granularity]\label{lem:gran}
 Let $\mu:L_i\to\frac1{k^i}\Z\cap[0,1]$. Then $\agree_\mu(u,v)\in\frac1N\Z$ for all words $u,v$ on

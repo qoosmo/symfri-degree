@@ -1,20 +1,21 @@
 \section{Variants}\label{sec:variants}
 
 This section records what the same protocol certifies for other degree notions, what one run
-costs when several constraints are imposed at once, and what separate runs give instead.
+costs when several constraints are imposed at once, what separate runs give instead, and the
+thresholds the same test fixes for a FRI-based secret sharing scheme.
 
 \subsection{Individual and weighted degrees}\label{sec:individual}
 
-The weighted degree covered by Theorem~\ref{thm:main} includes the two degrees usually asked for,
-since $w=(1,\dots,1)$ gives the total degree and $w=e_l$ the degree in $x_l$. For the second
-choice the protocol certifies an individual degree bound of its own.
+Theorem~\ref{thm:main} covers the two degrees usually asked for: $w=(1,\dots,1)$ gives the
+total degree and $w=e_l$ the degree in $x_l$. For the second choice the protocol certifies an
+individual degree bound of its own.
 
 \begin{remark}[Individual degrees]
 Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies
 $\deg_{x_l}<k$ for all $l$; taking $w=e_l$ and $D=b<k$ certifies $\deg_{x_l}f\le b$.
 \end{remark}
 
-The bound $b$ is free below $k$: the same commitment and the same protocol certify
+The bound $b$ is free below $k$: one commitment and one run of the protocol certify
 $\deg_{x_l}f\le b$ for every $b<k$, and not only for $b=k-1$. The caps of
 Construction~\ref{def:protocol} read $d_i=0$ for $i<l$ and $d_i=b$ for $i\ge l$ in this case, so the
 words before level $l$ are scalar and the constraint costs no $T$-degrees. A bound $b\ge k-1$ adds nothing, because the commitment already restricts $f$ to the box
@@ -23,7 +24,7 @@ test certifies bounds inside it.
 
 \subsection{Several constraints in one run}\label{sec:multi}
 
-Let $p\ge1$, let $w^{(1)},\dots,w^{(p)}\in\N^m$ be weights and $D_1,\dots,D_p$ bounds, and
+Fix $p\ge1$, weights $w^{(1)},\dots,w^{(p)}\in\N^m$ and bounds $D_1,\dots,D_p$, and
 write $\mathbf w:=(w^{(1)},\dots,w^{(p)})$, $\mathbf D:=(D_1,\dots,D_p)$, and
 $d^{(s)}_i:=\min\big(D_s,(k-1)\sum_{l\le i}w^{(s)}_l\big)$, the cap of \cref{def:protocol}
 for the $s$-th constraint. The target code is
@@ -58,6 +59,9 @@ $1+\max(D,d_{i-1}+w_i(k-1))$. \Cref{sec:costs} compares this with separate runs 
 concrete instance.
 
 \subsection{Separate runs}\label{sec:separate}
+
+A second way to impose several constraints is to run the protocol once per constraint, on the same
+commitment.
 
 \begin{remark}[Separate runs on one commitment]\label{rem:separate}
 Running $\Pi_{w^{(s)},D_s}$ separately on the same $u_0$ costs the sum of the $p$ runs
