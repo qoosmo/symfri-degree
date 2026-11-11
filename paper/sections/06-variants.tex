@@ -390,3 +390,96 @@ So $\deg_Yf\le t$ is a univariate degree bound on $\hat f$, which FRI certifies 
 standard degree correction and no masking, or equivalently the masked test with $w^Y$. The two
 constraints may also be tested by separate runs on the same commitment (\cref{rem:separate}),
 which certify their intersection below the unique-decoding radius (\cref{sec:separate}).
+
+\subsection{Total degree for committed non-multilinear polynomials}\label{sec:total}
+
+\Cref{sec:avss} bounded the two individual degrees of a bivariate polynomial. The other constraint
+that protocols put on a committed multivariate polynomial is on its total degree, which is the
+weighted degree of \cref{def:wdeg} for $w=\mathbf 1$ and which we write $\deg_{\mathbf 1}f$.
+\Cref{thm:main} certifies $\deg_{\mathbf 1}f\le D$ by the test $\Pi_{\mathbf 1,D}$. The two lemmas
+below say what such a certificate is worth in the step where a protocol replaces several evaluation
+claims by a single one, and \cref{rem:total-app} collects the numbers.
+
+\begin{lemma}[Schwartz--Zippel for the total degree]\label{lem:sz-total}
+Let $m\ge1$, $D\in\N$, and let $f\in\F[x_1,\dots,x_m]$ be nonzero with $\deg_{\mathbf 1}f\le D$. For
+a uniform $r\in\F^m$,
+\[
+\Pr\big[f(r)=0\big]\le\frac{D}{|\F|}.
+\]
+From the individual bounds alone, that is from $\deg_{x_l}f<k$ for all $l$ (the box
+$\F[x_1,\dots,x_m]_{<k}$ of \cref{def:poly}), one gets $\deg_{\mathbf 1}f\le m(k-1)$ and hence the
+bound $m(k-1)/|\F|$, which is the one used in \cref{prop:complete}(c).
+\end{lemma}
+% = L18
+
+\begin{proof}
+\begin{enumerate}
+\item Induction on $m$. For $m=1$, a nonzero $f\in\F[T]$ has at most $\deg f\le D$ roots, so the
+claim holds.
+\item For $m\ge2$ write $f=\sum_{j\le d}f_j(x_1,\dots,x_{m-1})x_m^j$ with $f_d\ne0$; if $d=0$ then
+$f=f_0$ does not involve $x_m$ and the claim is the induction hypothesis, so let $d\ge1$.
+\item Then $\deg_{\mathbf 1}f_d+d\le\deg_{\mathbf 1}f$. Write $r=(r',r_m)$ with $r'$ uniform on
+$\F^{m-1}$; by the induction hypothesis applied to the $(m-1)$-variate polynomial $f_d$,
+$\Pr[f_d(r')=0]\le\deg_{\mathbf 1}f_d/|\F|\le(\deg_{\mathbf 1}f-d)/|\F|$.
+\item Conditioned on $f_d(r')\ne0$ the polynomial $T\mapsto f(r',T)$ is nonzero of degree $d$, so it
+vanishes at the uniform $r_m$ with probability at most $d/|\F|$.
+\item Adding the two bounds of steps 3 and 4 gives
+$\Pr[f(r)=0]\le(\deg_{\mathbf 1}f-d+d)/|\F|=\deg_{\mathbf 1}f/|\F|\le D/|\F|$.
+\end{enumerate}
+\end{proof}
+
+\begin{lemma}[Restriction to a line]\label{lem:line-total}
+Let $m\ge1$, $f\in\F[x_1,\dots,x_m]$ and $\mathbf a,\mathbf b\in\F^m$. Then
+\[
+f(\mathbf a+T\mathbf b):=f(a_1+Tb_1,\dots,a_m+Tb_m)\in\F[T]
+\]
+has degree at most $\deg_{\mathbf 1}f$.
+\end{lemma}
+% = L19
+
+\begin{proof}
+\begin{enumerate}
+\item The substitution $x_l\mapsto a_l+Tb_l$ sends $x^\alpha$ to
+$\prod_{l\le m}(a_l+Tb_l)^{\alpha_l}$, whose $T$-degree is at most $\alpha_1+\dots+\alpha_m$, and to
+$0$ when $a_l=b_l=0$ for some $l$ with $\alpha_l\ne0$.
+\item By \cref{def:wdeg} with $w=\mathbf 1$ one has $\langle\mathbf 1,\alpha\rangle=\alpha_1+\dots+\alpha_m\le\deg_{\mathbf 1}f$
+for every $\alpha$ with $f_\alpha\ne0$, so every term of $f(\mathbf a+T\mathbf b)$ has $T$-degree at
+most $\deg_{\mathbf 1}f$.
+\item A sum of polynomials of $T$-degree at most $\deg_{\mathbf 1}f$ has $T$-degree at most
+$\deg_{\mathbf 1}f$, and $0$ has $T$-degree $-\infty$.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}[Two evaluation claims reduced to one]\label{rem:total-app}
+Let $f$ with $\deg_{x_l}f<k$ for all $l$ be committed, and suppose that $\Pi_{\mathbf 1,D}$ has
+certified $\deg_{\mathbf 1}f\le D$. A protocol may then have to convince the verifier of two claims
+$f(\mathbf a)=y_{\mathbf a}$ and $f(\mathbf b)=y_{\mathbf b}$, for $\mathbf a,\mathbf b\in\F^m$ and
+$y_{\mathbf a},y_{\mathbf b}\in\F$. Let $\ell(T):=\mathbf a+T(\mathbf b-\mathbf a)$, so that
+$\ell(0)=\mathbf a$ and $\ell(1)=\mathbf b$. The prover sends a polynomial $q\in\F[T]_{\le D}$
+claimed to be $f\circ\ell$; the verifier checks $q(0)=y_{\mathbf a}$ and $q(1)=y_{\mathbf b}$, draws
+a uniform $T^*\in\F$ and asks for an opening of the commitment at $\ell(T^*)\in\F^m$, which a
+polynomial commitment scheme provides with one evaluation argument~\cite{PolyFRIM}. If
+$q\ne f\circ\ell$, then $q-f\circ\ell$ is nonzero of degree at most $D$ by \cref{lem:line-total}, so
+$q(T^*)\ne f(\ell(T^*))$ with probability at least $1-D/|\F|$ by \cref{lem:sz-total} with $m=1$. The
+two claims are thus replaced by one, at error $D/|\F|$ and at a cost of $D+1$ field elements. With
+only the individual bounds, $\deg_{\mathbf 1}f\le m(k-1)$ is all that is known, the same step costs
+$m(k-1)+1$ field elements and its error is $m(k-1)/|\F|$. At the parameters of \cref{sec:numbers} ($k=4$,
+$m=8$, $D=6$) the certificate gives $7$ field elements at error $6/|\F|$, against $25$ elements at
+$24/|\F|$ without it.
+\end{remark}
+% = rem:total-app
+
+\begin{remark}[Protocols whose soundness is stated in the total degree]\label{rem:total-prior}
+For some interactive proofs the total degree is the parameter of the soundness statement, and a
+certificate of $\deg_{\mathbf 1}f\le D$ is then an input to their analysis rather than a
+strengthening of it. One such protocol is~\cite{FoldDCS}: "In both the standard and our protocol, the
+soundness is linear in the number of rounds. However, the soundness of Fold-DCS depends on the total
+degree of the polynomial, not its individual degrees"~\cite[p.~2]{FoldDCS}. Its error is bounded by
+$\log(\mu)D/|\F|$ for $\mu$ variables and total degree $D$, against $\mu d/|\F|$ for the classical
+sumcheck with partial degree bound $d$~\cite[\S3.2.2]{FoldDCS}, and it constrains the commitment
+itself to total degree at most $D$~\cite[\S4.2.1]{FoldDCS}. The line step of \cref{rem:total-app} is
+the one of the GKR protocol~\cite{GKR15}, which uses it to reduce the two claims of a round to a
+single one~\cite[\S4.6.4]{Thaler22}; the subroutine, with its soundness claim, is
+\cite[\S4.5.2, Claim~4.6]{Thaler22}.
+\end{remark}
+% = rem:total-prior

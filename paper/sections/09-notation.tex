@@ -21,7 +21,7 @@ $w,\ \langle w,\alpha\rangle$ & weight vector in $\N^m$, $\sum_lw_l\alpha_l$ & \
 $e_l,\ \mathbf 1$ & $l$-th unit vector of $\N^m$, $(1,\dots,1)$ & \cref{sec:notation}\\
 $q_\alpha,\ \deg_{x_l}q$ & coefficient of $x^\alpha$ in $q$, $\max\{\alpha_l:q_\alpha\ne0\}$ & \cref{sec:notation}\\
 $R$ & commutative $\F$-algebra, $R=\F$ or $R=\F[T]$ & \cref{def:poly}\\
-$R[x_i,\dots,x_m]_{<k}$ & polynomials with $\deg_{x_l}<k$ for $l\ge i$ & \cref{def:poly}\\
+$R[x_i,\dots,x_m]_{<k}$ & polynomials with $\deg_{x_l}<k$ for $l\ge i$; the box of the encoding & \cref{def:poly}\\
 $T$ & formal variable introduced by the folds & \cref{def:poly}\\
 $\F[T]_{\le e},\ \F[T]_{<t}$ & polynomials of degree $\le e$, resp.\ $<t$ & \cref{sec:notation}\\
 $\deg_wf$ & weighted degree $\max\{\langle w,\alpha\rangle:f_\alpha\ne0\}$ & \cref{def:wdeg}\\
@@ -59,5 +59,8 @@ $n$ & number of parties, $n=3t+1$ (in \cref{ext:bciks72,ext:bciks71,hyp:ca}: $n=
 $c$ & number of corrupted parties; threshold $t=c+2s$ of FRISS & \cref{sec:avss}\\
 $\sigma$ & the secret $f(z,0)$ at the prescribed point $z$ & \cref{sec:avss}\\
 $\omega_i,\ \sigma_i,\ P_A$ & point of party $i$, $f(\omega_i,0)$, interpolant through a set $A$ of $t+1$ parties & \cref{rem:avss-threshold}\\
+$\deg_{\mathbf 1}f$ & total degree, the weighted degree for $w=\mathbf 1$ & \cref{sec:total}\\
+$\mathbf a,\ \mathbf b,\ y_{\mathbf a},\ y_{\mathbf b}$ & two points of $\F^m$ and the claimed values $f(\mathbf a)$, $f(\mathbf b)$ & \cref{rem:total-app}\\
+$\ell(T),\ q,\ T^*$ & line $\mathbf a+T(\mathbf b-\mathbf a)$, message claimed to be $f\circ\ell$, its query point & \cref{rem:total-app}\\
 \bottomrule
 \end{longtable}}
