@@ -2,7 +2,8 @@
 
 This section records what the same protocol certifies for other degree notions, what one run
 costs when several constraints are imposed at once, what separate runs give instead, and the
-thresholds the same test fixes for a FRI-based secret sharing scheme.
+thresholds the same test fixes for a FRI-based secret sharing scheme, and what a certificate of
+the total degree saves when evaluation claims are reduced along a line.
 
 \subsection{Individual and weighted degrees}\label{sec:individual}
 
@@ -479,8 +480,8 @@ certificate of $\deg_{\mathbf 1}f\le D$ is then an input to their analysis rathe
 strengthening of it. One such protocol is~\cite{FoldDCS}: "In both the standard and our protocol, the
 soundness is linear in the number of rounds. However, the soundness of Fold-DCS depends on the total
 degree of the polynomial, not its individual degrees"~\cite[p.~2]{FoldDCS}. Its error is bounded by
-$\log(\mu)D/|\F|$ for $\mu$ variables and total degree $D$, against $\mu d/|\F|$ for the classical
-sumcheck with partial degree bound $d$~\cite[\S3.2.2]{FoldDCS}, and it constrains the commitment
+$\log(m)D/|\F|$ for $m$ variables and total degree $D$, against $mb/|\F|$ for the classical
+sumcheck with individual degree bound $b$ (their $\mu$ and $d$)~\cite[\S3.2.2]{FoldDCS}, and it constrains the commitment
 itself to total degree at most $D$~\cite[\S4.2.1]{FoldDCS}. The line step of \cref{rem:total-app} is
 the one of the GKR protocol~\cite{GKR15}, which uses it to reduce the two claims of a round to a
 single one~\cite[\S4.6.4]{Thaler22}; the subroutine, with its soundness claim, is

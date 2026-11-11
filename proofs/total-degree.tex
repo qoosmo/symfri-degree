@@ -60,8 +60,8 @@ For some interactive proofs the total degree is the parameter of the soundness s
 certificate of $\deg_{\mathbf 1}f\le D$ is then an input to their analysis rather than a
 strengthening of it. Fold-DCS [Fold-DCS, arXiv:2504.00693] is one: "the soundness of Fold-DCS
 depends on the total degree of the polynomial, not its individual degrees" (p.~2). Its error is
-bounded by $\log(\mu)D/|\F|$ for $\mu$ variables and total degree $D$, against $\mu d/|\F|$ for the
-classical sumcheck with partial degree bound $d$ (\S3.2.2), and it constrains the commitment itself
+bounded by $\log(m)D/|\F|$ for $m$ variables and total degree $D$, against $mb/|\F|$ for the
+classical sumcheck with individual degree bound $b$ (their $\mu$ and $d$) (\S3.2.2), and it constrains the commitment itself
 to total degree at most $D$ (\S4.2.1). The line step of \cref{rem:total-app} is the one of the GKR
 protocol [GKR, STOC 2008 / J.~ACM 62(4), 2015], which uses it to reduce the two claims of a round to
 a single one [Thaler, \S4.6.4]; the subroutine, with its soundness claim, is
