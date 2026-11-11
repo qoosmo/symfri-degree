@@ -35,9 +35,10 @@ interpolated from $t+1$ valid Echo values {[PolyFRIM, Alg.~3, step 16]}.
 
 This does not contradict {[PolyFRIM, Thm.~4.1]}: Definition~2.4 there constrains the
 reconstructed value only when the dealer is honest (Correctness), and its Agreement property
-requires that all honest parties terminate, not that they output the same value. What
-\cref{rem:avss-threshold} shows is that the stronger requirement, that a malicious dealer be
-bound to a single secret, is not met without a degree test.
+requires that all honest parties terminate, not that they output the same value. The proof of Correctness in {[PolyFRIM, App.~E]} goes further and states, without assuming an honest
+dealer, that the honest parties reconstruct the same secret. \cref{rem:avss-threshold} shows
+that this stronger property, that a malicious dealer be bound to a single secret, does not hold
+without a degree test.
 
 \uses{\cref{def:avss}}\usedby{the paper}
 
