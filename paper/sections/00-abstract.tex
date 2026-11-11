@@ -16,5 +16,7 @@ subcode, so the test applies to linear subcodes of Reed--Solomon codes in genera
 constrained codes of WHIR. For $N=2^{20}$, rate $2^{-4}$, eight variables of individual degree below $4$ and
 total degree at most $6$, $65$ query repetitions over a $256$-bit field give soundness error
 below $2^{-129.9}$. A Rust prototype checks completeness and the predicted behaviour on
-cheating provers.
+cheating provers. As applications, the test fixes the thresholds of a FRI-based verifiable secret
+sharing scheme, and a certificate of the total degree shortens the reduction of two evaluation
+claims to one.
 \end{abstract}

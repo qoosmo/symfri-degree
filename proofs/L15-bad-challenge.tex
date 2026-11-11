@@ -32,6 +32,13 @@ most $2^\tau-1$ roots: every party outputs a secret other than $s$.
 The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(\omega_i,Y)$
 interpolated from $t+1$ valid Echo values {[PolyFRIM, Alg.~3, step 16]}.
 \end{remark}
+
+This does not contradict {[PolyFRIM, Thm.~4.1]}: Definition~2.4 there constrains the
+reconstructed value only when the dealer is honest (Correctness), and its Agreement property
+requires that all honest parties terminate, not that they output the same value. What
+\cref{rem:avss-threshold} shows is that the stronger requirement, that a malicious dealer be
+bound to a single secret, is not met without a degree test.
+
 \uses{\cref{def:avss}}\usedby{the paper}
 
 \begin{lemma}[One bad challenge]\label{lem:avss-bad}

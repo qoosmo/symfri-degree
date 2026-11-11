@@ -1,7 +1,7 @@
 \section{Variants}\label{sec:variants}
 
 This section records what the same protocol certifies for other degree notions, what one run
-costs when several constraints are imposed at once, what separate runs give instead, and the
+costs when several constraints are imposed at once, what separate runs give instead, the
 thresholds the same test fixes for a FRI-based secret sharing scheme, and what a certificate of
 the total degree saves when evaluation claims are reduced along a line.
 
@@ -216,6 +216,12 @@ The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(
 interpolated from $t+1$ valid Echo values~\cite[Alg.~3, step 16]{PolyFRIM}.
 \end{remark}
 % = rem:avss-threshold
+
+This does not contradict \cite[Thm.~4.1]{PolyFRIM}: Definition~2.4 there constrains the
+reconstructed value only when the dealer is honest (Correctness), and its Agreement property
+requires that all honest parties terminate, not that they output the same value. What
+\cref{rem:avss-threshold} shows is that the stronger requirement, that a malicious dealer be
+bound to a single secret, is not met without a degree test.
 
 The remedy is one extra round of hiding: the dealer masks $f$ with a random polynomial of
 $V_t$, so that the tested polynomial is uniform in $V_t$ and the test can only fail when the
