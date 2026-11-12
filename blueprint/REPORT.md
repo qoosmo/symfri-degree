@@ -521,3 +521,45 @@ file uses the prebuilt copy of the *same* tag when the environment variable
 SYMFRI_LOCAL_MATHLIB=1 lake build        # this machine
 lake build                               # anywhere else: fetches the pinned revision
 ```
+
+
+---
+
+## R9. Phase 1d working log — INCOMPLETE, NOT CERTIFIED
+
+Baseline: Phase 1c snapshot `1f17c5408f1f13c8a9d360eac313a8a835426493` on the existing `blueprint` branch.
+
+### Item 2.1 — protocol model (partial correction)
+
+Source `proofs/protocol.tex`, `def:protocol`:
+> The prover sends `u_0:L_0→F`; for each `i=1,…,m`, the verifier sends `r_i∈F`, puts `c_i:=r_iT^{w_i}`, and the prover sends `u_i:L_i→F[T]_{≤d_i}`. At the terminal level the word is one polynomial `g∈F[T]_{≤D}`. Acceptance requires the fold checks along all query paths and message-space formats.
+
+Lean source now in `lean/SymFRI/Protocol.lean`:
+
+```lean
+structure Prover {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) where
+  u0 : T.L 0 → F
+  u : (i : ℕ) → (Fin i → F) → T.L i → Polynomial F
+  u0_const : ∀ x : T.L 0, u 0 (fun j => j.elim0) x = Polynomial.C (u0 x)
+
+ def symbolicChallenge (w : ℕ → ℕ) (r : F) (i : ℕ) : Polynomial F :=
+  Polynomial.C r * Polynomial.X ^ (w i)
+```
+
+The full file also defines `FormatAt`, `TerminalFormat`, `TranscriptFormat`, switches `ChecksAt` and `muStep` to `foldP`, and makes `Accepts` require the format. `Soundness.lean` reads `p.u0` for the committed field-valued word. Zero-based Lean `w i` is the LaTeX `w_{i+1}`.
+
+**Verdict: not yet certified faithful.** The source was inspected; compilation and the downstream soundness/acceptance bridge have not been checked. In particular, item 2.5 must recheck the exact `claim85` identity using the updated `Accepts` and `muChain`; it must not be inferred from the earlier pointwise-bound axiom.
+
+### Item 2.10 — dependency configuration
+
+Committed `lakefile.lean` now uses the requested pinned Git Mathlib dependency and `checkdecls`. The custom elaborator and machine-specific Mathlib override are removed from the file. Historical references elsewhere in the repository still need auditing for the full grep check.
+
+**Verdict: source edit made; `lake build` not executed.**
+
+### Mechanical checks — NOT RUN
+
+The available runtime has no `lean` or `lake` executable. The container's GitHub clone attempt failed with `Could not resolve host: github.com`; GitHub file reads/writes were performed through the authenticated connector instead. Therefore no build, axiom check, or leanblueprint success is claimed. Command outputs in §3 remain outstanding.
+
+### Remaining items
+
+Items 2.2–2.9 are not certified; no statement-equivalence or non-vacuity verdict should be inferred from this working log. In particular, the existing `round_up`, `round`, `sound_fold`, `reduction`, `johnson`, `unique_decoding`, `bad_count`, `H_unique` and AVSS obligations still need revision and checking.
