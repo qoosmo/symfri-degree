@@ -43,7 +43,7 @@ is at most `α`. -/
 theorem sound_fold {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) (rho alpha_star : ℝ)
     (Theta : ℕ → ℕ → ℕ → ℝ) (kappa : ℕ) (H : CA rho alpha_star Theta kappa) (hstar : (rho : ℝ) < alpha_star)
     (alpha : ℝ) (halpha : alpha_star ≤ alpha) (p : Prover T w D)
-    (h0 : AgreeLe (Weight.one (T.L 0)) (p.u 0 (fun j => j.elim0)) (degreeCode T w D : Set (T.L 0 → F)) alpha)
+    (h0 : AgreeLe (Weight.one (T.L 0)) p.u0 (degreeCode T w D : Set (T.L 0 → F)) alpha)
     (r : Fin m → F) (hgood : True) :
     True := by
   sorry
@@ -54,7 +54,7 @@ and is not part of the challenge count.) -/
 theorem reduction {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) (alpha alpha_star : ℝ)
     (Theta : ℕ → ℕ → ℕ → ℝ) (kappa : ℕ) (H : CA (0 : ℝ) alpha_star Theta kappa) (hstar : (0 : ℝ) < alpha_star)
     (halpha : alpha_star ≤ alpha) (p : Prover T w D)
-    (h0 : AgreeLe (Weight.one (T.L 0)) (p.u 0 (fun j => j.elim0)) (degreeCode T w D : Set (T.L 0 → F)) alpha) :
+    (h0 : AgreeLe (Weight.one (T.L 0)) p.u0 (degreeCode T w D : Set (T.L 0 → F)) alpha) :
     ((acceptSet T w D 0 p).card : ℝ) ≤
       ∑ i : Fin m, Theta ((T.L (i + 1)).card) (k ^ ((i : ℕ) + 1)) (k - 1) / (Fintype.card F : ℝ) := by
   sorry
