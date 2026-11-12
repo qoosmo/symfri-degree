@@ -28,7 +28,31 @@ variable {F : Type*} [Field F] [Fintype F] [DecidableEq F]
 `(r_1, …, r_i)`. -/
 structure Prover {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) where
   /-- the message `u i` on `L i` -/
-  u : (i : ℕ) → (Fin i → F) → T.L i → F
+  u0 : T.L 0 → F
+  u : (i : ℕ) → (Fin i → F) → T.L i → Polynomial F
+  u0_const : ∀ x : T.L 0, u 0 (fun j => j.elim0) x = Polynomial.C (u0 x)
+
+/-- The symbolic challenge at the zero-based round index i (LaTeX round i+1). -/
+def symbolicChallenge (w : ℕ → ℕ) (r : F) (i : ℕ) : Polynomial F :=
+  Polynomial.C r * Polynomial.X ^ (w i)
+
+/-- The message-space degree cap at a given level of one transcript. -/
+def FormatAt {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ)
+    (p : Prover T w D) (r : Fin m → F) (i : ℕ) (hi : i ≤ m) : Prop :=
+  ∀ y : T.L i,
+    (p.u i (fun j => r ⟨j.1, by omega⟩) y).natDegree ≤ caps k w D i
+
+/-- The terminal message is a single polynomial g of degree at most D. -/
+def TerminalFormat {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ)
+    (p : Prover T w D) (r : Fin m → F) : Prop :=
+  ∃ g : Polynomial F, g.natDegree ≤ D ∧
+    ∀ y : T.L m, p.u m (fun j => r j) y = g
+
+/-- All format checks of the transcript, including the constant terminal word. -/
+def TranscriptFormat {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ)
+    (p : Prover T w D) (r : Fin m → F) : Prop :=
+  (∀ (i : ℕ) (hi : i ≤ m), FormatAt T w D p r i hi) ∧
+    TerminalFormat T w D p r
 
 /-- The query path of `def:protocol`: `ξ_i := ξ_{i-1} ^ k`, starting from `ξ_0`. -/
 noncomputable def Tower.path {k m : ℕ} (T : Tower F k m) :
@@ -44,14 +68,16 @@ def ChecksAt {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) (p : Prov
     (r : Fin m → F) (ξ : T.L 0) : Prop :=
   ∀ (i : ℕ) (hi : i < m),
     p.u (i + 1) (fun j => r ⟨j, by omega⟩) (T.path (i + 1) (by omega) ξ) =
-      fold T i hi (r ⟨i, hi⟩) (p.u i (fun j => r ⟨j, by omega⟩))
+      foldP T i hi (symbolicChallenge w (r ⟨i, hi⟩) i)
+        (p.u i (fun j => r ⟨j, by omega⟩))
         (T.path (i + 1) (by omega) ξ)
 
 /-- `def:protocol`.  The verifier accepts for the challenges `r` and the `s` seeds `ξ`: every
 repetition passes every fold check. -/
 def Accepts {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) (s : ℕ) (p : Prover T w D)
     (r : Fin m → F) (ξ : Fin s → T.L 0) : Prop :=
-  ∀ a : Fin s, ChecksAt T w D p r (ξ a)
+  TranscriptFormat T w D p r ∧
+    ∀ a : Fin s, ChecksAt T w D p r (ξ a)
 
 /-- `def:protocol`.  The acceptance set: the challenge vectors and query seeds on which the verifier
 accepts.  The soundness count of `thm:reduction` is over this finite set. -/
@@ -78,8 +104,10 @@ noncomputable def muStep {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : �
   classical
   exact
   { mu := fun y =>
-      if p.u (i + 1) (fun j => r ⟨j, by omega⟩) y =
-          fold T i hi (r ⟨i, hi⟩) (p.u i (fun j => r ⟨j, by omega⟩)) y
+      if TranscriptFormat T w D p r ∧
+          p.u (i + 1) (fun j => r ⟨j, by omega⟩) y =
+            foldP T i hi (symbolicChallenge w (r ⟨i, hi⟩) i)
+              (p.u i (fun j => r ⟨j, by omega⟩)) y
         then (nu T i hi mu).mu y else 0
     nonneg := by sorry
     le_one := by sorry
