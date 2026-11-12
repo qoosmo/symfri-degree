@@ -1,9 +1,8 @@
 \section{Correlated agreement for linear subcodes}
 
 \begin{consequence}[Correlated agreement for subcodes]\label{cor:share}
-Assume $\mathrm H(\alpha_*,\Theta)$. Let $\E\supseteq\F$, $L\subseteq\F$ with $|L|=n$,
-$V=\RS[\E,L,d]$ of rate $\rho=d/n$, $u_0,\dots,u_l:L\to\E$, and let $\mu$ have denominator $M$.
-Let $W\subseteq V$ be an $\F$-linear subspace, let $\alpha\ge\alpha_*$, and let
+Assume $\mathrm H(\alpha_*,\Theta)$, let $\E,L,d,V,u_0,\dots,u_l$ and $\mu,M$ be as in
+\cref{hyp:ca}, and let $\alpha\ge\alpha_*$. Let $W\subseteq V$ be an $\F$-linear subspace and let
 \[
 S:=\Big\{z\in\F:\ \exists P_z\in W\ \text{with}\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,P_z\Big)\ge\alpha\Big\}
 \]
@@ -14,7 +13,7 @@ satisfy $|S|>\Theta(n,M,l)$. Then there are $v_0,\dots,v_l\in W$ with
 \end{consequence}
 
 \begin{proof}
-Fix $P_z\in W$ for $z\in S$ as in the definition of $S$, and apply \ref{hyp:ca}: it gives
+Fix $P_z\in W$ for $z\in S$ as in the definition of $S$, and apply \cref{hyp:ca}: it gives
 $v_0,\dots,v_l\in V$ with the stated agreement and $\sum_jz^jv_j=P_z$ for more than $l$ values
 $z\in S$. Those sums lie in $W$, so $v_j\in W$ by \cref{lem:subcode}.
 \end{proof}

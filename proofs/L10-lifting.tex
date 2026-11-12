@@ -1,18 +1,25 @@
-\section{Lifting agreement from a set}
+\section{Fibre averages and lifting}
+
+\begin{definition}[Fibre average]\label{def:fibre-avg}
+Let $\mu$ be a weight on $L_{i-1}$. Its \emph{fibre average} is the weight $\nu$ on $L_i$ with
+\[
+\nu(y):=\frac1k\sum_{x\in\fib(y)}\mu(x)\qquad(y\in L_i).
+\]
+\end{definition}
+\uses{\cref{def:domains}}\usedby{\cref{def:weights,lem:lift,lem:round-up}}
 
 \begin{lemma}[Lifting]\label{lem:lift}
-Let $\mu^{(i-1)}$ be a weight on $L_{i-1}$ and $\nu^{(i)}$ its fibre average
-(\cref{def:weights}). If $u,h:L_{i-1}\to R$ agree on $\fib(y)$ for every $y\in A\subseteq L_i$,
-then
+Let $\mu$ be a weight on $L_{i-1}$ with fibre average $\nu$ (\cref{def:fibre-avg}). If $u,h$, maps
+on $L_{i-1}$ into any set, agree on $\fib(y)$ for every $y\in A\subseteq L_i$, then
 \[
-\agree_{\mu^{(i-1)}}(u,h)\ \ge\ \nu^{(i)}(A):=\frac1{|L_i|}\sum_{y\in A}\nu^{(i)}(y).
+\agree_\mu(u,h)\ \ge\ \nu(A):=\frac1{|L_i|}\sum_{y\in A}\nu(y).
 \]
 \end{lemma}
 
 \begin{proof}
-The set of $x\in L_{i-1}$ on which $u$ and $h$ agree contains the union of the fibres
-$\fib(y)$, $y\in A$, and these are disjoint. Hence
-$\agree_{\mu^{(i-1)}}(u,h)\ge\frac1{|L_{i-1}|}\sum_{y\in A}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)$,
-and $\frac1{|L_{i-1}|}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)=\frac1{k|L_i|}\sum_{x\in\fib(y)}\mu^{(i-1)}(x)=\frac{\nu^{(i)}(y)}{|L_i|}$.
+The set of $x\in L_{i-1}$ on which $u$ and $h$ agree contains the union of the fibres $\fib(y)$,
+$y\in A$, and these are disjoint. Hence
+$\agree_\mu(u,h)\ge\frac1{|L_{i-1}|}\sum_{y\in A}\sum_{x\in\fib(y)}\mu(x)$, and
+$\frac1{|L_{i-1}|}\sum_{x\in\fib(y)}\mu(x)=\frac1{k|L_i|}\sum_{x\in\fib(y)}\mu(x)=\frac{\nu(y)}{|L_i|}$.
 \end{proof}
-\uses{\cref{def:agree,def:weights,def:domains}}\usedby{\cref{lem:round}}
+\uses{\cref{def:agree,def:fibre-avg,def:domains}}\usedby{\cref{lem:round-up}}

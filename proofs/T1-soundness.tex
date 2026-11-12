@@ -1,5 +1,24 @@
 \section{Soundness}
 
+\begin{lemma}[Good challenges keep the agreement]\label{lem:sound-fold}
+Assume $\mathrm H(\alpha_*,\Theta)$ with $\alpha_*>\rho$, let $\alpha\ge\alpha_*$, and let
+$\agree(u_0,C_{w,D})\le\alpha$. Fix a prover and challenges $r_1,\dots,r_m\in\F$, let
+$u_1,\dots,u_m$ be the prover's words, and let $S_i\subseteq\F$ be the set of \cref{lem:round}
+for $u:=u_{i-1}$ and $\mu^{(i-1)}$; it depends only on $r_1,\dots,r_{i-1}$. If $r_i\notin S_i$
+for every $1\le i\le m$, then $\agree_{\mu^{(m)}}(u_m,\Gc_m^{w,D})\le\alpha$.
+\end{lemma}
+
+\begin{proof}
+By \cref{lem:start}, $\agree_{\mu^{(0)}}(u_0,\Gc_0^{w,D})=\agree(u_0,C_{w,D})\le\alpha$. For
+$1\le i\le m$, $r_i\notin S_i$ means by \cref{lem:round} that
+$\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),\Gc_i^{w,D})\le\beta_i$, and $\beta_i$ is the maximum of
+$\agree_{\mu^{(i-1)}}(u_{i-1},\Gc_{i-1}^{w,D})$ and $\alpha_*$; with \cref{lem:no-increase} this
+gives
+$\agree_{\mu^{(i)}}(u_i,\Gc_i^{w,D})\le\max(\agree_{\mu^{(i-1)}}(u_{i-1},\Gc_{i-1}^{w,D}),\alpha_*)$,
+and induction from the base case, using $\alpha\ge\alpha_*$, gives the claim.
+\end{proof}
+\uses{\cref{hyp:ca,lem:start,lem:round,lem:no-increase}}\usedby{\cref{thm:reduction}}
+
 \begin{theorem}[Soundness, reduction form]\label{thm:reduction}
 Assume $\mathrm H(\alpha_*,\Theta)$ with $\alpha_*>\rho$, let $\alpha\ge\alpha_*$, and suppose
 $\agree(u_0,C_{w,D})\le\alpha$. Then for every prover the test $\Pi_{w,D}$ accepts with
@@ -10,17 +29,19 @@ probability at most
 \end{theorem}
 
 \begin{proof}
-\begin{enumerate}
-\item By \cref{lem:start}, $\agree(u_0,\Gc_0^{w,D})=\agree(u_0,C_{w,D})\le\alpha$.
-\item For $1\le i\le m$ let $B_i$ be the event that $r_i$ lies in the set $S_i$ of \cref{lem:round}; then $\Pr[B_i]\le\Theta(|L_i|,k^i,k-1)/|\F|$, so $\Pr[\bigcup_iB_i]$ is at most the first term.
-\item By \cref{lem:no-increase}, outside $B_i$ one has $\agree_{\mu^{(i)}}(u_i,\Gc_i^{w,D})\le\max(\agree_{\mu^{(i-1)}}(u_{i-1},\Gc_{i-1}^{w,D}),\alpha_*)$, so induction from step 1 gives $\agree_{\mu^{(m)}}(u_m,\Gc_m^{w,D})\le\alpha$.
-\item Since $u_m=g\in\Gc_m^{w,D}$ and $\Gc_m^{w,D}$ is the set of constant words with value in $\F[T]_{\le D}$, \cref{ext:claim85} bounds the probability that one query accepts by $\agree_{\mu^{(m)}}(g,g)\le\alpha$, and the $s$ repetitions by $\alpha^s$.
-\end{enumerate}
+The prover's words are fixed; the challenges $(r_1,\dots,r_m)$ are uniform on $\F^m$. By
+\cref{lem:bad-count} with $S_i$ as in \cref{lem:round} and $\Theta_i:=\Theta(|L_i|,k^i,k-1)$, the
+tuples with $r_i\in S_i$ for some $i$ number at most $|\F|^{m-1}\sum_i\Theta_i$, so they have
+probability at most $\frac1{|\F|}\sum_i\Theta_i$. Outside them \cref{lem:sound-fold} gives
+$\agree_{\mu^{(m)}}(u_m,\Gc_m^{w,D})\le\alpha$; since $u_m=g\in\Gc_m^{w,D}$ and $\Gc_m^{w,D}$ is the
+set of constant words with value in $\F[T]_{\le D}$, \cref{ext:claim85} bounds the probability that
+one query accepts by $\alpha$ and the $s$ repetitions by $\alpha^s$. Adding the two bounds gives the
+claim.
 \end{proof}
-\uses{\cref{lem:start,lem:round,lem:no-increase,ext:claim85}}\usedby{\ref{cor:johnson}, \ref{cor:ud}}
+\uses{\cref{lem:sound-fold,lem:bad-count,ext:claim85}}\usedby{\cref{cor:johnson} and \cref{cor:ud}}
 
 \begin{consequence}[Soundness at the Johnson radius]\label{cor:johnson}
-Let $\kappa\ge3$, $\rho:=k^m/N$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
+Let $\kappa\ge3$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
 suppose $\agree(u_0,C_{w,D})\le\alpha$. Then the test accepts with probability at most
 $\varepsilon_C+\alpha^s$, where
 \[
@@ -30,13 +51,13 @@ $\varepsilon_C+\alpha^s$, where
 \end{consequence}
 
 \begin{proof}
-Use \cref{prop:H1} in \cref{thm:reduction}: for each $i$,
-$\Theta_J(|L_i|,k^i,k-1)=(k-1)\max(A|L_i|^2,B(N+1))$, with $A$ and $B$ the two constants of
-$\Theta_J$ and $M=k^i$, so $Mn=N$. Hence
+Use \cref{prop:H1} in \cref{thm:reduction}: for each $i$ the quantity
+$\Theta_J(|L_i|,k^i,k-1)$ equals $(k-1)\max(a_J|L_i|^2,b_J(N+1))$, with $a_J$ and $b_J$ the two
+constants of $\Theta_J$. Here $M=k^i$, so $Mn=N$. Hence
 \[
-\sum_{i=1}^{m}\Theta_J(|L_i|,k^i,k-1)\ \le\ A\sum_{i=1}^{m}(k-1)|L_i|^2+B\,m(k-1)(N+1),
+\sum_{i=1}^{m}\Theta_J(|L_i|,k^i,k-1)\ \le\ a_J\sum_{i=1}^{m}(k-1)|L_i|^2+b_J\,m(k-1)(N+1),
 \]
-and $\sum_i(k-1)|L_i|^2=(k-1)N^2\sum_ik^{-2i}=\frac{N^2}{k+1}$.
+and $\sum_i(k-1)|L_i|^2=(k-1)N^2\sum_ik^{-2i}=\frac{N^2(1-k^{-2m})}{k+1}\le\frac{N^2}{k+1}$.
 \end{proof}
 \uses{\cref{prop:H1,thm:reduction}}\usedby{the paper}
 
@@ -51,8 +72,7 @@ with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
 
 \begin{proof}
 Use \cref{prop:H2} with $\alpha_*=\alpha$ in \cref{thm:reduction}: each of the $m$ terms
-$\Theta_U(|L_i|,k^i,k-1)$ equals $(k-1)(N+1)(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho})$, since
-$k^i|L_i|=N$.
+$\Theta_U(|L_i|,k^i,k-1)$ equals $(k-1)(N+1)(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho})$ by \cref{def:domains}.
 \end{proof}
 \uses{\cref{prop:H2,thm:reduction}}\usedby{the paper}
 
@@ -66,3 +86,4 @@ taking $w=e_l$ and $D=b<k$ certifies $\deg_{x_l}f\le b$.
 [BCIKS20, \S5.2.3] (the characteristic of $\F$ exceeds $D_Y$, the bound on the $Y$-degree of the interpolating polynomial $Q(X,Y,Z)$ of [BCIKS20, \S5], which satisfies $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$); the
 general case, with inseparable factors, is treated in [BCIKS20, Appendix~C].
 \end{remark}
+\uses{\cref{ext:bciks72}}\usedby{the paper}

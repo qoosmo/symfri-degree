@@ -1,32 +1,42 @@
 \section{Secrecy of the masked degree test}
 
+\begin{lemma}[The masked value is uniform]\label{lem:avss-uniform}
+Let $f,e\in V_t$ with $e$ uniform and independent of $f$ and of $\theta\in\F^*$. Then
+$h:=f+\theta e$ is uniform on $V_t$ and independent of $f$ and of $\theta$.
+\end{lemma}
+
+\begin{proof}
+The map $e\mapsto f+\theta e$ is a translation composed with a scaling by $\theta\ne0$, hence a
+bijection of $V_t$; a uniform variable pushed through a bijection stays uniform, and as a function
+of $e$ alone $h$ is independent of $f$ and of $\theta$.
+\end{proof}
+\uses{\cref{def:avss}}\usedby{\cref{lem:avss-secret}}
+
 \begin{lemma}[Secrecy]\label{lem:avss-secret}
 Let $f\in V_t$ and $\theta\in\F^{*}$, and let $e$ be uniform on $V_t$, independent of $f$, of
 $\theta$ and of the randomness of the PCS. Then
 \begin{enumerate}
-\item[(a)] $h=f+\theta e$ is uniform on $V_t$ and independent of $f$ and $\theta$;
-\item[(b)] every message of the masked test \cref{con:avss-mask} is a function of $h$,
+\item[(a)] every message of the masked test \cref{con:avss-mask} is a function of $h=f+\theta e$,
 $\theta$, the challenges $r_1,\dots,r_m$ and the query positions;
-\item[(c)] given $\theta$, the challenges, the positions and the values of $\hat f$ at
-those positions, a simulator produces a transcript distributed exactly as the honest one.
+\item[(b)] given $\theta$, the challenges, the positions and the values of $\hat f$ at those
+positions, a simulator produces a transcript distributed exactly as the honest one.
 \end{enumerate}
 \end{lemma}
 
-\begin{proof}\begin{enumerate}
-\item The map $e\mapsto f+\theta e$ is a bijection of $V_t$, being a translation by $f$ and a
-scaling by $\theta\ne0$; so $h$ is uniform on $V_t$, and as a function of the uniform $e$ it is
-independent of $f$ and of $\theta$. This is (a).
-\item The messages of the dealer are $u_h$, its folds on the queried fibres and $g$, which
-\cref{def:protocol} determines by $h$ and $r_1,\dots,r_m$; the openings at a queried position $x$
-are $\hat h(x)=\hat f(x)+\theta\hat e(x)$, so opening $\hat e$ reveals
-$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\theta$ and requires $\hat f$ only at the positions.
-This is (b).
-\item Simulator: sample $h$ uniform on $V_t$, output the transcript of step 2 and the
-$\hat e$-openings of step 3; the leaves that are not opened are hidden by the salts of
-\cref{con:avss-mask}. This is (c).
-\item The case $\theta=0$ has probability $1/|\F|$ and is the only one in which step 1 fails.
-\end{enumerate}\end{proof}
-\uses{\cref{def:avss,con:avss-mask,def:protocol}}\usedby{the paper}
+\begin{proof}
+(a) The messages of the dealer are $u_h$, its folds on the queried fibres and $g$, which
+\cref{def:protocol} determines by $h$ and $r_1,\dots,r_m$; the openings at a queried position $x$ are
+$\hat h(x)=\hat f(x)+\theta\hat e(x)$, so opening $\hat e$ reveals
+$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\theta$ and requires $\hat f$ only at the positions --- the
+one use of $\theta\ne0$ besides \cref{lem:avss-uniform}.
+
+(b) Sample $h$ uniform on $V_t$, which is legitimate by \cref{lem:avss-uniform}; output the
+transcript of (a) and the $\hat e$-openings; the leaves that are not opened are hidden by the salts
+of \cref{con:avss-mask}, and a simulator holding the values of $\hat f$ at the positions produces the
+same distribution. The case $\theta=0$, the only one in which \cref{lem:avss-uniform} fails, has
+probability $1/|\F|$ in \cref{con:avss-mask}.
+\end{proof}
+\uses{\cref{def:avss,con:avss-mask,def:protocol,lem:avss-uniform}}\usedby{the paper}
 
 \begin{remark}[Leaked evaluations]\label{rem:avss-leak}
 If the query points of the masked test cannot be chosen among the positions of the commitment,

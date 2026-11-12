@@ -1,5 +1,18 @@
 \section{Distance of the masked word}
 
+\begin{lemma}[The commitments add up]\label{lem:avss-close}
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$,
+let $\theta\in\F$ and $u_f,u_e:L_0\to\F$, and put $h:=f+\theta e$, $u_h:=u_f+\theta u_e$ and $\hat h:=U_{h'}$ with $h'$ as in
+\cref{def:avss}. If $\Delta(u_f,\hat f|_{L_0})\le\delta_0$ and
+$\Delta(u_e,\hat e|_{L_0})\le\delta_0$, then $\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
+\end{lemma}
+
+\begin{proof}
+Outside the union of the two disagreement sets, of size at most $2\delta_0N$, one has
+$u_h(x)=u_f(x)+\theta u_e(x)=\hat f(x)+\theta\hat e(x)=\hat h(x)$.
+\end{proof}
+\uses{\cref{def:avss,def:agree}}\usedby{\cref{lem:avss-dist}}
+
 \begin{lemma}[Distance to the degree code]\label{lem:avss-dist}
 Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$, let $\theta\in\F$, put
 $h:=f+\theta e$ and $u_h:=u_f+\theta u_e$, and assume
@@ -11,17 +24,16 @@ $\deg_Xh>t$, then
 \end{lemma}
 
 \begin{proof}\begin{enumerate}
-\item Outside the union of the two disagreement sets, of size at most $2\delta_0N$, one has
-$u_h(x)=u_f(x)+\theta u_e(x)=\hat f(x)+\theta\hat e(x)=\hat h(x)$; hence
-$\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
+\item \Cref{lem:avss-close} gives $\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
 \item Let $c=U_q|_{L_0}\in C_{w^X,t}$, so $q\in\F[x_1,\dots,x_{2\tau}]_{<2}$ and
 $\deg_{w^X}q\le t<\deg_Xh=\deg_{w^X}h'$ by \cref{lem:avss-bits}; then $q\ne h'$, and
 \cref{lem:inj} applied to the $T$-free polynomials $q$ and $h'$ gives
 $\hat q=U_q\ne U_{h'}=\hat h$.
 \item Two distinct polynomials of degree $<2^{2\tau}$ agree on fewer than $2^{2\tau}=\rho N$
-points of $L_0$, so $\Delta(\hat h|_{L_0},c)>\rho$.
-\item Since $\Delta(u_h,c)\ge\Delta(\hat h|_{L_0},c)-\Delta(u_h,\hat h|_{L_0})$ and
-$\agree=1-\Delta$, step 1 gives $\agree(u_h,c)<1-\rho+2\delta_0$; taking the maximum over
+points of $L_0$ (\cref{lem:roots} with $D=2^{2\tau}$), so
+$\agree(\hat h|_{L_0},c)<\rho$, that is $\Delta(\hat h|_{L_0},c)>1-\rho$.
+\item By \cref{def:agree}, $\Delta(u_h,c)\ge\Delta(\hat h|_{L_0},c)-\Delta(u_h,\hat h|_{L_0})
+>1-\rho-2\delta_0$ by steps 1 and 3, so $\agree(u_h,c)<\rho+2\delta_0$; taking the maximum over
 $c\in C_{w^X,t}$ gives $\agree(u_h,C_{w^X,t})\le\rho+2\delta_0$.
 \end{enumerate}\end{proof}
-\uses{\cref{def:avss,con:avss-mask,lem:avss-bits,lem:inj,def:codes,def:agree}}\usedby{\cref{prop:avss-sound}}
+\uses{\cref{def:avss,con:avss-mask,lem:avss-bits,lem:avss-close,lem:inj,lem:roots,def:codes,def:agree}}\usedby{\cref{prop:avss-sound}}

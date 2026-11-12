@@ -1,18 +1,20 @@
 \section{Several degree constraints}
 
 Let $p\ge1$, let $w^{(1)},\dots,w^{(p)}\in\N^m$ be weights and $D_1,\dots,D_p$ bounds, and
-write $\mathbf w:=(w^{(1)},\dots,w^{(p)})$, $\mathbf D:=(D_1,\dots,D_p)$ and $d^{(s)}_i:=\min\big(D_s,(k-1)\sum_{l\le i}w^{(s)}_l\big)$. The target code is $C_{\mathbf w,\mathbf D}:=\bigcap_sC_{w^{(s)},D_s}$.
+write $\mathbf w:=(w^{(1)},\dots,w^{(p)})$, $\mathbf D:=(D_1,\dots,D_p)$ and $d^{(\iota)}_i:=\min\big(D_{\iota},(k-1)\sum_{l\le i}w^{(\iota)}_l\big)$. The target code is $C_{\mathbf w,\mathbf D}:=\bigcap_{\iota}C_{w^{(\iota)},D_{\iota}}$.
 
 \begin{remark}[Several constraints in one run]\label{rem:multi}
 Replace $\F[T]$ by $\F[T_1,\dots,T_p]$, the challenge $r_iT^{w_i}$ by
-$r_i\prod_sT_s^{\,w^{(s)}_i}$, the graded degree by the vector of degrees
-$\big(a_s+\sum_{l>i}w^{(s)}_l\alpha_l\big)_s$ of a monomial $\prod_sT_s^{a_s}x^\alpha$, the
-condition $\gdeg\le D$ by ``$\le D_s$ in every coordinate'', the formats $\F[T]_{\le d_i}$ by
-$\prod_s\F[T_s]_{\le d^{(s)}_i}$, and the final check $\deg g\le D$ by $\deg_{T_s}g\le D_s$
-for all $s$. Then \cref{lem:inj}, \cref{lem:fold-sub}, \cref{lem:stab}, \cref{lem:div},
+$r_i\prod_{\iota}T_{\iota}^{\,w^{(\iota)}_i}$, the graded degree by the vector of degrees
+$\big(a_{\iota}+\sum_{l>i}w^{(\iota)}_l\alpha_l\big)_{\iota}$ of a monomial $\prod_{\iota}T_{\iota}^{a_{\iota}}x^\alpha$, the
+condition $\gdeg\le D$ by ``$\le D_{\iota}$ in every coordinate'', the formats $\F[T]_{\le d_i}$ by
+$\prod_{\iota}\F[T_{\iota}]_{\le d^{(\iota)}_i}$, and the final check $\deg g\le D$ by $\deg_{T_{\iota}}g\le D_{\iota}$
+for all $\iota$. Then \cref{lem:inj}, \cref{lem:fold-sub}, \cref{lem:stab}, \cref{lem:div},
 \cref{lem:unfold}, \cref{lem:round} and \cref{thm:reduction} extend verbatim to
-$C_{\mathbf w,\mathbf D}$, with $t:=\prod_s\big(1+\max(D_s,\,d^{(s)}_{i-1}+w^{(s)}_i(k-1))\big)$
+$C_{\mathbf w,\mathbf D}$, with $[\E:\F]:=\prod_{\iota}\big(1+\max(D_{\iota},\,d^{(\iota)}_{i-1}+w^{(\iota)}_i(k-1))\big)$
 in item~3 of \cref{lem:round}.
+
+\uses{\cref{lem:inj,lem:fold-sub,lem:stab,lem:div,lem:unfold,lem:round,thm:reduction}}\usedby{\cref{rem:separate}}
 
 The proofs use only three properties of $\F[T]$: it is an integral domain (cancellation in
 \cref{lem:unfold} and \cref{lem:round}); divisibility by a monomial is read off coefficientwise
@@ -22,11 +24,12 @@ degrees, with the bound $t$ above.
 \end{remark}
 
 \begin{remark}[Separate runs on one commitment]\label{rem:separate}
-Running $\Pi_{w^{(s)},D_s}$ separately on the same $u_0$ costs the sum of the $p$ runs instead
+Running $\Pi_{w^{(\iota)},D_{\iota}}$ separately on the same $u_0$ costs the sum of the $p$ runs instead
 of the product $t$. Below the unique-decoding radius it certifies the same statement: if
-$\agree(u_0,C_{w^{(s)},D_s})>\frac{1+\rho}2$ for all $s$, the codewords achieving these
+$\agree(u_0,C_{w^{(\iota)},D_{\iota}})>\frac{1+\rho}2$ for all $\iota$, the codewords achieving these
 agreements are all the unique closest codeword of $\RS[\F,L_0,k^m]$, which therefore lies in
 $C_{\mathbf w,\mathbf D}$. Above that radius, separate runs only certify closeness to each
-$C_{w^{(s)},D_s}$, possibly through different codewords of the list; \cref{rem:multi} is then
+$C_{w^{(\iota)},D_{\iota}}$, possibly through different codewords of the list; \cref{rem:multi} is then
 the right tool.
 \end{remark}
+\uses{\cref{rem:multi}}\usedby{the paper}

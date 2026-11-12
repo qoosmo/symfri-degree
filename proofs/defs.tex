@@ -12,7 +12,7 @@ $\mathbf 1:=(1,\dots,1)$.
 \item For a commutative $\F$-algebra $R$, every $q\in R[x_{i+1},\dots,x_m]$ is uniquely
 $\sum_\alpha q_\alpha x^\alpha$ with $q_\alpha\in R$ (finitely many nonzero), and
 $\deg_{x_l}q:=\max\{\alpha_l:\ q_\alpha\ne0\}$.
-\item $\F[T]_{\le e}:=\{g:\deg g\le e\}$ and $\F[T]_{<t}:=\{g:\deg g<t\}$, with $\deg0:=-\infty$.
+\item $\F[T]_{\le e}:=\{g:\deg g\le e\}$ and $\F[T]_{<\lambda}:=\{g:\deg g<\lambda\}$, with $\deg0:=-\infty$.
 \item A word on a finite set $L$ is a map $u:L\to A$; $P|_L$ is $x\mapsto P(x)$.
 \item A weight function on $L$ is $\mu:L\to[0,1]$; $\mu(A):=\frac1{|L|}\sum_{x\in A}\mu(x)$ for
 $A\subseteq L$; $\mu$ has common denominator $M\ge1$ if $\mu(x)\in\frac1M\Z$ for all $x$.
@@ -25,6 +25,11 @@ $L_i:=\{x^k: x\in L_{i-1}\}$ for $1\le i\le m$, so $|L_i|=N/k^i$. The \emph{fibr
 $y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\Omega_k$ for any
 $x_0\in\fib(y)$, where $\Omega_k:=\{\zeta\in\F:\ \zeta^k=1\}$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
 \end{definition}
+
+Since $k\mid N\mid|\F|-1$, the cyclic group $\F^*$ has an element $\omega$ of order $k$, so
+$\Omega_k$ is as in \cref{lem:rootsum}; and $k\ne0$ in $\F$, because
+$\operatorname{char}\F\nmid|\F|-1$. Consequently $k^i|L_i|=N$ for $0\le i\le m$, the rate of
+$\RS[\F,L_i,k^{m-i}]$ is $\rho:=k^m/N=k^{m-i}/|L_i|$ for every $i$, and $|L_i|\ge k^{m-i}$.
 
 \begin{definition}[Polynomials]\label{def:poly}
 $R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$). For
@@ -71,3 +76,10 @@ $\agree_\mu(u,v):=\frac1{|L|}\sum_{x:\,u(x)=v(x)}\mu(x)$ (as in BCIKS20, \S7). F
 $C$ of words, $\agree_\mu(u,C):=\max_{v\in C}\agree_\mu(u,v)$. Without a subscript,
 $\mu\equiv1$: $\agree(u,v)=1-\Delta(u,v)$.
 \end{definition}
+
+Put $\Delta(u,v):=1-\agree(u,v)$; then $\Delta(u,w)\ge\Delta(v,w)-\Delta(v,u)$, because
+$\{x:u(x)=w(x)\}\supseteq\{x:v(x)=w(x)\}\cap\{x:v(x)=u(x)\}$.
+
+\paragraph{The caps.} For $w\in\N^m$ and $D\in\N$ put $d_0:=0$ and
+$d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$ for $1\le i\le m$; these are the formats of
+\cref{def:protocol}.

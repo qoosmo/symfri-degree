@@ -21,37 +21,34 @@ distinct points $\omega_i\in\F$ {[PolyFRIM, Alg.~3--4]}. For a set $A$ of $t+1$ 
 $P_A\in\F[X]$ be the interpolant of $\{(\omega_i,\sigma_i):\ i\in A\}$, of degree at most $t$, and put
 $\sigma:=f(z,0)$. Then one of two cases occurs.
 \begin{enumerate}
-\item $P_A\ne P_B$ for some two sets $A,B$ of $t+1$ parties. Then $P_A-P_B$ is a nonzero
-polynomial of degree at most $t$, so $P_A(z)\ne P_B(z)$ for every $z$ outside a set of at most
-$t$ elements: the parties may output different secrets.
-\item $P_A=P$ for every $A$. Then $P$ agrees with $f(\cdot,0)$ on every $\omega_i$, while
-$P\ne f(\cdot,0)$ because $\deg f(\cdot,0)>t\ge\deg P$; hence $f(\cdot,0)-P$ is a nonzero
-polynomial of degree at most $2^\tau-1$, and $P(z)\ne\sigma$ for every $z$ outside its set of at
-most $2^\tau-1$ roots: every party outputs a secret other than $s$.
+\item If $P_A\ne P_B$ for two sets $A,B$ of $t+1$ parties, then $P_A,P_B$ are distinct of
+degree $\le t$, so by \cref{lem:roots} with $D=t+1$ one has $P_A(z)\ne P_B(z)$ outside at most $t$
+values of $z$: the parties may output different secrets.
+\item If $P_A=P$ for every $A$, then $P$ agrees with $f(\cdot,0)$ on every $\omega_i$ while
+$P\ne f(\cdot,0)$, and both have degree $\le2^\tau-1$, so by \cref{lem:roots} with $D=2^\tau$ one has
+$P(z)\ne\sigma$ outside at most $2^\tau-1$ values of $z$: every party outputs a secret other than
+$s$.
 \end{enumerate}
 The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(\omega_i,Y)$
 interpolated from $t+1$ valid Echo values {[PolyFRIM, Alg.~3, step 16]}.
-\end{remark}
 
 This does not contradict {[PolyFRIM, Thm.~4.1]}: Definition~2.4 there constrains the
 reconstructed value only when the dealer is honest (Correctness), and its Agreement property
-requires that all honest parties terminate, not that they output the same value. The proof of Correctness in {[PolyFRIM, App.~E]} goes further and states, without assuming an honest
-dealer, that the honest parties reconstruct the same secret. \cref{rem:avss-threshold} shows
-that this stronger property, that a malicious dealer be bound to a single secret, does not hold
-without a degree test.
+requires that all honest parties terminate, not that they output the same value. The remark
+shows that the stronger requirement, that a malicious dealer be bound to a single secret, is not
+met without a degree test.
+\end{remark}
 
 \uses{\cref{def:avss}}\usedby{the paper}
 
 \begin{lemma}[One bad challenge]\label{lem:avss-bad}
-Let $f\in\F[X,Y]$, $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$, and $\deg_Xf>t$. Then $\deg_X(f+\theta e)\le t$ for at most one
+Let $f,e\in\F[X,Y]$ with $\deg_Xf>t$. Then $\deg_X(f+\theta e)\le t$ for at most one
 $\theta\in\F$.
 \end{lemma}
 
-\begin{proof}\begin{enumerate}
-\item Assume $\deg_X(f+\theta e)\le t$ and $\deg_X(f+\theta'e)\le t$ for some
-$\theta\ne\theta'$.
-\item Then $(\theta-\theta')e=(f+\theta e)-(f+\theta'e)$ has $\deg_X\le t$, and
-$\theta-\theta'\ne0$, so $\deg_Xe\le t$.
-\item Hence $\deg_Xf=\deg_X\big((f+\theta e)-\theta e\big)\le t$, contradicting the hypothesis.
-\end{enumerate}\end{proof}
-\uses{\cref{def:avss,con:avss-mask}}\usedby{\cref{prop:avss-sound}}
+\begin{proof}
+Let $\theta\ne\theta'$ and suppose $\deg_X(f+\theta e),\deg_X(f+\theta'e)\le t$. Then
+$\deg_X\big((\theta-\theta')e\big)\le t$, and $\theta-\theta'\ne0$ is a scalar, so $\deg_Xe\le t$;
+hence $\deg_Xf=\deg_X\big((f+\theta e)-\theta e\big)\le t$, contradicting $\deg_Xf>t$.
+\end{proof}
+\uses{nothing}\usedby{\cref{prop:avss-sound}}

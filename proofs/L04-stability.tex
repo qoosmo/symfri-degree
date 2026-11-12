@@ -1,28 +1,28 @@
 \section{Folding preserves the graded codes}
 
 \begin{lemma}[Stability]\label{lem:stab}
-Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $r\in\F$ and $c:=rT^{w_i}$.
-\begin{enumerate}
-\item[(a)] If $q\in\F[T][x_i,\dots,x_m]_{<k}$ and $\gdeg_w q\le D$, then
-$q(c,x_{i+1},\dots,x_m)\in\F[T][x_{i+1},\dots,x_m]_{<k}$ and its graded degree is $\le D$.
-\item[(b)] $\Fold_c\big(\Gc_{i-1}^{w,D}\big)\subseteq\Gc_i^{w,D}$.
-\item[(c)] For $c_l:=r_lT^{w_l}$ ($1\le l\le i$),
-$\Fold_{c_i}\circ\cdots\circ\Fold_{c_1}\big(C_{w,D}\big)$ consists of words of
-$\Gc_i^{w,D}$ whose values have $T$-degree at most
-$d_i:=\min\big(D,\ (k-1)\sum_{l\le i}w_l\big)$.
-\end{enumerate}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $r\in\F$ and $c:=rT^{w_i}$. Then
+$\Fold_c\big(\Gc_{i-1}^{w,D}\big)\subseteq\Gc_i^{w,D}$.
 \end{lemma}
 
 \begin{proof}
-(a) The substitution maps the monomial $T^ax_i^{\,j}x^\beta$ to $r^jT^{a+w_ij}x^\beta$. The
-exponents of $x_{i+1},\dots,x_m$ are unchanged, hence $<k$, and the graded degree
-$a+w_ij+\sum_{l>i}w_l\beta_l$ is unchanged, hence $\le D$.
+Let $v=U^{(i-1)}_q|_{L_{i-1}}\in\Gc_{i-1}^{w,D}$ with $\gdeg_wq\le D$. By \cref{lem:fold-sub},
+$\Fold_c(v)=U^{(i)}_{q(c,x_{i+1},\dots,x_m)}|_{L_i}$, and $q(c,x_{i+1},\dots,x_m)$ lies in the box
+with graded degree $\le D$ by \cref{lem:subst}.
+\end{proof}
+\uses{\cref{lem:fold-sub,lem:subst,def:codes}}\usedby{the paper}
 
-(b) Combine (a) with \cref{lem:fold-sub}(b).
+\begin{lemma}[The honest $T$-degree]\label{lem:stab-cap}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $c_l:=r_lT^{w_l}$ for $1\le l\le i$, and let
+$f\in\F[x_1,\dots,x_m]_{<k}$ have $\gdeg_wf\le D$. Then
+$\Fold_{c_i}\circ\cdots\circ\Fold_{c_1}\big(U_f|_{L_0}\big)$ is a word of $\Gc_i^{w,D}$ whose values
+have $T$-degree at most $d_i$.
+\end{lemma}
 
-(c) By \cref{lem:fold-sub}(b) applied $i$ times the result is $U^{(i)}_q$ with
-$q=f(c_1,\dots,c_i,x_{i+1},\dots,x_m)$, which lies in $\Gc_i^{w,D}$ by (a). A monomial
+\begin{proof}
+By \cref{lem:fold-sub} applied $i$ times the word is $U^{(i)}_q$ with
+$q=f(c_1,\dots,c_i,x_{i+1},\dots,x_m)$, which lies in $\Gc_i^{w,D}$ by \cref{lem:subst}. A monomial
 $x^\alpha$ of $f$ contributes the $T$-exponent $\sum_{l\le i}w_l\alpha_l\le(k-1)\sum_{l\le i}w_l$,
 and this exponent is at most the graded degree, hence $\le D$.
 \end{proof}
-\uses{\cref{def:wdeg,def:codes,lem:fold-sub}}\usedby{\cref{prop:complete,lem:round}}
+\uses{\cref{lem:fold-sub,lem:subst,def:codes,def:wdeg}}\usedby{\cref{prop:complete}}

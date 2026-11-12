@@ -1,25 +1,4 @@
-\section{Total degree: Schwartz--Zippel, lines, and the application}
-
-\begin{lemma}[Schwartz--Zippel for the total degree]\label{lem:sz-total}
-Let $m\ge1$, $D\in\N$, and let $f\in\F[x_1,\dots,x_m]$ be nonzero with
-$\deg_{\mathbf 1}f\le D$, where $\deg_{\mathbf 1}:=\deg_w$ for $w=\mathbf 1$ (\cref{def:wdeg}). For a
-uniform $r\in\F^m$,
-\[
-\Pr\big[f(r)=0\big]\le\frac{D}{|\F|}.
-\]
-From the individual bounds alone, that is from $\deg_{x_l}f<k$ for all $l$ (the box
-$\F[x_1,\dots,x_m]_{<k}$ of \cref{def:poly}), one gets $\deg_{\mathbf 1}f\le m(k-1)$ and hence the
-bound $m(k-1)/|\F|$; this is the bound used in \cref{prop:complete}(c).
-\end{lemma}
-
-\begin{proof}\begin{enumerate}
-\item Induction on $m$. For $m=1$, a nonzero $f\in\F[T]$ has at most $\deg f\le D$ roots, so the claim holds.
-\item For $m\ge2$ write $f=\sum_{j\le d}f_j(x_1,\dots,x_{m-1})x_m^j$ with $f_d\ne0$; if $d=0$ then $f=f_0$ does not involve $x_m$ and the claim is the induction hypothesis, so let $d\ge1$.
-\item Then $\deg_{\mathbf 1}f_d+d\le\deg_{\mathbf 1}f$. Write $r=(r',r_m)$ with $r'$ uniform on $\F^{m-1}$; by the induction hypothesis applied to the $(m-1)$-variate polynomial $f_d$, $\Pr[f_d(r')=0]\le\deg_{\mathbf 1}f_d/|\F|\le(\deg_{\mathbf 1}f-d)/|\F|$.
-\item Conditioned on $f_d(r')\ne0$ the polynomial $T\mapsto f(r',T)$ is nonzero of degree $d$, so it vanishes at the uniform $r_m$ with probability at most $d/|\F|$.
-\item Adding the two bounds of steps 3 and 4 gives $\Pr[f(r)=0]\le(\deg_{\mathbf 1}f-d+d)/|\F|=\deg_{\mathbf 1}f/|\F|\le D/|\F|$.
-\end{enumerate}\end{proof}
-\uses{\cref{def:wdeg}}\usedby{\cref{rem:total-app}}
+\section{Total degree: lines and applications}
 
 \begin{lemma}[Restriction to a line]\label{lem:line-total}
 Let $m\ge1$, $f\in\F[x_1,\dots,x_m]$ and $\mathbf a,\mathbf b\in\F^m$. Then
@@ -29,12 +8,12 @@ f(\mathbf a+T\mathbf b):=f(a_1+Tb_1,\dots,a_m+Tb_m)\in\F[T]
 has degree at most $\deg_{\mathbf 1}f$.
 \end{lemma}
 
-\begin{proof}\begin{enumerate}
-\item The substitution $x_l\mapsto a_l+Tb_l$ sends $x^\alpha$ to $\prod_{l\le m}(a_l+Tb_l)^{\alpha_l}$, whose $T$-degree is at most $\alpha_1+\dots+\alpha_m$, and to $0$ when $a_l=b_l=0$ for some $l$ with $\alpha_l\ne0$.
-\item By \cref{def:wdeg} with $w=\mathbf 1$, $\langle\mathbf 1,\alpha\rangle=\alpha_1+\dots+\alpha_m\le\deg_{\mathbf 1}f$ for every $\alpha$ with $f_\alpha\ne0$, so every term of $f(\mathbf a+T\mathbf b)$ has $T$-degree at most $\deg_{\mathbf 1}f$.
-\item A sum of polynomials of $T$-degree at most $\deg_{\mathbf 1}f$ has $T$-degree at most $\deg_{\mathbf 1}f$, and $0$ has $T$-degree $-\infty$.
-\end{enumerate}\end{proof}
-\uses{\cref{def:wdeg}}\usedby{\cref{rem:total-app}}
+\begin{proof}
+\Cref{lem:subst} with $R=\F$, $w=\mathbf 1$, $I=\{1,\dots,m\}$ and $g_l=a_l+Tb_l$, of degree
+$\le1=w_l$, gives $\gdeg_{\mathbf 1}f(\mathbf a+T\mathbf b)\le\deg_{\mathbf 1}f$; a polynomial of
+$\F[T]$ has no other variables, so its graded degree is its $T$-degree.
+\end{proof}
+\uses{\cref{def:wdeg,lem:subst}}\usedby{\cref{rem:total-app}}
 
 \begin{remark}[Two evaluation claims reduced to one]\label{rem:total-app}
 Let $f$ with $\deg_{x_l}f<k$ for all $l$ be committed, and suppose that $\Pi_{\mathbf 1,D}$

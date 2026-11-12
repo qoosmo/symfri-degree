@@ -1,7 +1,7 @@
 \section{The Kronecker map}
 
 \begin{lemma}[Kronecker map]\label{lem:kron}
-The map $q\mapsto U^{(i)}_q$ is an $R$-linear bijection
+For any commutative ring $R$, the map $q\mapsto U^{(i)}_q$ is an $R$-linear bijection
 \[
 R[x_{i+1},\dots,x_m]_{<k}\longrightarrow R[Y]_{<k^{m-i}},
 \]
@@ -24,7 +24,7 @@ $R[x_{i+1},\dots,x_m]_{<k}$ is injective.
 \begin{proof}
 Write $U^{(i)}_q=\sum_a T^aP_a(Y)$ with $P_a\in\F[Y]_{<k^{m-i}}$ (\cref{lem:kron}). If
 $U^{(i)}_q$ vanishes on $L_i$, then each $P_a$ vanishes on $L_i$. Since
-$|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, each $P_a=0$, so $U^{(i)}_q=0$ and $q=0$ by
-\cref{lem:kron}.
+$|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, \cref{lem:roots} with $D=k^{m-i}$ gives $P_a=0$, so
+$U^{(i)}_q=0$ and $q=0$ by \cref{lem:kron}.
 \end{proof}
-\uses{\cref{def:domains,lem:kron}}\usedby{\cref{lem:div,lem:unfold}}
+\uses{\cref{def:domains,lem:kron,lem:roots}}\usedby{\cref{lem:div,lem:unfold}}

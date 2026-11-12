@@ -1,19 +1,60 @@
 \section{Dependency graph}
 
+\noindent $A\to B$ means that $B$ uses $A$. The list below is the one in the \verb|\uses| lines of
+the results above: 143 edges over 69 labelled results, and it was checked mechanically to have no
+edge pointing forward in the order of this file and no cycle.
+
 \begin{itemize}
-\item L1 implies L2; L1 and L2 give L3, and L3 gives Corollary~L3.1.
-\item L3 gives L4, L4 gives L5, L5 gives L6.
-\item L7 and the hypothesis \cref{hyp:ca} give \cref{cor:share}, which with L9, L10, L5, L6 and L3
-gives L13.
-\item L11, L12 and L13 give \cref{thm:reduction}, hence \cref{cor:johnson} through \cref{prop:H1}
-and \cref{cor:ud} through \cref{prop:H2}.
-\item \cref{lem:avss-bits} gives \cref{lem:avss-dist}, which with \cref{lem:avss-bad} and
-\cref{cor:ud} gives \cref{prop:avss-sound}: one bad challenge, then the unique-decoding bound.
-\item \cref{lem:avss-secret}, \cref{prop:avss-cost}, \cref{rem:avss-threshold} and
-\cref{rem:avss-leak} use only \cref{def:avss}, \cref{con:avss-mask} and \cref{def:protocol}.
-\item \cref{lem:sz-total} and \cref{lem:line-total} use only \cref{def:wdeg}; together they give
-\cref{rem:total-app}, whose step is the one of \cref{rem:total-prior}.
+\item \cref{def:wdeg} $\to$ \cref{lem:subst}
+\item \cref{def:kron} $\to$ \cref{lem:kron}
+\item \cref{def:domains,lem:kron,lem:roots} $\to$ \cref{lem:inj}
+\item \cref{def:wdeg,lem:roots} $\to$ \cref{lem:sz-total}
+\item \cref{lem:sz-total,def:wdeg,def:poly} $\to$ \cref{cor:box}
+\item \cref{def:fold,def:domains,lem:rootsum} $\to$ \cref{lem:fold-parts}
+\item \cref{lem:fold-parts,def:kron,lem:kron} $\to$ \cref{lem:fold-sub}
+\item \cref{def:fold,def:domains,lem:rootsum} $\to$ \cref{lem:fold-invert}
+\item \cref{lem:fold-sub} $\to$ \cref{cor:terminal}
+\item \cref{lem:fold-sub,lem:subst,def:codes} $\to$ \cref{lem:stab}
+\item \cref{lem:fold-sub,lem:subst,def:codes,def:wdeg} $\to$ \cref{lem:stab-cap}
+\item \cref{def:codes,lem:inj,lem:roots} $\to$ \cref{lem:div}
+\item \cref{def:kron,def:codes,lem:div,lem:inj,lem:fold-parts} $\to$ \cref{lem:unfold}
+\item \cref{def:codes} $\to$ \cref{lem:ext}
+\item \cref{def:codes,def:agree} $\to$ \cref{lem:ext-agree}
+\item \cref{def:agree,def:domains} $\to$ \cref{lem:gran}
+\item \cref{def:domains} $\to$ \cref{def:fibre-avg}
+\item \cref{def:agree,def:fibre-avg,def:domains} $\to$ \cref{lem:lift}
+\item \cref{ext:bciks72,ext:proof-facts} $\to$ \cref{hyp:ca}
+\item \cref{ext:bciks72,ext:proof-facts} $\to$ \cref{prop:H1}
+\item \cref{ext:bciks71,ext:facts71} $\to$ \cref{prop:H2}
+\item \cref{hyp:ca,lem:subcode} $\to$ \cref{cor:share}
+\item \cref{def:domains,def:kron,def:fold} $\to$ \cref{def:protocol}
+\item \cref{def:fibre-avg,def:protocol,def:fold} $\to$ \cref{def:weights}
+\item \cref{def:codes,def:agree,def:kron} $\to$ \cref{lem:start}
+\item \cref{def:weights,def:agree} $\to$ \cref{lem:no-increase}
+\item \cref{def:domains,def:fibre-avg,lem:div,lem:fold-invert,lem:lift,lem:unfold} $\to$ \cref{lem:round-up}
+\item \cref{hyp:ca,cor:share,lem:round-up,lem:ext,lem:ext-agree,lem:gran} $\to$ \cref{lem:round}
+\item \cref{hyp:ca,lem:start,lem:round,lem:no-increase} $\to$ \cref{lem:sound-fold}
+\item \cref{lem:sound-fold,lem:bad-count,ext:claim85} $\to$ \cref{thm:reduction}
+\item \cref{prop:H1,thm:reduction} $\to$ \cref{cor:johnson}
+\item \cref{prop:H2,thm:reduction} $\to$ \cref{cor:ud}
+\item \cref{ext:bciks72} $\to$ \cref{rem:char}
+\item \cref{def:protocol,lem:stab-cap,cor:terminal,cor:box} $\to$ \cref{prop:complete}
+\item \cref{lem:inj,lem:fold-sub,lem:stab,lem:div,lem:unfold,lem:round,thm:reduction} $\to$ \cref{rem:multi}
+\item \cref{rem:multi} $\to$ \cref{rem:separate}
+\item \cref{def:domains,def:kron,def:codes} $\to$ \cref{def:avss}
+\item \cref{def:avss,def:wdeg} $\to$ \cref{lem:avss-bits}
+\item \cref{def:avss,def:kron,lem:avss-bits} $\to$ \cref{rem:avss-y}
+\item \cref{def:avss,def:protocol} $\to$ \cref{con:avss-mask}
+\item \cref{def:avss} $\to$ \cref{rem:avss-threshold}
+\item \cref{def:avss,def:agree} $\to$ \cref{lem:avss-close}
+\item \cref{def:avss,con:avss-mask,lem:avss-bits,lem:avss-close,lem:inj,lem:roots,def:codes,def:agree} $\to$ \cref{lem:avss-dist}
+\item \cref{def:avss,con:avss-mask,lem:avss-bad,lem:avss-dist,cor:ud} $\to$ \cref{prop:avss-sound}
+\item \cref{def:avss} $\to$ \cref{lem:avss-uniform}
+\item \cref{def:avss,con:avss-mask,def:protocol,lem:avss-uniform} $\to$ \cref{lem:avss-secret}
+\item \cref{con:avss-mask} $\to$ \cref{rem:avss-leak}
+\item \cref{def:avss,def:protocol} $\to$ \cref{lem:avss-caps}
+\item \cref{def:avss,con:avss-mask,def:protocol,lem:avss-caps} $\to$ \cref{prop:avss-cost}
+\item \cref{def:wdeg,lem:subst} $\to$ \cref{lem:line-total}
+\item \cref{lem:sz-total,lem:line-total,def:protocol} $\to$ \cref{rem:total-app}
+\item \cref{rem:total-app} $\to$ \cref{rem:total-prior}
 \end{itemize}
-The hypothesis is discharged at the Johnson radius by \cref{prop:H1} (from E1 and the two facts of
-\cref{ext:proof-facts}) and in the unique-decoding regime by \cref{prop:H2} (from E3 and
-\cref{ext:facts71}). Every other result is proved unconditionally.

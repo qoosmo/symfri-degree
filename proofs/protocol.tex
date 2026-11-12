@@ -1,9 +1,8 @@
 \section{The protocol and the query weights}
 
-\setcounter{definition}{7}
 \begin{definition}[Degree test $\Pi_{w,D}$]\label{def:protocol}
 Parameters: $\F,k,m,N,L_0,\dots,L_m$ as in \cref{def:domains}; $w\in\N^m$; $D\in\N$;
-$s\ge1$. Put $d_0:=0$ and $d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$.
+$s\ge1$.
 \begin{enumerate}
 \item The prover sends $u_0:L_0\to\F$ (honestly $u_0=U_f|_{L_0}$).
 \item For $i=1,\dots,m$: the verifier sends a uniform $r_i\in\F$; put $c_i:=r_iT^{w_i}$.
@@ -16,14 +15,15 @@ $\fib(\xi_i)$).
 The verifier accepts iff all checks pass. (The format $u_i(y)\in\F[T]_{\le d_i}$ and
 $\deg g\le D$ is part of the message space.)
 \end{definition}
+\uses{\cref{def:domains,def:kron,def:fold}}\usedby{\cref{def:weights,ext:claim85,lem:round,con:avss-mask}}
 
 \begin{definition}[Query weights, after {[BCIKS20, \S8.2.1]}]\label{def:weights}
-For a transcript, define $\mu^{(0)}\equiv1$ on $L_0$ and, for $1\le i\le m$ and
-$y\in L_i$,
+For a transcript, define $\mu^{(0)}\equiv1$ on $L_0$ and, for $1\le i\le m$, let $\nu^{(i)}$ be
+the fibre average (\cref{def:fibre-avg}) of $\mu^{(i-1)}$ and put, for $y\in L_i$,
 \[
-\nu^{(i)}(y):=\frac1k\sum_{x\in\fib(y)}\mu^{(i-1)}(x),\qquad
 \mu^{(i)}(y):=\begin{cases}\nu^{(i)}(y)&\text{if }u_i(y)=\Fold_{c_i}(u_{i-1})(y),\\0&\text{otherwise.}\end{cases}
 \]
-The values of $\mu^{(i)},\nu^{(i)}$ are multiples of $1/k^i$, and $k^i|L_i|=N$; hence
+The values of $\mu^{(i)},\nu^{(i)}$ are multiples of $1/k^i$; hence, by \cref{def:domains},
 every $\mu^{(i)}$- or $\nu^{(i)}$-agreement on $L_i$ is a multiple of $1/N$.
 \end{definition}
+\uses{\cref{def:fibre-avg,def:protocol,def:fold}}\usedby{\cref{lem:no-increase,lem:round,ext:claim85}}

@@ -1,0 +1,41 @@
+\section{Tools}
+
+\begin{lemma}[Vanishing on many points]\label{lem:roots}
+Let $D\ge1$, let $P\in\F[Y]$ with $\deg P<D$, and let $A\subseteq\F$ with $|A|\ge D$. If
+$P(y)=0$ for every $y\in A$, then $P=0$. Consequently two distinct $P,Q\in\F[Y]$ of degree $<D$
+agree on fewer than $D$ points of $\F$.
+\end{lemma}
+
+\begin{proof}
+A nonzero polynomial of degree $d$ over the field $\F$ has at most $d$ roots, and $d<D\le|A|$.
+For the consequence apply this to $P-Q$.
+\end{proof}
+\uses{nothing}\usedby{\cref{lem:inj,lem:div,lem:avss-dist,lem:sz-total,rem:avss-threshold}}
+
+\begin{lemma}[Sum over the $k$-th roots of unity]\label{lem:rootsum}
+Let $k\ge1$, let $\omega\in\F$ have multiplicative order exactly $k$, and let
+$\Omega_k:=\{\omega^a:0\le a<k\}$. Then for every $j\in\Z$,
+$\sum_{\zeta\in\Omega_k}\zeta^j=k$ if $k\mid j$, and $=0$ otherwise.
+\end{lemma}
+
+\begin{proof}
+If $k\mid j$, every term is $1$. Otherwise $\omega^j\ne1$, and
+$(\omega^j-1)\sum_{a<k}\omega^{aj}=\omega^{kj}-1=0$, so the sum is $0$.
+\end{proof}
+\uses{nothing}\usedby{\cref{def:domains,lem:fold-parts,lem:fold-invert}}
+
+\begin{lemma}[Degree of a substitution]\label{lem:subst}
+Let $R$ be a commutative ring, $w\in\N^m$, $D\in\N$ and $I\subseteq\{1,\dots,m\}$. For $l\in I$
+let $g_l\in R[T]$ with $\deg g_l\le w_l$. Let $q\in R[T][x_1,\dots,x_m]$ with $\gdeg_wq\le D$ and
+$\deg_{x_l}q<k$ for every $l\notin I$, and let $\bar q$ be obtained by substituting $x_l\mapsto g_l$
+for $l\in I$. Then $\gdeg_w\bar q\le D$ and $\deg_{x_l}\bar q<k$ for every $l\notin I$.
+\end{lemma}
+
+\begin{proof}
+A monomial $T^ax^\alpha$ of $q$ maps to
+$T^a\prod_{l\in I}g_l^{\alpha_l}\prod_{l\notin I}x_l^{\alpha_l}$. This is a sum of monomials of
+$T$-degree at most $a+\sum_{l\in I}w_l\alpha_l$ and $x_l$-degree $\alpha_l$ for $l\notin I$, so
+each has graded degree at most $a+\langle w,\alpha\rangle\le D$ and $x_l$-degree $<k$ for
+$l\notin I$. Both bounds pass to the sum over the monomials of $q$.
+\end{proof}
+\uses{\cref{def:wdeg}}\usedby{\cref{lem:stab,lem:stab-cap,lem:line-total}}

@@ -1,0 +1,16 @@
+\section{Counting bad challenge sequences}
+
+\begin{lemma}[Counting bad challenge sequences]\label{lem:bad-count}
+For $1\le i\le m$ let $S_i:\F^{i-1}\to2^{\F}$ with $|S_i(r_1,\dots,r_{i-1})|\le\Theta_i$ for
+every $(r_1,\dots,r_{i-1})$. Then
+\[
+\big|\{r\in\F^m:\ \exists i,\ r_i\in S_i(r_1,\dots,r_{i-1})\}\big|
+\le|\F|^{m-1}\sum_{i=1}^m\Theta_i .
+\]
+\end{lemma}
+
+\begin{proof}
+For fixed $i$, the tuples with $r_i\in S_i(r_1,\dots,r_{i-1})$ number at most
+$|\F|^{i-1}\cdot\Theta_i\cdot|\F|^{m-i}$; sum over $i$.
+\end{proof}
+\uses{nothing}\usedby{\cref{thm:reduction}}

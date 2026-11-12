@@ -1,0 +1,32 @@
+\section{Schwartz--Zippel in the total degree}
+
+\begin{lemma}[Schwartz--Zippel for the total degree]\label{lem:sz-total}
+Let $m\ge1$, $D\in\N$, and let $f\in\F[x_1,\dots,x_m]$ be nonzero with
+$\deg_{\mathbf 1}f\le D$, where $\deg_{\mathbf 1}:=\deg_w$ for $w=\mathbf 1$ (\cref{def:wdeg}). For a
+uniform $r\in\F^m$,
+\[
+\Pr\big[f(r)=0\big]\le\frac{D}{|\F|}.
+\]
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Induction on $m$. For $m=1$, \cref{lem:roots} with $D=\deg f+1$ bounds the number of
+roots of the nonzero $f$ by $\deg f\le D$, so the claim holds.
+\item For $m\ge2$ write $f=\sum_{j\le d}f_j(x_1,\dots,x_{m-1})x_m^j$ with $f_d\ne0$ and $d\ge0$.
+\item Then $\deg_{\mathbf 1}f_d+d\le\deg_{\mathbf 1}f$. Write $r=(r',r_m)$ with $r'$ uniform on $\F^{m-1}$; by the induction hypothesis applied to the $(m-1)$-variate polynomial $f_d$, $\Pr[f_d(r')=0]\le\deg_{\mathbf 1}f_d/|\F|\le(\deg_{\mathbf 1}f-d)/|\F|$.
+\item Conditioned on $f_d(r')\ne0$ the polynomial $T\mapsto f(r',T)$ is nonzero of degree $d$ (for $d=0$ it is the nonzero constant $f_0(r')$), so it vanishes at the uniform $r_m$ with probability at most $d/|\F|$.
+\item Adding the two bounds of steps 3 and 4 gives $\Pr[f(r)=0]\le(\deg_{\mathbf 1}f-d+d)/|\F|=\deg_{\mathbf 1}f/|\F|\le D/|\F|$.
+\end{enumerate}\end{proof}
+\uses{\cref{def:wdeg,lem:roots}}\usedby{\cref{rem:total-app,cor:box}}
+
+\begin{corollary}[The box bound]\label{cor:box}
+Let $0\ne f\in\F[x_1,\dots,x_m]$ with $\deg_{x_l}f<k$ for every $l$ (the box
+$\F[x_1,\dots,x_m]_{<k}$ of \cref{def:poly}). Then $\deg_{\mathbf 1}f\le m(k-1)$, and for the
+uniform $r\in\F^m$, $\Pr[f(r)=0]\le m(k-1)/|\F|$.
+\end{corollary}
+
+\begin{proof}
+$\deg_{\mathbf 1}f=\max\{\sum_l\alpha_l:f_\alpha\ne0\}\le m(k-1)$; apply \cref{lem:sz-total} with
+$D=m(k-1)$.
+\end{proof}
+\uses{\cref{lem:sz-total,def:wdeg,def:poly}}\usedby{\cref{prop:complete}}

@@ -1,7 +1,7 @@
 \section{Granularity}
 
 \begin{lemma}[Granularity]\label{lem:gran}
-Let $\mu:L_i\to\frac1{k^i}\Z\cap[0,1]$. Then $\agree_\mu(u,v)\in\frac1N\Z$ for all words
+Let $\mu:L_i\to\frac1{k^i}\Z$. Then $\agree_\mu(u,v)\in\frac1N\Z$ for all words
 $u,v$ on $L_i$. Hence, for $\beta\in\mathbb R$ and
 $\beta^+:=\min\{x\in\frac1N\Z:\ x>\beta\}$, one has $\agree_\mu(u,C)>\beta$ if and only if
 $\agree_\mu(u,C)\ge\beta^+$, for every set $C$ of words on $L_i$.
@@ -12,7 +12,7 @@ Each $\mu(x)$ equals $m_x/k^i$ with $m_x\in\Z$, so
 \[
 \agree_\mu(u,v)=\frac1{|L_i|}\sum_{x:\,u(x)=v(x)}\frac{m_x}{k^i}=\frac1N\sum_{x:\,u(x)=v(x)}m_x,
 \]
-using $k^i|L_i|=N$. The value lies in $\frac1N\Z$, and the equivalence is the definition of
+using \cref{def:domains}. The value lies in $\frac1N\Z$, and the equivalence is the definition of
 $\beta^+$ on that lattice.
 \end{proof}
 \uses{\cref{def:agree,def:domains}}\usedby{\cref{lem:round}}

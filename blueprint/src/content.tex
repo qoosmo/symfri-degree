@@ -1,0 +1,1116 @@
+\chapter{The results file}
+
+\noindent This is \texttt{proofs/} verbatim, with one addition per environment: the name of the Lean
+declaration (\verb|\lean|), the plain-label dependency list (\verb|\uses|), and \verb|\leanok| where
+the item is complete --- on the definitions, which are Lean definitions, and on the results imported
+from [BCIKS20], which are axioms. Every other statement is declared in \texttt{lean/} with a
+\texttt{sorry} proof.
+
+\section{Shared definitions}
+
+\paragraph{Conventions.} These fix every symbol used below; the paper's \S3.1 is identical.
+\begin{itemize}
+\item $\N:=\{0,1,2,\dots\}$, $\Z$ the integers, $[n]:=\{1,\dots,n\}$,
+$\frac1a\Z:=\{z/a:\ z\in\Z\}$ for an integer $a\ge1$, and $\max\emptyset:=-\infty$.
+\item $\F$ is a finite field, $\F^*:=\F\setminus\{0\}$, and $\E$ a finite extension of $\F$.
+\item For $0\le i\le m$, a multi-index at level $i$ is $\alpha=(\alpha_{i+1},\dots,\alpha_m)\in\N^{m-i}$,
+$x^\alpha:=x_{i+1}^{\alpha_{i+1}}\cdots x_m^{\alpha_m}$, and for a weight vector $w\in\N^m$,
+$\langle w,\alpha\rangle:=\sum_{l=i+1}^mw_l\alpha_l$. $e_l\in\N^m$ is the $l$-th unit vector and
+$\mathbf 1:=(1,\dots,1)$.
+\item For a commutative $\F$-algebra $R$, every $q\in R[x_{i+1},\dots,x_m]$ is uniquely
+$\sum_\alpha q_\alpha x^\alpha$ with $q_\alpha\in R$ (finitely many nonzero), and
+$\deg_{x_l}q:=\max\{\alpha_l:\ q_\alpha\ne0\}$.
+\item $\F[T]_{\le e}:=\{g:\deg g\le e\}$ and $\F[T]_{<\lambda}:=\{g:\deg g<\lambda\}$, with $\deg0:=-\infty$.
+\item A word on a finite set $L$ is a map $u:L\to A$; $P|_L$ is $x\mapsto P(x)$.
+\item A weight function on $L$ is $\mu:L\to[0,1]$; $\mu(A):=\frac1{|L|}\sum_{x\in A}\mu(x)$ for
+$A\subseteq L$; $\mu$ has common denominator $M\ge1$ if $\mu(x)\in\frac1M\Z$ for all $x$.
+\end{itemize}
+
+\begin{definition}[Field and domains]\label{def:domains}\lean{SymFRI.Tower}\leanok
+$\F$ is a finite field; $k\ge 2$, $m\ge 1$ and $N$ are integers with $k^m\mid N$ and
+$N\mid |\F|-1$. $L_0\subset\F^*$ is a coset of the subgroup of order $N$, and
+$L_i:=\{x^k: x\in L_{i-1}\}$ for $1\le i\le m$, so $|L_i|=N/k^i$. The \emph{fibre} of
+$y\in L_i$ is $\fib(y):=\{x\in L_{i-1}: x^k=y\}$; it equals $x_0\Omega_k$ for any
+$x_0\in\fib(y)$, where $\Omega_k:=\{\zeta\in\F:\ \zeta^k=1\}$ is the group of $k$-th roots of unity, and $|\fib(y)|=k$.
+\end{definition}
+
+Since $k\mid N\mid|\F|-1$, the cyclic group $\F^*$ has an element $\omega$ of order $k$, so
+$\Omega_k$ is as in \ref{lem:rootsum}; and $k\ne0$ in $\F$, because
+$\operatorname{char}\F\nmid|\F|-1$. Consequently $k^i|L_i|=N$ for $0\le i\le m$, the rate of
+$\RS[\F,L_i,k^{m-i}]$ is $\rho:=k^m/N=k^{m-i}/|L_i|$ for every $i$, and $|L_i|\ge k^{m-i}$.
+
+\begin{definition}[Polynomials]\label{def:poly}\lean{SymFRI.InBox}\leanok
+$R$ denotes a commutative $\F$-algebra (in practice $R=\F$ or $R=\F[T]$). For
+$1\le i\le m+1$, $R[x_i,\dots,x_m]_{<k}:=\{q\in R[x_i,\dots,x_m]:\ \deg_{x_l}q<k\text{ for }i\le l\le m\}$.
+\end{definition}
+
+\begin{definition}[Kronecker map]\label{def:kron}\lean{SymFRI.kron}\leanok
+For $0\le i\le m$ and $q\in R[x_{i+1},\dots,x_m]_{<k}$,
+\[
+U^{(i)}_q(Y):=q\big(Y,Y^{k},\dots,Y^{k^{m-i-1}}\big)\in R[Y],\qquad U_f:=U^{(0)}_f .
+\]
+For $i=m$, $q$ is a constant and $U^{(m)}_q=q$.
+\end{definition}
+
+\begin{definition}[Fold]\label{def:fold}\lean{SymFRI.fold}\leanok
+For $u:L_{i-1}\to R$ and $y\in L_i$, the \emph{components} of $u$ are
+\[
+u_j(y):=\frac1k\sum_{x\in\fib(y)}x^{-j}\,u(x)\qquad(0\le j<k),
+\]
+and for $c\in R$ the \emph{fold} is $\Fold_c(u):L_i\to R$,
+$\Fold_c(u)(y):=\sum_{j<k}c^j\,u_j(y)$.
+\end{definition}
+
+\begin{definition}[Weighted and graded degree]\label{def:wdeg}\lean{SymFRI.wdeg}\leanok
+Let $w\in\N^m$. For $f=\sum_\alpha f_\alpha x^\alpha\in\F[x_1,\dots,x_m]$,
+$\deg_w f:=\max\{\langle w,\alpha\rangle:\ f_\alpha\ne0\}$. For $0\le i\le m$ and
+$q=\sum_{a,\alpha}q_{a,\alpha}T^ax^\alpha\in\F[T][x_{i+1},\dots,x_m]$ ($q_{a,\alpha}\in\F$),
+$\gdeg_w q:=\max\{a+\langle w,\alpha\rangle:\ q_{a,\alpha}\ne0\}$.
+\end{definition}
+
+\begin{definition}[Codes]\label{def:codes}\lean{SymFRI.RS}\leanok
+$\RS[\F,L,d]:=\{P|_L:\deg P<d\}$. The $t$-interleaved code $\RS[\F,L,d]^t$ is the set
+of words $L\to\F^t$ whose $t$ coordinates lie in $\RS[\F,L,d]$; we identify
+$\F[T]_{<t}$ with $\F^t$ through coefficients. The \emph{graded codes} are
+\[
+\Gc_i^{w,D}:=\big\{\,U^{(i)}_q\big|_{L_i}\ :\ q\in\F[T][x_{i+1},\dots,x_m]_{<k},\ \gdeg_w q\le D\,\big\},
+\]
+and the \emph{degree code} $C_{w,D}$ is the set of $T$-free elements of $\Gc_0^{w,D}$.
+\end{definition}
+
+\begin{definition}[Weighted agreement]\label{def:agree}\lean{SymFRI.agree}\leanok
+For words $u,v$ on $L$ and $\mu:L\to[0,1]$,
+$\agree_\mu(u,v):=\frac1{|L|}\sum_{x:\,u(x)=v(x)}\mu(x)$ (as in BCIKS20, \S7). For a set
+$C$ of words, $\agree_\mu(u,C):=\max_{v\in C}\agree_\mu(u,v)$. Without a subscript,
+$\mu\equiv1$: $\agree(u,v)=1-\Delta(u,v)$.
+\end{definition}
+
+Put $\Delta(u,v):=1-\agree(u,v)$; then $\Delta(u,w)\ge\Delta(v,w)-\Delta(v,u)$, because
+$\{x:u(x)=w(x)\}\supseteq\{x:v(x)=w(x)\}\cap\{x:v(x)=u(x)\}$.
+
+\paragraph{The caps.} For $w\in\N^m$ and $D\in\N$ put $d_0:=0$ and
+$d_i:=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$ for $1\le i\le m$; these are the formats of
+\ref{def:protocol}.
+
+\section{Tools}
+
+\begin{lemma}[Vanishing on many points]\label{lem:roots}
+Let $D\ge1$, let $P\in\F[Y]$ with $\deg P<D$, and let $A\subseteq\F$ with $|A|\ge D$. If
+$P(y)=0$ for every $y\in A$, then $P=0$. Consequently two distinct $P,Q\in\F[Y]$ of degree $<D$
+agree on fewer than $D$ points of $\F$.
+\end{lemma}
+
+\begin{proof}
+A nonzero polynomial of degree $d$ over the field $\F$ has at most $d$ roots, and $d<D\le|A|$.
+For the consequence apply this to $P-Q$.
+\end{proof}
+
+\begin{lemma}[Sum over the $k$-th roots of unity]\label{lem:rootsum}
+Let $k\ge1$, let $\omega\in\F$ have multiplicative order exactly $k$, and let
+$\Omega_k:=\{\omega^a:0\le a<k\}$. Then for every $j\in\Z$,
+$\sum_{\zeta\in\Omega_k}\zeta^j=k$ if $k\mid j$, and $=0$ otherwise.
+\end{lemma}
+
+\begin{proof}
+If $k\mid j$, every term is $1$. Otherwise $\omega^j\ne1$, and
+$(\omega^j-1)\sum_{a<k}\omega^{aj}=\omega^{kj}-1=0$, so the sum is $0$.
+\end{proof}
+
+\begin{lemma}[Degree of a substitution]\label{lem:subst}\uses{def:wdeg}
+Let $R$ be a commutative ring, $w\in\N^m$, $D\in\N$ and $I\subseteq\{1,\dots,m\}$. For $l\in I$
+let $g_l\in R[T]$ with $\deg g_l\le w_l$. Let $q\in R[T][x_1,\dots,x_m]$ with $\gdeg_wq\le D$ and
+$\deg_{x_l}q<k$ for every $l\notin I$, and let $\bar q$ be obtained by substituting $x_l\mapsto g_l$
+for $l\in I$. Then $\gdeg_w\bar q\le D$ and $\deg_{x_l}\bar q<k$ for every $l\notin I$.
+\end{lemma}
+
+\begin{proof}
+A monomial $T^ax^\alpha$ of $q$ maps to
+$T^a\prod_{l\in I}g_l^{\alpha_l}\prod_{l\notin I}x_l^{\alpha_l}$. This is a sum of monomials of
+$T$-degree at most $a+\sum_{l\in I}w_l\alpha_l$ and $x_l$-degree $\alpha_l$ for $l\notin I$, so
+each has graded degree at most $a+\langle w,\alpha\rangle\le D$ and $x_l$-degree $<k$ for
+$l\notin I$. Both bounds pass to the sum over the monomials of $q$.
+\end{proof}
+
+\section{The Kronecker map}
+
+\begin{lemma}[Kronecker map]\label{lem:kron}\lean{SymFRI.kron_bijOn}\uses{def:kron}
+For any commutative ring $R$, the map $q\mapsto U^{(i)}_q$ is an $R$-linear bijection
+\[
+R[x_{i+1},\dots,x_m]_{<k}\longrightarrow R[Y]_{<k^{m-i}},
+\]
+sending $x^\alpha$ to $Y^{n(\alpha)}$ with $n(\alpha):=\sum_{l>i}\alpha_l\,k^{\,l-i-1}$.
+\end{lemma}
+
+\begin{proof}
+Substitution is $R$-linear and sends $x^\alpha$ to $Y^{n(\alpha)}$. Since $0\le\alpha_l<k$,
+the integers $\alpha_{i+1},\dots,\alpha_m$ are the base-$k$ digits of $n(\alpha)$, so
+$\alpha\mapsto n(\alpha)$ is a bijection onto $\{0,\dots,k^{m-i}-1\}$. A basis is sent to a
+basis.
+\end{proof}
+
+\begin{lemma}[Evaluation is injective]\label{lem:inj}\lean{SymFRI.eval_injective}\uses{def:domains, lem:kron, lem:roots}
+Let $R=\F[T]$ and $0\le i\le m$. The map $q\mapsto U^{(i)}_q\big|_{L_i}$ on
+$R[x_{i+1},\dots,x_m]_{<k}$ is injective.
+\end{lemma}
+
+\begin{proof}
+Write $U^{(i)}_q=\sum_a T^aP_a(Y)$ with $P_a\in\F[Y]_{<k^{m-i}}$ (\ref{lem:kron}). If
+$U^{(i)}_q$ vanishes on $L_i$, then each $P_a$ vanishes on $L_i$. Since
+$|L_i|=N/k^i\ge k^{m-i}>\deg P_a$, \ref{lem:roots} with $D=k^{m-i}$ gives $P_a=0$, so
+$U^{(i)}_q=0$ and $q=0$ by \ref{lem:kron}.
+\end{proof}
+
+\section{Schwartz--Zippel in the total degree}
+
+\begin{lemma}[Schwartz--Zippel for the total degree]\label{lem:sz-total}\lean{SymFRI.sz_total}\uses{def:wdeg, lem:roots}
+Let $m\ge1$, $D\in\N$, and let $f\in\F[x_1,\dots,x_m]$ be nonzero with
+$\deg_{\mathbf 1}f\le D$, where $\deg_{\mathbf 1}:=\deg_w$ for $w=\mathbf 1$ (\ref{def:wdeg}). For a
+uniform $r\in\F^m$,
+\[
+\Pr\big[f(r)=0\big]\le\frac{D}{|\F|}.
+\]
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Induction on $m$. For $m=1$, \ref{lem:roots} with $D=\deg f+1$ bounds the number of
+roots of the nonzero $f$ by $\deg f\le D$, so the claim holds.
+\item For $m\ge2$ write $f=\sum_{j\le d}f_j(x_1,\dots,x_{m-1})x_m^j$ with $f_d\ne0$ and $d\ge0$.
+\item Then $\deg_{\mathbf 1}f_d+d\le\deg_{\mathbf 1}f$. Write $r=(r',r_m)$ with $r'$ uniform on $\F^{m-1}$; by the induction hypothesis applied to the $(m-1)$-variate polynomial $f_d$, $\Pr[f_d(r')=0]\le\deg_{\mathbf 1}f_d/|\F|\le(\deg_{\mathbf 1}f-d)/|\F|$.
+\item Conditioned on $f_d(r')\ne0$ the polynomial $T\mapsto f(r',T)$ is nonzero of degree $d$ (for $d=0$ it is the nonzero constant $f_0(r')$), so it vanishes at the uniform $r_m$ with probability at most $d/|\F|$.
+\item Adding the two bounds of steps 3 and 4 gives $\Pr[f(r)=0]\le(\deg_{\mathbf 1}f-d+d)/|\F|=\deg_{\mathbf 1}f/|\F|\le D/|\F|$.
+\end{enumerate}\end{proof}
+
+\begin{corollary}[The box bound]\label{cor:box}\lean{SymFRI.box_bound}\uses{lem:sz-total, def:wdeg, def:poly}
+Let $0\ne f\in\F[x_1,\dots,x_m]$ with $\deg_{x_l}f<k$ for every $l$ (the box
+$\F[x_1,\dots,x_m]_{<k}$ of \ref{def:poly}). Then $\deg_{\mathbf 1}f\le m(k-1)$, and for the
+uniform $r\in\F^m$, $\Pr[f(r)=0]\le m(k-1)/|\F|$.
+\end{corollary}
+
+\begin{proof}
+$\deg_{\mathbf 1}f=\max\{\sum_l\alpha_l:f_\alpha\ne0\}\le m(k-1)$; apply \ref{lem:sz-total} with
+$D=m(k-1)$.
+\end{proof}
+
+\section{Fold equals substitution}
+
+\begin{lemma}[Components of a polynomial]\label{lem:fold-parts}\lean{SymFRI.components_eq}\uses{def:fold, def:domains, lem:rootsum}
+Let $1\le i\le m$, let $R$ be a commutative $\F$-algebra, and let
+$P(Y)=\sum_{j<k}Y^jP_j(Y^k)$ with $P_j\in R[Y]$. Then the components of $u:=P|_{L_{i-1}}$
+(\ref{def:fold}) are $u_j=P_j|_{L_i}$ for $0\le j<k$.
+\end{lemma}
+
+\begin{proof}
+Fix $y\in L_i$ and $x_0\in\fib(y)$, so $\fib(y)=x_0\Omega_k$; then
+\[
+\sum_{x\in\fib(y)}x^{-j}P(x)=\sum_{j'<k}P_{j'}(y)\,x_0^{\,j'-j}\sum_{\zeta\in\Omega_k}
+\zeta^{\,j'-j}=k\,P_j(y),
+\]
+the inner sum being $k$ for $j'=j$ and $0$ otherwise by \ref{lem:rootsum}, and $k$ is invertible by
+\ref{def:domains}.
+\end{proof}
+
+\begin{lemma}[Fold equals substitution]\label{lem:fold-sub}\lean{SymFRI.fold_subst}\uses{lem:fold-parts, def:kron, lem:kron}
+Let $1\le i\le m$, $q\in R[x_i,\dots,x_m]_{<k}$ and $u:=U^{(i-1)}_q|_{L_{i-1}}$. Then for every
+$c\in R$,
+\[
+\Fold_c(u)=U^{(i)}_{q(c,\,x_{i+1},\dots,x_m)}\big|_{L_i}.
+\]
+\end{lemma}
+
+\begin{proof}
+Write $q=\sum_{j<k}x_i^jq_j$; by \ref{def:kron} $U^{(i-1)}_q(Y)=\sum_jY^jU^{(i)}_{q_j}(Y^k)$, so
+$u_j=U^{(i)}_{q_j}|_{L_i}$ by \ref{lem:fold-parts}, and
+$\Fold_c(u)=\sum_jc^jU^{(i)}_{q_j}|_{L_i}=U^{(i)}_{\sum_jc^jq_j}|_{L_i}$.
+\end{proof}
+
+\begin{lemma}[Inversion]\label{lem:fold-invert}\lean{SymFRI.fold_invert}\uses{def:fold, def:domains, lem:rootsum}
+Let $1\le i\le m$ and let $u:L_{i-1}\to R$ have components $u_0,\dots,u_{k-1}$
+(\ref{def:fold}). Then $u(x)=\sum_{j<k}x^j\,u_j(x^k)$ for every $x\in L_{i-1}$.
+\end{lemma}
+
+\begin{proof}
+Put $y:=x^k$; then $\sum_{j<k}x^ju_j(y)=\frac1k\sum_{x'\in\fib(y)}u(x')\sum_{j<k}(x/x')^j=u(x)$,
+since $x/x'\in\Omega_k$ and the inner sum is $k$ for $x'=x$ and $0$ otherwise
+(\ref{lem:rootsum}).
+\end{proof}
+
+\begin{corollary}[Honest terminal]\label{cor:terminal}\lean{SymFRI.terminal}\uses{lem:fold-sub}
+Let $R=\F[T]$, $f\in\F[x_1,\dots,x_m]_{<k}$, $w\in\N^m$, $r\in\F^m$ and
+$c_i:=r_iT^{w_i}$. Then $\Fold_{c_m}\circ\cdots\circ\Fold_{c_1}\big(U_f|_{L_0}\big)$ is the
+constant $g(T):=f\big(r_1T^{w_1},\dots,r_mT^{w_m}\big)$.
+\end{corollary}
+
+\begin{proof}
+Induction on $i$ with \ref{lem:fold-sub}; at $i=m$, $U^{(m)}$ is the identity.
+\end{proof}
+
+\section{Folding preserves the graded codes}
+
+\begin{lemma}[Stability]\label{lem:stab}\lean{SymFRI.stab}\uses{lem:fold-sub, lem:subst, def:codes}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $r\in\F$ and $c:=rT^{w_i}$. Then
+$\Fold_c\big(\Gc_{i-1}^{w,D}\big)\subseteq\Gc_i^{w,D}$.
+\end{lemma}
+
+\begin{proof}
+Let $v=U^{(i-1)}_q|_{L_{i-1}}\in\Gc_{i-1}^{w,D}$ with $\gdeg_wq\le D$. By \ref{lem:fold-sub},
+$\Fold_c(v)=U^{(i)}_{q(c,x_{i+1},\dots,x_m)}|_{L_i}$, and $q(c,x_{i+1},\dots,x_m)$ lies in the box
+with graded degree $\le D$ by \ref{lem:subst}.
+\end{proof}
+
+\begin{lemma}[The honest $T$-degree]\label{lem:stab-cap}\lean{SymFRI.stab_cap}\uses{lem:fold-sub, lem:subst, def:codes, def:wdeg}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, $c_l:=r_lT^{w_l}$ for $1\le l\le i$, and let
+$f\in\F[x_1,\dots,x_m]_{<k}$ have $\gdeg_wf\le D$. Then
+$\Fold_{c_i}\circ\cdots\circ\Fold_{c_1}\big(U_f|_{L_0}\big)$ is a word of $\Gc_i^{w,D}$ whose values
+have $T$-degree at most $d_i$.
+\end{lemma}
+
+\begin{proof}
+By \ref{lem:fold-sub} applied $i$ times the word is $U^{(i)}_q$ with
+$q=f(c_1,\dots,c_i,x_{i+1},\dots,x_m)$, which lies in $\Gc_i^{w,D}$ by \ref{lem:subst}. A monomial
+$x^\alpha$ of $f$ contributes the $T$-exponent $\sum_{l\le i}w_l\alpha_l\le(k-1)\sum_{l\le i}w_l$,
+and this exponent is at most the graded degree, hence $\le D$.
+\end{proof}
+
+\section{Divisibility}
+
+\begin{lemma}[Divisibility]\label{lem:div}\lean{SymFRI.divisible}\uses{def:codes, lem:inj, lem:roots}
+Let $1\le i\le m$, $\gamma\in\N$, $v\in\Gc_i^{w,D}$ and $A\subseteq L_i$ with $|A|\ge k^{m-i}$.
+If $T^\gamma$ divides $v(y)$ for every $y\in A$, then $v=T^\gamma p$ on $L_i$ for some
+$p\in\Gc_i^{w,D-\gamma}$; for $\gamma>D$, $v=0$.
+\end{lemma}
+
+\begin{proof}
+Write $v=U^{(i)}_q|_{L_i}$ with $\gdeg_w q\le D$ and $q=\sum_aT^aq_a$. For $a<\gamma$, the
+$T^a$-coefficient of $v$ is $U^{(i)}_{q_a}|_{L_i}$, a codeword of $\RS[\F,L_i,k^{m-i}]$ that
+vanishes on $A$; since $|A|\ge k^{m-i}>\deg U^{(i)}_{q_a}$, \ref{lem:roots} with $D=k^{m-i}$
+gives $U^{(i)}_{q_a}|_{L_i}=0$, so $q_a=0$ by \ref{lem:inj}. Hence $q=T^\gamma Q$ with $\gdeg_w Q\le D-\gamma$, and $v=T^\gamma p$ for
+$p:=U^{(i)}_Q|_{L_i}\in\Gc_i^{w,D-\gamma}$. If $\gamma>D$ then $q=0$.
+\end{proof}
+
+\section{Unfolding}
+
+\begin{lemma}[Unfolding]\label{lem:unfold}\lean{SymFRI.unfold}\uses{def:kron, def:codes, lem:div, lem:inj, lem:fold-parts}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$. Let $v_0,\dots,v_{k-1}\in\Gc_i^{w,D}$ and
+$p_0,\dots,p_{k-1}:L_i\to\F[T]$ satisfy $v_j(y)=T^{w_ij}p_j(y)$ for all $y\in L_i$ and
+$0\le j<k$. Define $h:L_{i-1}\to\F[T]$ by $h(x):=\sum_{j<k}x^jp_j(x^k)$. Then
+$h\in\Gc_{i-1}^{w,D}$, and the components of $h$ (\ref{def:fold}) are $h_j=p_j$.
+\end{lemma}
+
+\begin{proof}
+Write $v_j=T^{w_ij}p_j$ on $L_i$; by \ref{lem:div} with $A=L_i$, \ref{lem:inj} gives
+$v_j=U^{(i)}_{q'_j}|_{L_i}$ with $p_j=U^{(i)}_{q'_j}|_{L_i}$ and $\gdeg_w q'_j\le D-w_ij$.
+Put $Q:=\sum_{j<k}x_i^{\,j}q'_j$. A monomial $x_i^{\,j}T^ax^\beta$ of $Q$ has graded degree
+$w_ij+a+\sum_{l>i}w_l\beta_l\le w_ij+(D-w_ij)=D$, so $Q$ has graded degree $\le D$, and by
+\ref{def:kron} $h=U^{(i-1)}_Q|_{L_{i-1}}\in\Gc_{i-1}^{w,D}$. Its components are $p_j$ by
+\ref{lem:fold-parts}.
+\end{proof}
+
+\section{Interleaved codes as codes over an extension}
+
+\begin{lemma}[Interleaved code $=$ extension-field code]\label{lem:ext}\lean{SymFRI.ext_linear}\uses{def:codes}
+Let $\E\supseteq\F$ be a finite extension, $e_0,\dots,e_{[\E:\F]-1}$ an $\F$-basis of
+$\E$, and $\varphi:\F^{[\E:\F]}\to\E$, $a\mapsto\sum_s a_se_s$, applied pointwise to words on
+$L\subseteq\F$. Then $\varphi$ is an $\F$-linear bijection $\RS[\F,L,d]^{[\E:\F]}\to\RS[\E,L,d]$, and
+$\varphi\big(\sum_{j\le l} z_ju_j\big)=\sum_{j\le l} z_j\,\varphi(u_j)$ for $z_0,\dots,z_l\in\F$.
+\end{lemma}
+
+\begin{proof}
+Every $P\in\E[X]_{<d}$ decomposes uniquely as $P=\sum_s e_sP_s$ with $P_s\in\F[X]_{<d}$ (expand
+each coefficient in the basis), and for $x\in L\subseteq\F$,
+$P(x)=\sum_s e_sP_s(x)=\varphi\big((P_s(x))_s\big)$: this is the bijection, and
+$\F$-linearity gives the identity for $z_j\in\F$.
+\end{proof}
+
+\begin{lemma}[$\varphi$ preserves agreement]\label{lem:ext-agree}\lean{SymFRI.ext_agree}\uses{def:codes, def:agree}
+Let $\varphi:\F^t\to\E$ be an injective $\F$-linear map, applied pointwise to words on a set $L$.
+Then $\{x:u(x)=v(x)\}=\{x:\varphi(u(x))=\varphi(v(x))\}$ for all words $u,v$; hence $\varphi$
+preserves $\Delta$ and $\agree_\mu$.
+\end{lemma}
+
+\begin{proof}
+$\varphi$ is injective, so $u(x)=v(x)\iff\varphi(u(x))=\varphi(v(x))$; the agreement set is
+unchanged, and $\Delta,\agree_\mu$ are functions of it.
+\end{proof}
+
+\begin{remark}
+The identity $\varphi\big(\sum_jz_ju_j\big)=\sum_jz_j\varphi(u_j)$ for $z_j\in\F$ is the only place
+where it matters that the challenges lie in $\F$ and not in $\E$; it is what \ref{cor:share} uses.
+\end{remark}
+
+\section{The subcode lemma}
+
+\begin{lemma}[Subcode lemma]\label{lem:subcode}\lean{SymFRI.subcode}
+Let $\E\supseteq\F$, let $W$ be an $\F$-linear space of words $L\to\E$ and let $v_0,\dots,v_l$ be
+words $L\to\E$. Let $S'\subseteq\F$ with $|S'|>l$. If $\sum_{j\le l}z^jv_j\in W$ for every
+$z\in S'$, then $v_j\in W$ for every $j$.
+\end{lemma}
+
+\begin{proof}
+Pick distinct $z_0,\dots,z_l\in S'$ and put $P_a:=\sum_jz_a^jv_j\in W$. The Vandermonde
+matrix $\Lambda:=(z_a^{\,j})_{a,j}\in\F^{(l+1)\times(l+1)}$ is invertible, so
+$v_j=\sum_a(\Lambda^{-1})_{j,a}P_a$ with $(\Lambda^{-1})_{j,a}\in\F$. Since $W$ is $\F$-linear,
+$v_j\in W$.
+\end{proof}
+
+\section{Granularity}
+
+\begin{lemma}[Granularity]\label{lem:gran}\lean{SymFRI.granularity}\uses{def:agree, def:domains}
+Let $\mu:L_i\to\frac1{k^i}\Z$. Then $\agree_\mu(u,v)\in\frac1N\Z$ for all words
+$u,v$ on $L_i$. Hence, for $\beta\in\mathbb R$ and
+$\beta^+:=\min\{x\in\frac1N\Z:\ x>\beta\}$, one has $\agree_\mu(u,C)>\beta$ if and only if
+$\agree_\mu(u,C)\ge\beta^+$, for every set $C$ of words on $L_i$.
+\end{lemma}
+
+\begin{proof}
+Each $\mu(x)$ equals $m_x/k^i$ with $m_x\in\Z$, so
+\[
+\agree_\mu(u,v)=\frac1{|L_i|}\sum_{x:\,u(x)=v(x)}\frac{m_x}{k^i}=\frac1N\sum_{x:\,u(x)=v(x)}m_x,
+\]
+using \ref{def:domains}. The value lies in $\frac1N\Z$, and the equivalence is the definition of
+$\beta^+$ on that lattice.
+\end{proof}
+
+\section{Fibre averages and lifting}
+
+\begin{definition}[Fibre average]\label{def:fibre-avg}\lean{SymFRI.fibreAvg}\leanok\uses{def:domains}
+Let $\mu$ be a weight on $L_{i-1}$. Its \emph{fibre average} is the weight $\nu$ on $L_i$ with
+\[
+\nu(y):=\frac1k\sum_{x\in\fib(y)}\mu(x)\qquad(y\in L_i).
+\]
+\end{definition}
+
+\begin{lemma}[Lifting]\label{lem:lift}\lean{SymFRI.lift}\uses{def:agree, def:fibre-avg, def:domains}
+Let $\mu$ be a weight on $L_{i-1}$ with fibre average $\nu$ (\ref{def:fibre-avg}). If $u,h$, maps
+on $L_{i-1}$ into any set, agree on $\fib(y)$ for every $y\in A\subseteq L_i$, then
+\[
+\agree_\mu(u,h)\ \ge\ \nu(A):=\frac1{|L_i|}\sum_{y\in A}\nu(y).
+\]
+\end{lemma}
+
+\begin{proof}
+The set of $x\in L_{i-1}$ on which $u$ and $h$ agree contains the union of the fibres $\fib(y)$,
+$y\in A$, and these are disjoint. Hence
+$\agree_\mu(u,h)\ge\frac1{|L_{i-1}|}\sum_{y\in A}\sum_{x\in\fib(y)}\mu(x)$, and
+$\frac1{|L_{i-1}|}\sum_{x\in\fib(y)}\mu(x)=\frac1{k|L_i|}\sum_{x\in\fib(y)}\mu(x)=\frac{\nu(y)}{|L_i|}$.
+\end{proof}
+
+\section{Counting bad challenge sequences}
+
+\begin{lemma}[Counting bad challenge sequences]\label{lem:bad-count}\lean{SymFRI.bad_count}
+For $1\le i\le m$ let $S_i:\F^{i-1}\to2^{\F}$ with $|S_i(r_1,\dots,r_{i-1})|\le\Theta_i$ for
+every $(r_1,\dots,r_{i-1})$. Then
+\[
+\big|\{r\in\F^m:\ \exists i,\ r_i\in S_i(r_1,\dots,r_{i-1})\}\big|
+\le|\F|^{m-1}\sum_{i=1}^m\Theta_i .
+\]
+\end{lemma}
+
+\begin{proof}
+For fixed $i$, the tuples with $r_i\in S_i(r_1,\dots,r_{i-1})$ number at most
+$|\F|^{i-1}\cdot\Theta_i\cdot|\F|^{m-i}$; sum over $i$.
+\end{proof}
+
+\section{Imported results}
+
+All results below are from Ben-Sasson, Carmon, Ishai, Kopparty, Saraf,
+\emph{Proximity Gaps for Reed--Solomon Codes}, ePrint 2020/654 (version of 3 July 2021),
+cited as [BCIKS20]. [BCIKS20] index Reed--Solomon codes by the degree bound, which is one less than the dimension,
+and write the evaluation domain as a set of size $n$. Their code of dimension $d$ on the domain
+$L$ is our $\RS[\F,L,d]$, with $n=|L|$ and the same rate $\rho=d/|L|$.
+
+\begin{imported}[{[BCIKS20, Theorem 7.2]}: weighted correlated agreement over curves]\label{ext:bciks72}\lean{SymFRI.bciks72}\leanok
+Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let
+$\mu:L\to[0,1]$ have common denominator $M$. Let $\kappa\ge3$ be an integer and
+$\alpha\ge\alpha_0(\rho,\kappa):=\sqrt\rho\,(1+\tfrac1{2\kappa})$. Let
+\[
+S:=\Big\{z\in\F:\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,\,V\Big)\ge\alpha\Big\}
+\]
+and suppose
+\[
+|S|>\max\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}}\,n^2\,l,\ \
+\frac{2\kappa+1}{\sqrt\rho}\,(Mn+1)\,l\Big).\tag{$\star$}
+\]
+Then there are $v_0,\dots,v_l\in V$ with
+$\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha$.
+\end{imported}
+
+\begin{remark}[Two facts from the proof of \ref{ext:bciks72}]\label{ext:proof-facts}
+\leavevmode
+\begin{enumerate}
+\item[(F1)] \emph{The witnesses are arbitrary.} The proof starts from an arbitrary choice,
+for each $z\in S$, of a codeword $P_z\in V$ with
+$\agree_\mu(\sum_jz^ju_j,P_z)\ge\alpha$ ([BCIKS20, p.~33, opening of \S7.1]; the
+unweighted proofs make the same choice, pp.~15 and 19). The codewords $v_j$ produced
+satisfy
+\[
+\textstyle\sum_{j}z^jv_j=P_z\qquad\text{for all }z\in S',
+\]
+for a subset $S'\subseteq S$ with $|S'|\ge(Mn+1)l$ (Proposition 5.5, eq.~(5.10), and
+the paragraph on p.~34), for \emph{those same} $P_z$.
+\item[(F2)] \emph{Only $|S|$ matters.} The proofs of Theorems 5.1, 6.2, 7.2,
+Proposition 5.5 and Lemma A.1 use $S$ only through its cardinality and through
+membership $z\in S$. The size of the field enters only (i) through the bound
+$|S|\le|\F|$, used on p.~22 to find a point $x_0\in\F$ outside fewer than
+$(\kappa+\frac12)^2n$ bad values, and (ii) through the separability hypothesis (char
+$\F>D_Y$, where $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$ bounds the $Y$-degree of the interpolating
+polynomial $Q(X,Y,Z)$ of \S5, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole field.
+\end{enumerate}
+\end{remark}
+
+\begin{imported}[{[BCIKS20, Theorem 7.1]}: weighted correlated agreement over curves, version I]\label{ext:bciks71}\lean{SymFRI.bciks71}\leanok
+Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$, $u_0,\dots,u_l:L\to\F$, and $\mu:L\to[0,1]$
+with common denominator $M$. Let $\alpha\in(\sqrt\rho,1)$ and
+$\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$. With $S$ as in \ref{ext:bciks72},
+suppose
+\[
+|S|>l\,\varepsilon\,|\F|\quad\text{and}\quad|S|\ge l\,(Mn+1)\Big(\frac1\eta+\frac3{\sqrt\rho}\Big),\tag{$\star\star$}
+\]
+where $\varepsilon$ is the error of [BCIKS20, Theorem~1.2] at $\delta=1-\alpha$; in the
+unique-decoding range $\alpha>\frac{1+\rho}2$ it is $\varepsilon=n/|\F|$, so the first
+condition reads $|S|>l\,n$. Then there are $v_0,\dots,v_l\in V$ with
+$\mu(\{x:\ u_j(x)=v_j(x)\ \forall j\})\ge\alpha$.
+\end{imported}
+
+\begin{remark}[Facts F1--F2 for \ref{ext:bciks71}]\label{ext:facts71}
+The proof of \ref{ext:bciks71} is the same as that of \ref{ext:bciks72} (\S7.1 of
+[BCIKS20]): it applies Theorems~6.1/6.2 to $S$ and Lemmas~7.5--7.6 to the identity
+$\sum_jz^jv_j=P_z$ on $S'$. In the unique-decoding range, $S'=S$ (p.~34: ``$P_z$ and
+$\sum_jz^jv_j$ are both decodings of $\sum_jz^ju_j$, and the decoding is unique'').
+Hence (F1) and (F2) hold for \ref{ext:bciks71} as well.
+\end{remark}
+
+\section{The hypothesis}
+
+\begin{hypothesis}\label{hyp:ca}\lean{SymFRI.CA}\uses{ext:bciks72, ext:proof-facts}
+For $\alpha_*\in(0,1]$ and a function $\Theta(n,M,l)$, $\mathrm H(\alpha_*,\Theta)$ is the
+following assertion. For every finite field $\E\supseteq\F$, every $L\subseteq\F$ with
+$|L|=n$, every $V=\RS[\E,L,d]$ of rate $\rho=d/n$, all words $u_0,\dots,u_l:L\to\E$, every
+weight $\mu$ whose values have denominator $M$, every $\alpha\ge\alpha_*$, and every choice of
+witnesses $P_z\in V$ with $\agree_\mu\big(\sum_{j\le l}z^ju_j,P_z\big)\ge\alpha$ for the
+elements $z$ of a set $S\subseteq\F$: if $|S|>\Theta(n,M,l)$, then there are $v_0,\dots,v_l\in V$
+with
+\[
+\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha
+\quad\text{and}\quad
+\textstyle\sum_{j\le l}z^jv_j=P_z\ \text{ for more than }l\text{ values }z\in S .
+\]
+\end{hypothesis}
+
+{\renewcommand{\theproposition}{P-H1}
+\begin{proposition}[H holds at the Johnson radius]\label{prop:H1}\lean{SymFRI.H_johnson}\uses{ext:bciks72, ext:proof-facts}
+Let $\kappa\ge3$ and $\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$. Then
+$\mathrm H(\alpha_0,\Theta_J)$ holds for
+\[
+\Theta_J(n,M,l):=l\,\max\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7}{3\rho^{3/2}}\,n^2,\ \
+\frac{2\kappa+1}{\sqrt\rho}\,(Mn+1)\Big).
+\]
+\end{proposition}
+
+\begin{proof}
+Let $\E,L,d,V,u_j,\mu,M,\alpha\ge\alpha_0,S,P_z$ be as in \ref{hyp:ca}, with
+$|S|>\Theta_J(n,M,l)$. The proof of \ref{ext:bciks72} uses the set $S$ only through $|S|$ and
+membership in it, and both places where the field enters hold over $\E$, since
+$|S|\le|\F|\le|\E|$ and $\E$ has the characteristic of $\F$; so its conclusion holds for the
+field $\E$ and the set $S$, giving $v_0,\dots,v_l\in V$ with the stated agreement. By the first
+fact of \ref{ext:proof-facts} these $v_j$ satisfy $\sum_jz^jv_j=P_z$ for the given witnesses on
+a set of more than $l$ values of $z$.
+\end{proof}
+
+{\renewcommand{\theproposition}{P-H2}
+\begin{proposition}[H holds in the unique-decoding regime]\label{prop:H2}\lean{SymFRI.H_unique}\uses{ext:bciks71, ext:facts71}
+Put $\eta_{\mathrm U}:=\min\big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\big)$. For every
+$\alpha_*>\frac{1+\rho}2$, $\mathrm H(\alpha_*,\Theta_U)$ holds for
+\[
+\Theta_U(n,M,l):=l\,(Mn+1)\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big).
+\]
+\end{proposition}
+
+\begin{proof}
+Let $\alpha\ge\alpha_*>\frac{1+\rho}2$ and $|S|>\Theta_U(n,M,l)$, and put
+$\eta:=\min(\alpha-\sqrt\rho,\frac{\sqrt\rho}{20})$. Since
+$\alpha-\sqrt\rho>\frac{1+\rho}2-\sqrt\rho=\frac{(1-\sqrt\rho)^2}2$ we have
+$\eta\ge\eta_{\mathrm U}$, so $|S|>l(Mn+1)(\frac1\eta+\frac3{\sqrt\rho})$; also
+$\alpha>\frac{1+\rho}2$ gives $\varepsilon=n/|\F|$ in $(\star\star)$, and
+$(Mn+1)(\frac1\eta+\frac3{\sqrt\rho})>n$. So \ref{ext:bciks71} applies, with the same
+transposition to $\E$ as in \ref{prop:H1}, and \ref{ext:facts71} supplies the curve identity
+for the chosen witnesses on more than $l$ values of $z$.
+\end{proof}
+
+\section{Correlated agreement for linear subcodes}
+
+\begin{consequence}[Correlated agreement for subcodes]\label{cor:share}\lean{SymFRI.share}\uses{hyp:ca, lem:subcode}
+Assume $\mathrm H(\alpha_*,\Theta)$, let $\E,L,d,V,u_0,\dots,u_l$ and $\mu,M$ be as in
+\ref{hyp:ca}, and let $\alpha\ge\alpha_*$. Let $W\subseteq V$ be an $\F$-linear subspace and let
+\[
+S:=\Big\{z\in\F:\ \exists P_z\in W\ \text{with}\ \agree_\mu\Big(\textstyle\sum_{j\le l}z^ju_j,P_z\Big)\ge\alpha\Big\}
+\]
+satisfy $|S|>\Theta(n,M,l)$. Then there are $v_0,\dots,v_l\in W$ with
+\[
+\mu\big(\{x\in L:\ u_j(x)=v_j(x)\ \forall j\}\big)\ge\alpha .
+\]
+\end{consequence}
+
+\begin{proof}
+Fix $P_z\in W$ for $z\in S$ as in the definition of $S$, and apply \ref{hyp:ca}: it gives
+$v_0,\dots,v_l\in V$ with the stated agreement and $\sum_jz^jv_j=P_z$ for more than $l$ values
+$z\in S$. Those sums lie in $W$, so $v_j\in W$ by \ref{lem:subcode}.
+\end{proof}
+
+\section{The protocol and the query weights}
+
+\begin{definition}[Degree test $\Pi_{w,D}$]\label{def:protocol}\lean{SymFRI.Prover}\leanok\uses{def:domains, def:kron, def:fold}
+Parameters: $\F,k,m,N,L_0,\dots,L_m$ as in \ref{def:domains}; $w\in\N^m$; $D\in\N$;
+$s\ge1$.
+\begin{enumerate}
+\item The prover sends $u_0:L_0\to\F$ (honestly $u_0=U_f|_{L_0}$).
+\item For $i=1,\dots,m$: the verifier sends a uniform $r_i\in\F$; put $c_i:=r_iT^{w_i}$.
+The prover sends $u_i:L_i\to\F[T]_{\le d_i}$ (honestly $u_i=\Fold_{c_i}(u_{i-1})$).
+For $i=m$ the word $u_m$ is constant, sent as one polynomial $g\in\F[T]_{\le D}$.
+\item Repeat $s$ times: pick a uniform $\xi_0\in L_0$, put $\xi_i:=\xi_{i-1}^k$, and check
+$u_i(\xi_i)=\Fold_{c_i}(u_{i-1})(\xi_i)$ for $i=1,\dots,m$ (reading $u_{i-1}$ on
+$\fib(\xi_i)$).
+\end{enumerate}
+The verifier accepts iff all checks pass. (The format $u_i(y)\in\F[T]_{\le d_i}$ and
+$\deg g\le D$ is part of the message space.)
+\end{definition}
+
+\begin{definition}[Query weights, after {[BCIKS20, \S8.2.1]}]\label{def:weights}\lean{SymFRI.nu}\leanok\uses{def:fibre-avg, def:protocol, def:fold}
+For a transcript, define $\mu^{(0)}\equiv1$ on $L_0$ and, for $1\le i\le m$, let $\nu^{(i)}$ be
+the fibre average (\ref{def:fibre-avg}) of $\mu^{(i-1)}$ and put, for $y\in L_i$,
+\[
+\mu^{(i)}(y):=\begin{cases}\nu^{(i)}(y)&\text{if }u_i(y)=\Fold_{c_i}(u_{i-1})(y),\\0&\text{otherwise.}\end{cases}
+\]
+The values of $\mu^{(i)},\nu^{(i)}$ are multiples of $1/k^i$; hence, by \ref{def:domains},
+every $\mu^{(i)}$- or $\nu^{(i)}$-agreement on $L_i$ is a multiple of $1/N$.
+\end{definition}
+
+\section{Acceptance as a weight}
+
+\begin{imported}[{[BCIKS20, Claim 8.5]}: acceptance as a weight]\label{ext:claim85}\lean{SymFRI.claim85}\leanok
+With the weights of \ref{def:weights}, the probability that one query of
+\ref{def:protocol} accepts equals $\frac1{|L_m|}\sum_{y\in L_m}\mu^{(m)}(y)$.
+\end{imported}
+\noindent\emph{Note.} [BCIKS20] sample $y\in L_m$ uniformly and then a uniform element of
+each fibre downwards; sampling a uniform $\xi_0\in L_0$ and setting $\xi_i:=\xi_{i-1}^k$ gives
+the same distribution of query paths. Their proof (induction on $i$, p.~43) applies
+verbatim.
+
+\section{Starting the induction}
+
+\begin{lemma}[Start]\label{lem:start}\lean{SymFRI.start}\uses{def:codes, def:agree, def:kron}
+For every $u_0:L_0\to\F$, $\agree\big(u_0,\Gc_0^{w,D}\big)=\agree\big(u_0,C_{w,D}\big)$.
+\end{lemma}
+
+\begin{proof}
+Both sides are maxima over words, and $C_{w,D}\subseteq\Gc_0^{w,D}$, so it suffices to show
+that every $v\in\Gc_0^{w,D}$ has an element of $C_{w,D}$ agreeing with it wherever $u_0$ does.
+Let $v=U^{(0)}_q|_{L_0}$ and let $q_0$ be the $T^0$-coefficient of $q$; then
+$U^{(0)}_{q_0}|_{L_0}\in C_{w,D}$ and $U^{(0)}_q=U^{(0)}_{q_0}$ wherever the value is
+$T$-free, in particular wherever it equals $u_0(x)\in\F$.
+\end{proof}
+
+\section{Agreement does not increase}
+
+\begin{lemma}[No increase]\label{lem:no-increase}\lean{SymFRI.no_increase}\uses{def:weights, def:agree}
+Let $1\le i\le m$ and let $\mu^{(i)},\nu^{(i)}$ be the weights of \ref{def:weights} for a
+transcript. For every set $C$ of words on $L_i$,
+\[
+\agree_{\mu^{(i)}}\big(u_i,C\big)\ \le\ \agree_{\nu^{(i)}}\big(\Fold_{c_i}(u_{i-1}),C\big).
+\]
+\end{lemma}
+
+\begin{proof}
+By \ref{def:weights}, $\mu^{(i)}(y)=\nu^{(i)}(y)$ where
+$u_i(y)=\Fold_{c_i}(u_{i-1})(y)$ and $\mu^{(i)}(y)=0$ elsewhere. Hence for every word $w$ on
+$L_i$ the set $\{y:u_i(y)=w\}$ meets $\{y:\mu^{(i)}(y)>0\}$ inside
+$\{y:\Fold_{c_i}(u_{i-1})(y)=w\}$, where $\mu^{(i)}=\nu^{(i)}$; so
+$\agree_{\mu^{(i)}}(u_i,w)\le\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),w)$. Taking the maximum
+over $w\in C$ gives the claim.
+\end{proof}
+
+\section{The round lemma}
+
+\begin{lemma}[Descent]\label{lem:round-up}\lean{SymFRI.round_up}\uses{def:domains, def:fibre-avg, lem:div, lem:fold-invert, lem:lift, lem:unfold}
+Let $1\le i\le m$, $w\in\N^m$, $D\in\N$, let $u:L_{i-1}\to\F[T]$ have components
+$u_0,\dots,u_{k-1}$ (\ref{def:fold}), let $\mu$ be a weight on $L_{i-1}$ with fibre average $\nu$
+(\ref{def:fibre-avg}), and let $A\subseteq L_i$ with $\nu(A)>\rho$. If there are
+$v_0,\dots,v_{k-1}\in\Gc_i^{w,D}$ with $v_j(y)=T^{w_ij}u_j(y)$ for every $y\in A$ and $j<k$, then
+there is $h\in\Gc_{i-1}^{w,D}$ with $\agree_\mu(u,h)\ge\nu(A)$.
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Since $\nu(A)>\rho$ and $\nu\le1$ give $|A|\ge\nu(A)|L_i|>\rho|L_i|=k^{m-i}$
+(\ref{def:domains}), \ref{lem:div} with $\gamma=w_ij$, $v=v_j$ and this $A$ gives $v_j=T^{w_ij}p_j$
+with $p_j\in\Gc_i^{w,D-w_ij}$; cancelling in $\F[T]$ gives $u_j=p_j$ on $A$.
+\item By \ref{lem:unfold}, $h:=\sum_{j<k}x^jp_j(x^k)$ lies in $\Gc_{i-1}^{w,D}$ with components
+$p_j$.
+\item By \ref{lem:fold-invert}, $u(x)=\sum_jx^ju_j(x^k)=\sum_jx^jp_j(x^k)=h(x)$ for every
+$x\in\fib(y)$, $y\in A$.
+\item By \ref{lem:lift}, $\agree_\mu(u,h)\ge\nu(A)$.
+\end{enumerate}\end{proof}
+
+\begin{lemma}[Round lemma]\label{lem:round}\lean{SymFRI.round}\uses{hyp:ca, cor:share, lem:round-up, lem:ext, lem:ext-agree, lem:gran}
+Assume $\mathrm H(\alpha_*,\Theta)$ and $\alpha_*>\rho$. Let $1\le i\le m$, let $u:L_{i-1}\to\F[T]_{\le d_{i-1}}$,
+and let $\mu^{(i-1)}$ be a weight on $L_{i-1}$ with values in $\frac1{k^{i-1}}\Z$; let
+$\nu^{(i)}$ be its fibre average (\ref{def:fibre-avg}). Put
+\[
+\beta_i:=\max\Big(\agree_{\mu^{(i-1)}}\big(u,\Gc_{i-1}^{w,D}\big),\ \alpha_*\Big),\qquad
+S_i:=\Big\{r\in\F:\ \agree_{\nu^{(i)}}\big(\Fold_{rT^{w_i}}(u),\Gc_i^{w,D}\big)>\beta_i\Big\}.
+\]
+Then $|S_i|\le\Theta\big(|L_i|,k^i,k-1\big)$.
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Assume $|S_i|>\Theta(|L_i|,k^i,k-1)$, let $u_j$ be the components of $u$ and put $\tilde u_j:=T^{w_ij}u_j$; by \ref{def:fold}, $\Fold_{rT^{w_i}}(u)=\sum_{j<k}r^j\tilde u_j$ for every $r\in\F$.
+\item By \ref{lem:gran}, $S_i=\{r:\agree_{\nu^{(i)}}(\sum_jr^j\tilde u_j,\Gc_i^{w,D})\ge\beta_i^+\}$, and $\beta_i^+\ge\alpha_*$.
+\item By \ref{lem:ext} with $[\E:\F]:=1+\max(D,d_{i-1}+w_i(k-1))$, the $\tilde u_j$ become words over $\E$ and $\Gc_i^{w,D}$ an $\F$-linear subspace $W$ of $\RS[\E,L_i,k^{m-i}]$, of rate $\rho$; by \ref{lem:ext-agree} the agreement of $\varphi(\tilde u_j)$ with $W$ is that of $\tilde u_j$ with $\Gc_i^{w,D}$.
+\item So \ref{cor:share} with $n=|L_i|$, $M=k^i$, $l=k-1$ gives $v_0,\dots,v_{k-1}\in\Gc_i^{w,D}$ and $A\subseteq L_i$ with $\nu^{(i)}(A)\ge\beta_i^+$ and $\tilde u_j=v_j$ on $A$.
+\item Since $\beta_i^+\ge\alpha_*>\rho$, \ref{lem:round-up} with $\mu:=\mu^{(i-1)}$, $\nu:=\nu^{(i)}$ and this $A$ gives $h\in\Gc_{i-1}^{w,D}$ with $\agree_{\mu^{(i-1)}}(u,h)\ge\nu^{(i)}(A)\ge\beta_i^+>\beta_i$, contradicting the definition of $\beta_i$ as a maximum over $\Gc_{i-1}^{w,D}$.
+\end{enumerate}\end{proof}
+
+\section{Soundness}
+
+\begin{lemma}[Good challenges keep the agreement]\label{lem:sound-fold}\lean{SymFRI.sound_fold}\uses{hyp:ca, lem:start, lem:round, lem:no-increase}
+Assume $\mathrm H(\alpha_*,\Theta)$ with $\alpha_*>\rho$, let $\alpha\ge\alpha_*$, and let
+$\agree(u_0,C_{w,D})\le\alpha$. Fix a prover and challenges $r_1,\dots,r_m\in\F$, let
+$u_1,\dots,u_m$ be the prover's words, and let $S_i\subseteq\F$ be the set of \ref{lem:round}
+for $u:=u_{i-1}$ and $\mu^{(i-1)}$; it depends only on $r_1,\dots,r_{i-1}$. If $r_i\notin S_i$
+for every $1\le i\le m$, then $\agree_{\mu^{(m)}}(u_m,\Gc_m^{w,D})\le\alpha$.
+\end{lemma}
+
+\begin{proof}
+By \ref{lem:start}, $\agree_{\mu^{(0)}}(u_0,\Gc_0^{w,D})=\agree(u_0,C_{w,D})\le\alpha$. For
+$1\le i\le m$, $r_i\notin S_i$ means by \ref{lem:round} that
+$\agree_{\nu^{(i)}}(\Fold_{c_i}(u_{i-1}),\Gc_i^{w,D})\le\beta_i$, and $\beta_i$ is the maximum of
+$\agree_{\mu^{(i-1)}}(u_{i-1},\Gc_{i-1}^{w,D})$ and $\alpha_*$; with \ref{lem:no-increase} this
+gives
+$\agree_{\mu^{(i)}}(u_i,\Gc_i^{w,D})\le\max(\agree_{\mu^{(i-1)}}(u_{i-1},\Gc_{i-1}^{w,D}),\alpha_*)$,
+and induction from the base case, using $\alpha\ge\alpha_*$, gives the claim.
+\end{proof}
+
+\begin{theorem}[Soundness, reduction form]\label{thm:reduction}\lean{SymFRI.reduction}\uses{lem:sound-fold, lem:bad-count, ext:claim85}
+Assume $\mathrm H(\alpha_*,\Theta)$ with $\alpha_*>\rho$, let $\alpha\ge\alpha_*$, and suppose
+$\agree(u_0,C_{w,D})\le\alpha$. Then for every prover the test $\Pi_{w,D}$ accepts with
+probability at most
+\[
+\frac1{|\F|}\sum_{i=1}^{m}\Theta\big(|L_i|,k^i,k-1\big)+\alpha^s .
+\]
+\end{theorem}
+
+\begin{proof}
+The prover's words are fixed; the challenges $(r_1,\dots,r_m)$ are uniform on $\F^m$. By
+\ref{lem:bad-count} with $S_i$ as in \ref{lem:round} and $\Theta_i:=\Theta(|L_i|,k^i,k-1)$, the
+tuples with $r_i\in S_i$ for some $i$ number at most $|\F|^{m-1}\sum_i\Theta_i$, so they have
+probability at most $\frac1{|\F|}\sum_i\Theta_i$. Outside them \ref{lem:sound-fold} gives
+$\agree_{\mu^{(m)}}(u_m,\Gc_m^{w,D})\le\alpha$; since $u_m=g\in\Gc_m^{w,D}$ and $\Gc_m^{w,D}$ is the
+set of constant words with value in $\F[T]_{\le D}$, \ref{ext:claim85} bounds the probability that
+one query accepts by $\alpha$ and the $s$ repetitions by $\alpha^s$. Adding the two bounds gives the
+claim.
+\end{proof}
+
+\begin{consequence}[Soundness at the Johnson radius]\label{cor:johnson}\lean{SymFRI.johnson}\uses{prop:H1, thm:reduction}
+Let $\kappa\ge3$, $\alpha\ge\alpha_0:=\sqrt\rho\,(1+\frac1{2\kappa})$, and
+suppose $\agree(u_0,C_{w,D})\le\alpha$. Then the test accepts with probability at most
+$\varepsilon_C+\alpha^s$, where
+\[
+\varepsilon_C:=\frac1{|\F|}\Big(\frac{(1+\frac1{2\kappa})^7\kappa^7\,N^2}{3(k+1)\rho^{3/2}}
++m(k-1)\frac{(2\kappa+1)(N+1)}{\sqrt\rho}\Big).
+\]
+\end{consequence}
+
+\begin{proof}
+Use \ref{prop:H1} in \ref{thm:reduction}: for each $i$ the quantity
+$\Theta_J(|L_i|,k^i,k-1)$ equals $(k-1)\max(a_J|L_i|^2,b_J(N+1))$, with $a_J$ and $b_J$ the two
+constants of $\Theta_J$. Here $M=k^i$, so $Mn=N$. Hence
+\[
+\sum_{i=1}^{m}\Theta_J(|L_i|,k^i,k-1)\ \le\ a_J\sum_{i=1}^{m}(k-1)|L_i|^2+b_J\,m(k-1)(N+1),
+\]
+and $\sum_i(k-1)|L_i|^2=(k-1)N^2\sum_ik^{-2i}=\frac{N^2(1-k^{-2m})}{k+1}\le\frac{N^2}{k+1}$.
+\end{proof}
+
+\begin{consequence}[Soundness in the unique-decoding regime]\label{cor:ud}\lean{SymFRI.unique_decoding}\uses{prop:H2, thm:reduction}
+Let $\alpha>\frac{1+\rho}2$ and suppose $\agree(u_0,C_{w,D})\le\alpha$. Then the test accepts
+with probability at most $\varepsilon_{\mathrm U}+\alpha^s$, where
+\[
+\varepsilon_{\mathrm U}:=\frac{m(k-1)(N+1)}{|\F|}\Big(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho}\Big),
+\qquad \eta_{\mathrm U}=\min\Big(\frac{(1-\sqrt\rho)^2}2,\frac{\sqrt\rho}{20}\Big).
+\]
+\end{consequence}
+
+\begin{proof}
+Use \ref{prop:H2} with $\alpha_*=\alpha$ in \ref{thm:reduction}: each of the $m$ terms
+$\Theta_U(|L_i|,k^i,k-1)$ equals $(k-1)(N+1)(\frac1{\eta_{\mathrm U}}+\frac3{\sqrt\rho})$ by \ref{def:domains}.
+\end{proof}
+
+\begin{remark}[Individual degrees]
+Since $C_{w,D}\subseteq\RS[\F,L_0,k^m]$, acceptance also certifies $\deg_{x_l}<k$ for all $l$;
+taking $w=e_l$ and $D=b<k$ certifies $\deg_{x_l}f\le b$.
+\end{remark}
+
+\begin{remark}[Characteristic]\label{rem:char}\notready\uses{ext:bciks72}
+\ref{prop:H1} inherits from \ref{ext:bciks72} the separability convention of
+[BCIKS20, \S5.2.3] (the characteristic of $\F$ exceeds $D_Y$, the bound on the $Y$-degree of the interpolating polynomial $Q(X,Y,Z)$ of [BCIKS20, \S5], which satisfies $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$); the
+general case, with inseparable factors, is treated in [BCIKS20, Appendix~C].
+\end{remark}
+
+\section{Completeness}
+
+{\renewcommand{\theproposition}{P1}
+\begin{proposition}[Completeness and the terminal polynomial]\label{prop:complete}\lean{SymFRI.complete}\uses{def:protocol, lem:stab-cap, cor:terminal, cor:box}
+Let $f\in\F[x_1,\dots,x_m]_{<k}$ with $\deg_wf\le D$, and let the prover be honest.
+\begin{enumerate}
+\item[(a)] Every format condition and every query check of $\Pi_{w,D}$ holds for every
+choice of challenges; the verifier accepts with probability $1$.
+\item[(b)] The final message is $g(T)=f(r_1T^{w_1},\dots,r_mT^{w_m})$.
+\item[(c)] if $f\ne0$, then $\deg g\le\deg_wf$, and
+$\Pr_r\big[\deg g<\deg_wf\big]\le\frac{m(k-1)}{|\F|}$.
+\end{enumerate}
+\end{proposition}}
+
+\begin{proof}
+(a) $u_0=U_f|_{L_0}\in C_{w,D}$. By \ref{lem:stab-cap}, each honest $u_i$ takes values of
+$T$-degree $\le d_i$, so the formats hold, and each check holds because
+$u_i=\Fold_{c_i}(u_{i-1})$ by definition.
+(b) is \ref{cor:terminal}.
+(c) The coefficient of $T^{\deg_wf}$ in $g$ is $f^{\mathrm{top}}(r)$, where
+$f^{\mathrm{top}}:=\sum_{\langle w,\alpha\rangle=\deg_wf}f_\alpha x^\alpha\ne0$. It satisfies
+$\deg_{x_l}f^{\mathrm{top}}<k$ for every $l$, so it vanishes with probability $\le m(k-1)/|\F|$ by
+\ref{cor:box}, and no larger power of $T$ occurs.
+\end{proof}
+
+\section{Several degree constraints}
+
+Let $p\ge1$, let $w^{(1)},\dots,w^{(p)}\in\N^m$ be weights and $D_1,\dots,D_p$ bounds, and
+write $\mathbf w:=(w^{(1)},\dots,w^{(p)})$, $\mathbf D:=(D_1,\dots,D_p)$ and $d^{(\iota)}_i:=\min\big(D_{\iota},(k-1)\sum_{l\le i}w^{(\iota)}_l\big)$. The target code is $C_{\mathbf w,\mathbf D}:=\bigcap_{\iota}C_{w^{(\iota)},D_{\iota}}$.
+
+\begin{remark}[Several constraints in one run]\label{rem:multi}\lean{SymFRI.multi}\uses{lem:inj, lem:fold-sub, lem:stab, lem:div, lem:unfold, lem:round, thm:reduction}
+Replace $\F[T]$ by $\F[T_1,\dots,T_p]$, the challenge $r_iT^{w_i}$ by
+$r_i\prod_{\iota}T_{\iota}^{\,w^{(\iota)}_i}$, the graded degree by the vector of degrees
+$\big(a_{\iota}+\sum_{l>i}w^{(\iota)}_l\alpha_l\big)_{\iota}$ of a monomial $\prod_{\iota}T_{\iota}^{a_{\iota}}x^\alpha$, the
+condition $\gdeg\le D$ by ``$\le D_{\iota}$ in every coordinate'', the formats $\F[T]_{\le d_i}$ by
+$\prod_{\iota}\F[T_{\iota}]_{\le d^{(\iota)}_i}$, and the final check $\deg g\le D$ by $\deg_{T_{\iota}}g\le D_{\iota}$
+for all $\iota$. Then \ref{lem:inj}, \ref{lem:fold-sub}, \ref{lem:stab}, \ref{lem:div},
+\ref{lem:unfold}, \ref{lem:round} and \ref{thm:reduction} extend verbatim to
+$C_{\mathbf w,\mathbf D}$, with $[\E:\F]:=\prod_{\iota}\big(1+\max(D_{\iota},\,d^{(\iota)}_{i-1}+w^{(\iota)}_i(k-1))\big)$
+in item~3 of \ref{lem:round}.
+
+
+The proofs use only three properties of $\F[T]$: it is an integral domain (cancellation in
+\ref{lem:unfold} and \ref{lem:round}); divisibility by a monomial is read off coefficientwise
+(\ref{lem:div} and \ref{lem:round}, item~4); and the value spaces are finite-dimensional over
+$\F$, which is all \ref{lem:ext} needs. All three hold for $\F[T_1,\dots,T_p]$ with bounded
+degrees, with the bound $t$ above.
+\end{remark}
+
+\begin{remark}[Separate runs on one commitment]\label{rem:separate}\lean{SymFRI.separate}\uses{rem:multi}
+Running $\Pi_{w^{(\iota)},D_{\iota}}$ separately on the same $u_0$ costs the sum of the $p$ runs instead
+of the product $t$. Below the unique-decoding radius it certifies the same statement: if
+$\agree(u_0,C_{w^{(\iota)},D_{\iota}})>\frac{1+\rho}2$ for all $\iota$, the codewords achieving these
+agreements are all the unique closest codeword of $\RS[\F,L_0,k^m]$, which therefore lies in
+$C_{\mathbf w,\mathbf D}$. Above that radius, separate runs only certify closeness to each
+$C_{w^{(\iota)},D_{\iota}}$, possibly through different codewords of the list; \ref{rem:multi} is then
+the right tool.
+\end{remark}
+
+\section{The bivariate setting of {FRISS}}
+
+\begin{definition}[Bivariate setting]\label{def:avss}\lean{SymFRI.Vt}\leanok\uses{def:domains, def:kron, def:codes}
+Let $\tau,t\in\N$ with $2^\tau\ge t+1$. Set $k:=2$ and $m:=2\tau$, and let $N,L_0,\dots,L_m$ be
+as in \ref{def:domains}, so $2^{2\tau}=k^m\mid N$, and $\rho=k^m/N=2^{2\tau}/N$ by
+\ref{def:domains}. Here $X,Y$ are two
+indeterminates, $\deg_X$ and $\deg_Y$ the degrees in them, and $C_{w^X,t}$ is the degree code of
+\ref{def:codes} for the weight $w^X$ below and $D=t$. For
+$f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $f'\in\F[x_1,\dots,x_{2\tau}]_{<2}$ be the
+multilinear polynomial with
+\[
+f(X,Y)=f'\big(X,X^2,\dots,X^{2^{\tau-1}},\,Y,Y^2,\dots,Y^{2^{\tau-1}}\big),
+\]
+and put $\hat f:=U_{f'}$; substituting $x_l=Z^{2^{l-1}}$ in $U_{f'}$ gives
+$\hat f(Z)=f(Z,Z^{2^\tau})$. The map $(\cdot)'$ is $\F$-linear, so $(f+\theta e)'=f'+\theta e'$ and
+$\hat h=\hat f+\theta\hat e$ for $h:=f+\theta e$. The weights are
+\[
+w^X:=(1,2,\dots,2^{\tau-1},0,\dots,0),\qquad
+w^Y:=(0,\dots,0,1,2,\dots,2^{\tau-1})\in\N^{2\tau},
+\]
+the box of the intermediate degree bound is $V_t:=\{f\in\F[X,Y]:\ \deg_Xf\le t,\ \deg_Yf\le t\}$,
+$u_f,u_e:L_0\to\F$ are the committed words, honestly $u_f=\hat f|_{L_0}$ and
+$u_e=\hat e|_{L_0}$, and $\delta_0\in[0,1]$ bounds their distance to these words.
+\end{definition}
+
+\begin{lemma}[Binary digits: individual degree is weighted degree]\label{lem:avss-bits}\lean{SymFRI.avss_bits}\uses{def:avss, def:wdeg}
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, and let $f',w^X,w^Y$ be as in
+\ref{def:avss}. Then
+\[
+\deg_Xf=\deg_{w^X}f',\qquad \deg_Yf=\deg_{w^Y}f'.
+\]
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item Under the substitution of \ref{def:avss} the monomial $x^\alpha$,
+$\alpha\in\{0,1\}^{2\tau}$, maps to $X^{a(\alpha)}Y^{b(\alpha)}$ with
+$a(\alpha):=\sum_{l\le\tau}\alpha_l2^{l-1}=\langle w^X,\alpha\rangle$ and
+$b(\alpha):=\sum_{l>\tau}\alpha_l2^{l-\tau-1}=\langle w^Y,\alpha\rangle$, and its coefficient
+is unchanged.
+\item By uniqueness of the binary expansion, $\alpha\mapsto(a(\alpha),b(\alpha))$ is a bijection
+from $\{0,1\}^{2\tau}$ to $\{0,\dots,2^\tau-1\}^2$; hence $f'_\alpha=f_{a(\alpha),b(\alpha)}$ for every
+$\alpha$, and every pair $(a,b)$ with $f_{a,b}\ne0$ is of the form $(a(\alpha),b(\alpha))$.
+\item Therefore $\deg_Xf=\max\{\langle w^X,\alpha\rangle:\ f'_\alpha\ne0\}=\deg_{w^X}f'$, and
+likewise for $Y$.
+\end{enumerate}\end{proof}
+
+\begin{remark}[The $Y$ direction]\label{rem:avss-y}\notready\uses{def:avss, def:kron, lem:avss-bits}
+With $X$ the low variable, $\deg_Yf\le t$ if and only if $\deg\hat f<2^\tau(t+1)$. Indeed
+$\deg_Yf=\deg_{w^Y}f'$ by \ref{lem:avss-bits}, and by \ref{def:kron}
+$\hat f(Z)=f(Z,Z^{2^\tau})=\sum_{a,b}f_{a,b}Z^{a+2^\tau b}$ with $0\le a<2^\tau$; hence
+$\deg\hat f=\max\{a+2^\tau b:\ f_{a,b}\ne0\}$, and for $0\le a<2^\tau$ one has
+$b\le t\iff a+2^\tau b<2^\tau(t+1)$.
+\end{remark}
+
+\section{The masked degree test}
+
+\begin{definition}[Masked degree test]\label{con:avss-mask}\uses{def:avss, def:protocol}
+Let $\tau,t$ and $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$ be as in \ref{def:avss}. The
+dealer samples $e$ uniformly from $V_t$ and commits to $\hat e$ with salted Merkle leaves: the
+leaf of $x$ hashes $x$, $\hat e(x)$ and an independent uniform salt. The verifier sends
+$\theta\in\F$. Put $h:=f+\theta e$ and $u_h:=u_f+\theta u_e$. The two parties run
+$\Pi_{w^X,t}$ (\ref{def:protocol}) with $k=2$, $m=2\tau$, $D=t$ and $u_0:=u_h$, the verifier
+reading $u_h(x)$ by opening $u_f(x)$ and $u_e(x)$; the $s$
+repetitions use as query points $\xi_0$ the $s$ query positions at which the commitment already opens $\hat f$, in order, so that $s$ equals the number of queries of the commitment and each $\xi_0$ is uniform on $L_0$.
+\end{definition}
+
+\begin{remark}[The threshold is not enforced]\label{rem:avss-threshold}\notready\uses{def:avss}
+Let $2^\tau\ge t+2$ and let $f\in\F[X,Y]$ satisfy $\deg_Xf,\deg_Yf<2^\tau$ and
+$\deg_Xf(X,0)>t$; for instance $f=X^{t+1}$ if $t+1\le2^\tau-1$. PolyFRIM's binding certifies
+only $\deg_Xf,\deg_Yf<2^\tau$ {[PolyFRIM, Def.~2.3, App.~B, App.~D]}, and the dealer's messages
+and proofs are those of an honest dealer for this $f$, so every check of FRISS
+{[PolyFRIM, Alg.~2--4]} passes. The Rec\_strong value of party $i$ is $\sigma_i:=f(\omega_i,0)$, at
+distinct points $\omega_i\in\F$ {[PolyFRIM, Alg.~3--4]}. For a set $A$ of $t+1$ parties let
+$P_A\in\F[X]$ be the interpolant of $\{(\omega_i,\sigma_i):\ i\in A\}$, of degree at most $t$, and put
+$\sigma:=f(z,0)$. Then one of two cases occurs.
+\begin{enumerate}
+\item If $P_A\ne P_B$ for two sets $A,B$ of $t+1$ parties, then $P_A,P_B$ are distinct of
+degree $\le t$, so by \ref{lem:roots} with $D=t+1$ one has $P_A(z)\ne P_B(z)$ outside at most $t$
+values of $z$: the parties may output different secrets.
+\item If $P_A=P$ for every $A$, then $P$ agrees with $f(\cdot,0)$ on every $\omega_i$ while
+$P\ne f(\cdot,0)$, and both have degree $\le2^\tau-1$, so by \ref{lem:roots} with $D=2^\tau$ one has
+$P(z)\ne\sigma$ outside at most $2^\tau-1$ values of $z$: every party outputs a secret other than
+$s$.
+\end{enumerate}
+The same argument applies with $X$ and $Y$ exchanged, to the shares $\hat f_i=f(\omega_i,Y)$
+interpolated from $t+1$ valid Echo values {[PolyFRIM, Alg.~3, step 16]}.
+
+This does not contradict {[PolyFRIM, Thm.~4.1]}: Definition~2.4 there constrains the
+reconstructed value only when the dealer is honest (Correctness), and its Agreement property
+requires that all honest parties terminate, not that they output the same value. The remark
+shows that the stronger requirement, that a malicious dealer be bound to a single secret, is not
+met without a degree test.
+\end{remark}
+
+
+\begin{lemma}[One bad challenge]\label{lem:avss-bad}\lean{SymFRI.avss_bad}
+Let $f,e\in\F[X,Y]$ with $\deg_Xf>t$. Then $\deg_X(f+\theta e)\le t$ for at most one
+$\theta\in\F$.
+\end{lemma}
+
+\begin{proof}
+Let $\theta\ne\theta'$ and suppose $\deg_X(f+\theta e),\deg_X(f+\theta'e)\le t$. Then
+$\deg_X\big((\theta-\theta')e\big)\le t$, and $\theta-\theta'\ne0$ is a scalar, so $\deg_Xe\le t$;
+hence $\deg_Xf=\deg_X\big((f+\theta e)-\theta e\big)\le t$, contradicting $\deg_Xf>t$.
+\end{proof}
+
+\section{Distance of the masked word}
+
+\begin{lemma}[The commitments add up]\label{lem:avss-close}\lean{SymFRI.avss_close}\uses{def:avss, def:agree}
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$,
+let $\theta\in\F$ and $u_f,u_e:L_0\to\F$, and put $h:=f+\theta e$, $u_h:=u_f+\theta u_e$ and $\hat h:=U_{h'}$ with $h'$ as in
+\ref{def:avss}. If $\Delta(u_f,\hat f|_{L_0})\le\delta_0$ and
+$\Delta(u_e,\hat e|_{L_0})\le\delta_0$, then $\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
+\end{lemma}
+
+\begin{proof}
+Outside the union of the two disagreement sets, of size at most $2\delta_0N$, one has
+$u_h(x)=u_f(x)+\theta u_e(x)=\hat f(x)+\theta\hat e(x)=\hat h(x)$.
+\end{proof}
+
+\begin{lemma}[Distance to the degree code]\label{lem:avss-dist}\lean{SymFRI.avss_dist}\uses{def:avss, con:avss-mask, lem:avss-bits, lem:avss-close, lem:inj, lem:roots, def:codes, def:agree}
+Let $f\in\F[X,Y]$ with $\deg_Xf,\deg_Yf<2^\tau$, let $e\in\F[X,Y]$ with $\deg_Xe,\deg_Ye<2^\tau$, let $\theta\in\F$, put
+$h:=f+\theta e$ and $u_h:=u_f+\theta u_e$, and assume
+$\Delta(u_f,\hat f|_{L_0})\le\delta_0$ and $\Delta(u_e,\hat e|_{L_0})\le\delta_0$. If
+$\deg_Xh>t$, then
+\[
+\agree(u_h,C_{w^X,t})\le\rho+2\delta_0 .
+\]
+\end{lemma}
+
+\begin{proof}\begin{enumerate}
+\item \ref{lem:avss-close} gives $\agree(u_h,\hat h|_{L_0})\ge1-2\delta_0$.
+\item Let $c=U_q|_{L_0}\in C_{w^X,t}$, so $q\in\F[x_1,\dots,x_{2\tau}]_{<2}$ and
+$\deg_{w^X}q\le t<\deg_Xh=\deg_{w^X}h'$ by \ref{lem:avss-bits}; then $q\ne h'$, and
+\ref{lem:inj} applied to the $T$-free polynomials $q$ and $h'$ gives
+$\hat q=U_q\ne U_{h'}=\hat h$.
+\item Two distinct polynomials of degree $<2^{2\tau}$ agree on fewer than $2^{2\tau}=\rho N$
+points of $L_0$ (\ref{lem:roots} with $D=2^{2\tau}$), so
+$\agree(\hat h|_{L_0},c)<\rho$, that is $\Delta(\hat h|_{L_0},c)>1-\rho$.
+\item By \ref{def:agree}, $\Delta(u_h,c)\ge\Delta(\hat h|_{L_0},c)-\Delta(u_h,\hat h|_{L_0})
+>1-\rho-2\delta_0$ by steps 1 and 3, so $\agree(u_h,c)<\rho+2\delta_0$; taking the maximum over
+$c\in C_{w^X,t}$ gives $\agree(u_h,C_{w^X,t})\le\rho+2\delta_0$.
+\end{enumerate}\end{proof}
+
+\section{Soundness of the masked degree test}
+
+{\renewcommand{\theproposition}{P2}
+\begin{proposition}[Soundness]\label{prop:avss-sound}\lean{SymFRI.avss_sound}\uses{def:avss, con:avss-mask, lem:avss-bad, lem:avss-dist, cor:ud}
+Let $\tau,t,u_f,u_e,\delta_0$ be as in \ref{def:avss}, let $\delta_0\le(1-\rho)/4$, let
+$f,e\in\F[X,Y]$ have $\deg_Xf,\deg_Xe,\deg_Yf,\deg_Ye<2^\tau$, where $e$ is the mask committed by the
+dealer (not necessarily in $V_t$), and let $\deg_Xf>t$. Then for every $\alpha_*>(1+\rho)/2$ the masked test
+\ref{con:avss-mask}, run with $w=w^X$, $k=2$, $m=2\tau$ and $D=t$, accepts with probability at
+most
+\[
+\frac1{|\F|}+\varepsilon_{\mathrm U}+\alpha_*^s,
+\]
+where $\varepsilon_{\mathrm U}$ is the error of \ref{cor:ud} for these parameters, that is
+$\varepsilon_{\mathrm U}=2\tau\,(N+1)\big(\eta_{\mathrm U}^{-1}+3/\sqrt\rho\big)/|\F|$.
+\end{proposition}}
+
+\begin{proof}\begin{enumerate}
+\item By \ref{lem:avss-bad} the set $B$ of $\theta\in\F$ with $\deg_X(f+\theta e)\le t$ has at
+most one element, so $\Pr[B]\le1/|\F|$.
+\item Outside $B$ one has $\deg_Xh>t$, and \ref{lem:avss-dist} gives
+$\agree(u_h,C_{w^X,t})\le\rho+2\delta_0\le\rho+\frac{1-\rho}2=\frac{1+\rho}2<\alpha_*$.
+\item On that event the transcript is a run of $\Pi_{w^X,t}$ with $u_0=u_h$ fixed by the two
+commitments and with $\agree(u_0,C_{w^X,t})\le\alpha_*$, so \ref{cor:ud} bounds the acceptance
+probability by $\varepsilon_{\mathrm U}+\alpha_*^s$.
+\item Adding the bound of step 1 gives $\frac1{|\F|}+\varepsilon_{\mathrm U}+\alpha_*^s$.
+\end{enumerate}\end{proof}
+
+\section{Secrecy of the masked degree test}
+
+\begin{lemma}[The masked value is uniform]\label{lem:avss-uniform}\lean{SymFRI.avss_uniform}\uses{def:avss}
+Let $f,e\in V_t$ with $e$ uniform and independent of $f$ and of $\theta\in\F^*$. Then
+$h:=f+\theta e$ is uniform on $V_t$ and independent of $f$ and of $\theta$.
+\end{lemma}
+
+\begin{proof}
+The map $e\mapsto f+\theta e$ is a translation composed with a scaling by $\theta\ne0$, hence a
+bijection of $V_t$; a uniform variable pushed through a bijection stays uniform, and as a function
+of $e$ alone $h$ is independent of $f$ and of $\theta$.
+\end{proof}
+
+\begin{lemma}[Secrecy]\label{lem:avss-secret}\notready\uses{def:avss, con:avss-mask, def:protocol, lem:avss-uniform}
+Let $f\in V_t$ and $\theta\in\F^{*}$, and let $e$ be uniform on $V_t$, independent of $f$, of
+$\theta$ and of the randomness of the PCS. Then
+\begin{enumerate}
+\item[(a)] every message of the masked test \ref{con:avss-mask} is a function of $h=f+\theta e$,
+$\theta$, the challenges $r_1,\dots,r_m$ and the query positions;
+\item[(b)] given $\theta$, the challenges, the positions and the values of $\hat f$ at those
+positions, a simulator produces a transcript distributed exactly as the honest one.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The messages of the dealer are $u_h$, its folds on the queried fibres and $g$, which
+\ref{def:protocol} determines by $h$ and $r_1,\dots,r_m$; the openings at a queried position $x$ are
+$\hat h(x)=\hat f(x)+\theta\hat e(x)$, so opening $\hat e$ reveals
+$\hat e(x)=\big(\hat h(x)-\hat f(x)\big)/\theta$ and requires $\hat f$ only at the positions --- the
+one use of $\theta\ne0$ besides \ref{lem:avss-uniform}.
+
+(b) Sample $h$ uniform on $V_t$, which is legitimate by \ref{lem:avss-uniform}; output the
+transcript of (a) and the $\hat e$-openings; the leaves that are not opened are hidden by the salts
+of \ref{con:avss-mask}, and a simulator holding the values of $\hat f$ at the positions produces the
+same distribution. The case $\theta=0$, the only one in which \ref{lem:avss-uniform} fails, has
+probability $1/|\F|$ in \ref{con:avss-mask}.
+\end{proof}
+
+\begin{remark}[Leaked evaluations]\label{rem:avss-leak}\notready\uses{con:avss-mask}
+If the query points of the masked test cannot be chosen among the positions of the commitment,
+then each of the $s$ repetitions opens $u_f$ at the $k=2$ points of a fibre, so the test leaks
+$2s$ further evaluations of $\hat f$, and the threshold of {[PolyFRIM, \S4, App.~D]} becomes
+$t=c+4s$.
+\end{remark}
+
+\section{Cost of the masked degree test}
+
+\begin{lemma}[The caps for $w^X$]\label{lem:avss-caps}\uses{def:avss, def:protocol}
+Let $k=2$, $w=w^X$, $D=t$ and $t\le2^\tau-1$, and let
+$d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$. Then $d_i=\min(t,2^i-1)$ for $0\le i\le\tau$ and
+$d_i=t$ for $\tau<i\le2\tau$.
+\end{lemma}
+
+\begin{proof}
+For $i\le\tau$, $(k-1)\sum_{l\le i}w_l=\sum_{l\le i}2^{l-1}=2^i-1$; for $i>\tau$ the sum is
+$2^\tau-1$, so $t\le2^\tau-1$ gives $d_i=\min(t,2^\tau-1)=t$.
+\end{proof}
+
+{\renewcommand{\theproposition}{P3}
+\begin{proposition}[Cost of one repetition]\label{prop:avss-cost}\lean{SymFRI.avss_cost}\uses{def:avss, con:avss-mask, def:protocol, lem:avss-caps}
+Let $w=w^X$, $D=t$, $k=2$, $m=2\tau$, and let $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$ be
+the caps of \ref{def:protocol}. Then $d_i=\min(t,2^i-1)$ for $i\le\tau$ and $d_i=t$ for
+$i>\tau$, and one repetition of the masked test \ref{con:avss-mask} reads
+\[
+2\sum_{i=1}^{2\tau}(d_{i-1}+1)\le2\big(2^\tau-1+\tau(t+1)\big)<2\big(2^\tau+\tau(t+1)\big)
+\]
+field elements. With $\tau=\lceil\log_2(t+1)\rceil$ this is at most
+$2(t+1)\big(3+\log_2(t+1)\big)$, hence $O(t\log t)$; over $s$ repetitions the total is
+$s\cdot O(t\log t)$, which for fixed $s$ and $t=\Theta(n)$ is $O(n\log n)$, inside the
+per-party cost $O(n\log^2n)$ of {[PolyFRIM, \S4]}.
+\end{proposition}}
+
+\begin{proof}\begin{enumerate}
+\item By \ref{lem:avss-caps}, $d_j+1=\min(t+1,2^j)\le2^j$ for $j<\tau$, and $d_j=t$ for
+$j\ge\tau$.
+\item Splitting the sum at $\tau$,
+$\sum_{i=1}^{2\tau}(d_{i-1}+1)\le\sum_{j=0}^{\tau-1}2^j+\sum_{j=\tau}^{2\tau-1}(t+1)=2^\tau-1+\tau(t+1)$, with equality if $2^{\tau-1}\le t+1$.
+\item The query cost of the protocol of \ref{def:protocol} is $k\sum_{i=1}^m(d_{i-1}+1)$, which is
+twice the sum of step 2, giving the stated inequalities.
+\item If $\tau=\lceil\log_2(t+1)\rceil$, then $2^\tau<2(t+1)$ and $\tau\le1+\log_2(t+1)$, so the
+count is less than $2(t+1)\big(2+1+\log_2(t+1)\big)$.
+\item Multiplying by $s$ and using $t=\Theta(n)$ and $s=O(1)$ gives $O(n\log n)\subseteq
+O(n\log^2n)$.
+\end{enumerate}\end{proof}
+
+\section{Total degree: lines and applications}
+
+\begin{lemma}[Restriction to a line]\label{lem:line-total}\lean{SymFRI.line_total}\uses{def:wdeg, lem:subst}
+Let $m\ge1$, $f\in\F[x_1,\dots,x_m]$ and $\mathbf a,\mathbf b\in\F^m$. Then
+\[
+f(\mathbf a+T\mathbf b):=f(a_1+Tb_1,\dots,a_m+Tb_m)\in\F[T]
+\]
+has degree at most $\deg_{\mathbf 1}f$.
+\end{lemma}
+
+\begin{proof}
+\ref{lem:subst} with $R=\F$, $w=\mathbf 1$, $I=\{1,\dots,m\}$ and $g_l=a_l+Tb_l$, of degree
+$\le1=w_l$, gives $\gdeg_{\mathbf 1}f(\mathbf a+T\mathbf b)\le\deg_{\mathbf 1}f$; a polynomial of
+$\F[T]$ has no other variables, so its graded degree is its $T$-degree.
+\end{proof}
+
+\begin{remark}[Two evaluation claims reduced to one]\label{rem:total-app}\lean{SymFRI.total_app}\uses{lem:sz-total, lem:line-total, def:protocol}
+Let $f$ with $\deg_{x_l}f<k$ for all $l$ be committed, and suppose that $\Pi_{\mathbf 1,D}$
+(\ref{def:protocol}) has certified $\deg_{\mathbf 1}f\le D$. A protocol may then have to convince
+the verifier of two claims $f(\mathbf a)=y_{\mathbf a}$ and $f(\mathbf b)=y_{\mathbf b}$, for
+$\mathbf a,\mathbf b\in\F^m$ and $y_{\mathbf a},y_{\mathbf b}\in\F$. Let
+$\ell(T):=\mathbf a+T(\mathbf b-\mathbf a)$, so that $\ell(0)=\mathbf a$ and $\ell(1)=\mathbf b$. The
+prover sends a polynomial $q\in\F[T]_{\le D}$ claimed to be $f\circ\ell$; the verifier checks
+$q(0)=y_{\mathbf a}$ and $q(1)=y_{\mathbf b}$, draws a uniform $T^*\in\F$ and asks for an opening of
+the commitment at $\ell(T^*)\in\F^m$. If $q\ne f\circ\ell$, then $q-f\circ\ell$ is nonzero of degree
+at most $D$ by \ref{lem:line-total}, so $q(T^*)\ne f(\ell(T^*))$ with probability at least
+$1-D/|\F|$ by \ref{lem:sz-total} with $m=1$. The two claims are thus replaced by one, at error
+$D/|\F|$ and at a cost of $D+1$ field elements. With only the individual bounds,
+$\deg_{\mathbf 1}f\le m(k-1)$ is all that is known, the same step costs $m(k-1)+1$ field elements and
+its error is $m(k-1)/|\F|$. At
+$k=4$, $m=8$, $D=6$ the certificate gives $7$ field elements at error $6/|\F|$, against $25$
+elements at $24/|\F|$ without it.
+\end{remark}
+
+\begin{remark}[Protocols whose soundness is stated in the total degree]\label{rem:total-prior}\uses{rem:total-app}
+For some interactive proofs the total degree is the parameter of the soundness statement, and a
+certificate of $\deg_{\mathbf 1}f\le D$ is then an input to their analysis rather than a
+strengthening of it. Fold-DCS [Fold-DCS, arXiv:2504.00693] is one: "the soundness of Fold-DCS
+depends on the total degree of the polynomial, not its individual degrees" (p.~2). Its error is
+bounded by $\log(m)D/|\F|$ for $m$ variables and total degree $D$, against $mb/|\F|$ for the
+classical sumcheck with individual degree bound $b$ (their $\mu$ and $d$) (\S3.2.2), and it constrains the commitment itself
+to total degree at most $D$ (\S4.2.1). The line step of \ref{rem:total-app} is the one of the GKR
+protocol [GKR, STOC 2008 / J.~ACM 62(4), 2015], which uses it to reduce the two claims of a round to
+a single one [Thaler, \S4.6.4]; the subroutine, with its soundness claim, is
+[Thaler, \S4.5.2, Claim~4.6].
+\end{remark}

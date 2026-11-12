@@ -2,9 +2,9 @@
 
 All results below are from Ben-Sasson, Carmon, Ishai, Kopparty, Saraf,
 \emph{Proximity Gaps for Reed--Solomon Codes}, ePrint 2020/654 (version of 3 July 2021),
-cited as [BCIKS20]. They state $\RS[\F_q,D,k]$ with \emph{dimension} $k+1$; in our
-notation this is $\RS[\F,L,d]$ with $d=k+1$, $L=D$, $n=|L|$, and the rate
-$\rho=d/|L|$ is the same.
+cited as [BCIKS20]. [BCIKS20] index Reed--Solomon codes by the degree bound, which is one less than the dimension,
+and write the evaluation domain as a set of size $n$. Their code of dimension $d$ on the domain
+$L$ is our $\RS[\F,L,d]$, with $n=|L|$ and the same rate $\rho=d/|L|$.
 
 \begin{imported}[{[BCIKS20, Theorem 7.2]}: weighted correlated agreement over curves]\label{ext:bciks72}
 Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$. Let $u_0,\dots,u_l:L\to\F$, and let
@@ -44,15 +44,6 @@ $\F>D_Y$, where $D_Y<\frac{2\kappa+1}{2\sqrt\rho}$ bounds the $Y$-degree of the 
 polynomial $Q(X,Y,Z)$ of \S5, or Appendix~C) of \S5.2.3. No step requires $S$ to range over the whole field.
 \end{enumerate}
 \end{remark}
-
-\begin{imported}[{[BCIKS20, Claim 8.5]}: acceptance as a weight]\label{ext:claim85}
-With the weights of \cref{def:weights}, the probability that one query of
-\cref{def:protocol} accepts equals $\frac1{|L_m|}\sum_{y\in L_m}\mu^{(m)}(y)$.
-\end{imported}
-\noindent\emph{Note.} [BCIKS20] sample $y\in L_m$ uniformly and then a uniform element of
-each fibre downwards; sampling a uniform $\xi_0\in L_0$ and setting $\xi_i:=\xi_{i-1}^k$ gives
-the same distribution of query paths. Their proof (induction on $i$, p.~43) applies
-verbatim.
 
 \begin{imported}[{[BCIKS20, Theorem 7.1]}: weighted correlated agreement over curves, version I]\label{ext:bciks71}
 Let $V=\RS[\F,L,d]$, $n=|L|$, $\rho=d/n$, $u_0,\dots,u_l:L\to\F$, and $\mu:L\to[0,1]$

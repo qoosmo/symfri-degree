@@ -1,5 +1,17 @@
 \section{Cost of the masked degree test}
 
+\begin{lemma}[The caps for $w^X$]\label{lem:avss-caps}
+Let $k=2$, $w=w^X$, $D=t$ and $t\le2^\tau-1$, and let
+$d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$. Then $d_i=\min(t,2^i-1)$ for $0\le i\le\tau$ and
+$d_i=t$ for $\tau<i\le2\tau$.
+\end{lemma}
+
+\begin{proof}
+For $i\le\tau$, $(k-1)\sum_{l\le i}w_l=\sum_{l\le i}2^{l-1}=2^i-1$; for $i>\tau$ the sum is
+$2^\tau-1$, so $t\le2^\tau-1$ gives $d_i=\min(t,2^\tau-1)=t$.
+\end{proof}
+\uses{\cref{def:avss,def:protocol}}\usedby{\cref{prop:avss-cost}}
+
 {\renewcommand{\theproposition}{P3}
 \begin{proposition}[Cost of one repetition]\label{prop:avss-cost}
 Let $w=w^X$, $D=t$, $k=2$, $m=2\tau$, and let $d_i=\min\big(D,(k-1)\sum_{l\le i}w_l\big)$ be
@@ -15,17 +27,15 @@ per-party cost $O(n\log^2n)$ of {[PolyFRIM, \S4]}.
 \end{proposition}}
 
 \begin{proof}\begin{enumerate}
-\item For $i\le\tau$ we have $(k-1)\sum_{l\le i}w_l=\sum_{l\le i}2^{l-1}=2^i-1$, and for
-$i>\tau$ the sum is $2^\tau-1$; since $t\le2^\tau-1$, this gives $d_i=\min(t,2^i-1)$ and
-$d_i=t$ respectively.
+\item By \cref{lem:avss-caps}, $d_j+1=\min(t+1,2^j)\le2^j$ for $j<\tau$, and $d_j=t$ for
+$j\ge\tau$.
 \item Splitting the sum at $\tau$,
-since $d_j+1=\min(t+1,2^j)\le2^j$ for $j<\tau$,
 $\sum_{i=1}^{2\tau}(d_{i-1}+1)\le\sum_{j=0}^{\tau-1}2^j+\sum_{j=\tau}^{2\tau-1}(t+1)=2^\tau-1+\tau(t+1)$, with equality if $2^{\tau-1}\le t+1$.
-\item The query cost of \cref{thm:reduction}'s protocol is $k\sum_{i=1}^m(d_{i-1}+1)$, which is
+\item The query cost of the protocol of \cref{def:protocol} is $k\sum_{i=1}^m(d_{i-1}+1)$, which is
 twice the sum of step 2, giving the stated inequalities.
 \item If $\tau=\lceil\log_2(t+1)\rceil$, then $2^\tau<2(t+1)$ and $\tau\le1+\log_2(t+1)$, so the
 count is less than $2(t+1)\big(2+1+\log_2(t+1)\big)$.
 \item Multiplying by $s$ and using $t=\Theta(n)$ and $s=O(1)$ gives $O(n\log n)\subseteq
 O(n\log^2n)$.
 \end{enumerate}\end{proof}
-\uses{\cref{def:avss,con:avss-mask,def:protocol}}\usedby{the paper}
+\uses{\cref{def:avss,con:avss-mask,def:protocol,lem:avss-caps}}\usedby{the paper}

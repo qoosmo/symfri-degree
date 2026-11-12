@@ -1,27 +1,33 @@
 \section{Interleaved codes as codes over an extension}
 
 \begin{lemma}[Interleaved code $=$ extension-field code]\label{lem:ext}
-Let $\E\supseteq\F$ be an extension of degree $t$, $e_0,\dots,e_{t-1}$ an $\F$-basis of
-$\E$, and $\varphi:\F^t\to\E$, $a\mapsto\sum_s a_se_s$, applied pointwise to words on
-$L\subseteq\F$. Then:
-\begin{enumerate}
-\item $\varphi$ is an $\F$-linear bijection $\RS[\F,L,d]^t\to\RS[\E,L,d]$;
-\item $\varphi$ preserves agreement sets $\{x:u(x)=v(x)\}$, hence $\Delta$ and
-$\agree_\mu$, for any two words;
-\item $\varphi\big(\sum_j z_ju_j\big)=\sum_j z_j\,\varphi(u_j)$ for $z_0,\dots,z_l\in\F$.
-\end{enumerate}
+Let $\E\supseteq\F$ be a finite extension, $e_0,\dots,e_{[\E:\F]-1}$ an $\F$-basis of
+$\E$, and $\varphi:\F^{[\E:\F]}\to\E$, $a\mapsto\sum_s a_se_s$, applied pointwise to words on
+$L\subseteq\F$. Then $\varphi$ is an $\F$-linear bijection $\RS[\F,L,d]^{[\E:\F]}\to\RS[\E,L,d]$, and
+$\varphi\big(\sum_{j\le l} z_ju_j\big)=\sum_{j\le l} z_j\,\varphi(u_j)$ for $z_0,\dots,z_l\in\F$.
 \end{lemma}
 
 \begin{proof}
-(1) $P\in\E[X]_{<d}$ decomposes uniquely as $P=\sum_s e_sP_s$ with
-$P_s\in\F[X]_{<d}$ (expand each coefficient in the basis), and for $x\in L\subseteq\F$,
-$P(x)=\sum_s e_sP_s(x)=\varphi\big((P_s(x))_s\big)$.
-(2) $\varphi$ is injective, so $u(x)=v(x)\iff\varphi(u(x))=\varphi(v(x))$.
-(3) $\varphi$ is $\F$-linear.
+Every $P\in\E[X]_{<d}$ decomposes uniquely as $P=\sum_s e_sP_s$ with $P_s\in\F[X]_{<d}$ (expand
+each coefficient in the basis), and for $x\in L\subseteq\F$,
+$P(x)=\sum_s e_sP_s(x)=\varphi\big((P_s(x))_s\big)$: this is the bijection, and
+$\F$-linearity gives the identity for $z_j\in\F$.
 \end{proof}
-\uses{\cref{def:codes,def:agree}}\usedby{L6, L8}
+\uses{\cref{def:codes}}\usedby{\cref{lem:round}}
+
+\begin{lemma}[$\varphi$ preserves agreement]\label{lem:ext-agree}
+Let $\varphi:\F^t\to\E$ be an injective $\F$-linear map, applied pointwise to words on a set $L$.
+Then $\{x:u(x)=v(x)\}=\{x:\varphi(u(x))=\varphi(v(x))\}$ for all words $u,v$; hence $\varphi$
+preserves $\Delta$ and $\agree_\mu$.
+\end{lemma}
+
+\begin{proof}
+$\varphi$ is injective, so $u(x)=v(x)\iff\varphi(u(x))=\varphi(v(x))$; the agreement set is
+unchanged, and $\Delta,\agree_\mu$ are functions of it.
+\end{proof}
+\uses{\cref{def:codes,def:agree}}\usedby{\cref{lem:round}}
 
 \begin{remark}
-Item (3) is the only place where it matters that the challenges lie in $\F$ and not in
-$\E$; it is what C\ref{cor:share} uses.
+The identity $\varphi\big(\sum_jz_ju_j\big)=\sum_jz_j\varphi(u_j)$ for $z_j\in\F$ is the only place
+where it matters that the challenges lie in $\F$ and not in $\E$; it is what \cref{cor:share} uses.
 \end{remark}
