@@ -33,7 +33,7 @@ structure Prover {k m : ℕ} (T : Tower F k m) (w : ℕ → ℕ) (D : ℕ) where
   u0_const : ∀ x : T.L 0, u 0 (fun j => j.elim0) x = Polynomial.C (u0 x)
 
 /-- The symbolic challenge at the zero-based round index i (LaTeX round i+1). -/
-def symbolicChallenge (w : ℕ → ℕ) (r : F) (i : ℕ) : Polynomial F :=
+noncomputable def symbolicChallenge (w : ℕ → ℕ) (r : F) (i : ℕ) : Polynomial F :=
   Polynomial.C r * Polynomial.X ^ (w i)
 
 /-- The message-space degree cap at a given level of one transcript. -/
